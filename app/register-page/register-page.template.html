@@ -8,20 +8,13 @@
                 <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
                     <div class="form-group">
                         <label class="col-md-2">
-                            手机用户：
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="$ctrl.phone.uname" name="uname" id="uname" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2">
                             手机型号：
                         </label>
                         <div class="col-md-10">
                             <input type="text" ng-model="$ctrl.phone.type" required name="type" id="type" />
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-md-2">
                             手机品牌：
@@ -32,6 +25,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-md-2">
                             产品编号
@@ -52,6 +46,7 @@
                             <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
                         </div>
                     </div>
+                    <span>{{$ctrl.ps}}</span>
                 </form>
             </div>
         </div>
