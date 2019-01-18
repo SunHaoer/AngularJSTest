@@ -1,0 +1,14 @@
+[
+    {
+        "uname":"aldin",
+        "type":"8Plus",
+        "brand":"IPHONE",
+        "productNo":"123"
+    },
+    {
+        "uname":"emma",
+        "type":"9Plus",
+        "brand":"HUAWEI",
+        "productNo":"223"
+    }
+]
