@@ -8,6 +8,22 @@ component('registerPage', {
         this.brandList = ['SAMSUNG', 'IPHONE', 'OPPO', 'HUAWEI'];
         this.ps = PhoneMsg.query();
 				
+				this.formatDate = function() {
+					var life = 2;
+					var inputDate = this.phone.inputDate;
+					var year = inputDate.getFullYear();
+					var month = inputDate.getMonth() + 1;
+					if(month < 10) month = '0' + month;
+					var date = inputDate.getDate();
+					if(date < 10) date = '0' + date;
+					var startDate = year + '-' + month + '-' + date;
+					var endDate = (year + life) + '-' + month + '-' + date;
+					this.phone.startDate = startDate;
+					this.phone.endDate = endDate;
+					alert(startDate);
+					alert(endDate);
+				}
+				
 				this.save = function() {
 					alert('send to java');
 					var phone = this.phone;
