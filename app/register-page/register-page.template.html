@@ -1,48 +1,48 @@
-<div class='panel panel-primary'>
-    <div class='panel-heading'>
-        <div class='panel-title'>Register</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="panel-title">Register</div>
     </div>
-    <div class='panel-body'>
-        <div class='row'>
-            <div class='col-md-12'>
-                <form class='form-horizontal' role='form' name='myForm' ng-submit='$ctrl.submitMsg()'>
-                    <div class='form-group'>
-                        <label class='col-md-2'>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
+                    <div class="form-group">
+                        <label class="col-md-2">
                             手机品牌：
                         </label>
-                        <div class='col-md-10'>
-                            <select ng-model='$ctrl.phone.brand' name='brand' id='brand' required>
-                                <option ng-repeat='x in $ctrl.brandList'>{{x}}</option>
+                        <div class="col-md-10">
+                            <select ng-model="$ctrl.phone.brand" name="brand" id="brand" required>
+                                <option ng-repeat="x in $ctrl.brandList">{{x}}</option>
                             </select>
                         </div>
                     </div>
-                    <div class='form-group'>
-                        <label class='col-md-2'>
+                    <div class="form-group">
+                        <label class="col-md-2">
                             手机型号：
                         </label>
-                        <div class='col-md-10'>
-                            <input type='text' ng-model='$ctrl.phone.type' required name='type' id='type' />
+                        <div class="col-md-10">
+                            <input type="text" ng-model="$ctrl.phone.type" required name="type" id="type" />
                         </div>
                     </div>
-                    <div class='form-group'>
-                        <label class='col-md-2'>
+                    <div class="form-group">
+                        <label class="col-md-2">
                             产品编号
                         </label>
-                        <div class='col-md-10'>
-                            <input type='text' ng-model='$ctrl.phone.productNo' id='productNo' name='productNo'
-                                ng-pattern='$ctrl.brandRegex' required />
-                            <div ng-show='myForm.productNo.$invalid && myForm.productNo.$dirty' style='color:red;'>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="$ctrl.phone.productNo" id="productNo" name="productNo"
+                                ng-pattern="$ctrl.brandRegex" required />
+                            <div ng-show="myForm.productNo.$invalid && myForm.productNo.$dirty" style="color:red;">
                                 Invalid:
-                                <span ng-show='myForm.productNo.$error.required'>请输入编号</span>
-                                <span ng-show='myForm.productNo.$invalid'>请输入正确的编号</span>
+                                <span ng-show="myForm.productNo.$error.required">请输入编号</span>
+                                <span ng-show="myForm.productNo.$invalid">请输入正确的编号</span>
                             </div>
                         </div>
                         <!-- 测试使用，最后需要删除 -->
                         <span>{{$ctrl.phone}}</span>
                     </div>
-                    <div class='form-group'>
-                        <div class='col-md-offset-2 col-md-10'>
-                            <input type='submit' ng-disabled='myForm.$invalid' value='注册' />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
                         </div>
                     </div>
                     <!-- 测试使用，调取json中数据，最后删除 -->
