@@ -1,1 +1,1 @@
-angular.module("core.phone",["ngResource"]);
+angular.module('core.phone',['ngResource']);

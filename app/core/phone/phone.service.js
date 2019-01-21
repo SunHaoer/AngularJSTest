@@ -1,10 +1,14 @@
 angular.
-module("core.phone").
-factory("PhoneMsg",["$resource",function($resource){
-    return $resource("phones/:uname.json",{},{
+module('core.phone').
+factory('PhoneMsg',['$resource',function($resource){
+    return $resource('phones/phones.json',{},{
         save:{
-            method:"POST",
-            params:{uname:"phones"}
+            method:'POST',
+        },
+        query:{
+            method:'GET',
+            isArray:true
         }
+
     })
 }])

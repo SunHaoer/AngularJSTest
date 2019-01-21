@@ -1,1 +1,1 @@
-angular.module("choosePage",[]);
+angular.module('choosePage',[]);
