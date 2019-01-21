@@ -5,7 +5,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
+                <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
                             手机品牌：
@@ -43,6 +43,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
+							<button ng-click="$ctrl.save()">SAVE</button>
                         </div>
                     </div>
                     <!-- 测试使用，调取json中数据，最后删除 -->
