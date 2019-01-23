@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using AngularTest.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,26 +18,25 @@ namespace AngularTest.Controllers
         public TypeYearController(TypeYearContext context)
         {
             _context = context;
-            if (context.TypeYears.Count() == 0)
+            if (_context.TypeYears.Count() == 0)
             {
-                _context.Add(new TypeYear { Type = "Mate 20", Year = 2 });
-                _context.Add(new TypeYear { Type = "Mate RS", Year = 3 });
-                _context.Add(new TypeYear { Type = "Mate 20Pro", Year = 4 });
-                _context.Add(new TypeYear { Type = "Nova 3", Year = 5 });
-                _context.Add(new TypeYear { Type = "X", Year = 2 });
-                _context.Add(new TypeYear { Type = "7Plus", Year = 3 });
-                _context.Add(new TypeYear { Type = "6", Year = 4 });
-                _context.Add(new TypeYear { Type = "6s", Year = 5 });
-                _context.Add(new TypeYear { Type = "K1", Year = 2 });
-                _context.Add(new TypeYear { Type = "R17", Year = 3 });
-                _context.Add(new TypeYear { Type = "A7x", Year = 4 });
-                _context.Add(new TypeYear { Type = "R15x", Year = 5 });
-                _context.Add(new TypeYear { Type = "Galaxy S8", Year = 2 });
-                _context.Add(new TypeYear { Type = "Galaxy Note8", Year = 3 });
-                _context.Add(new TypeYear { Type = "Galaxy A8s", Year = 4 });
-                _context.Add(new TypeYear { Type = "Galaxy S9", Year = 5 });
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@".\phones\phonesDetail.xml");
+                XmlNode root = doc.SelectSingleNode("Detail");
+                XmlNodeList brands = root.ChildNodes;
+                foreach (XmlNode brand in brands)
+                {
+                    XmlNodeList types = brand.ChildNodes;
+                    foreach (XmlNode type in types)
+                    {
+                        string typeName = type.Name;
+                        int year = int.Parse(type.InnerText);
+                        _context.Add(new TypeYear { Type = typeName, Year = year });
+                    }
+                }
                 _context.SaveChanges();
             }
+           
         }
 
         /// <summary>

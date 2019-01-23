@@ -5,7 +5,6 @@ angular.
         controller: ['$scope', '$http', function RegisterPageCtrl($scope, $http) {
             $scope.brandRegex = '\\d+';
             $scope.flag = false;
-
             /**
              * 获取所有手机品牌
              * */

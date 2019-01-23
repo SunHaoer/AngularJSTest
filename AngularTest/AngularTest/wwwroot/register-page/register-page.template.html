@@ -62,9 +62,9 @@
                     <!-- 测试使用，最后需要删除 -->
                     <span>{{phone}}</span>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10" ng-mouseenter="getYearByType();formatDate()" style="padding:30px">
+                        <div class="col-md-offset-2 col-md-10" ng-mouseenter="getYearByType()" style="padding:30px">
                             <span>{{flag}}</span>
-                            <input type="submit" ng-disabled="myForm.$invalid || !flag" value="注册"  />
+                            <input type="submit" ng-disabled="myForm.$invalid || !flag" value="注册" ng-mouseenter="formatDate()" />
                             <button ng-click="sendToTempPhone()">sendToTempPhone</button>
                         </div>
                     </div>
