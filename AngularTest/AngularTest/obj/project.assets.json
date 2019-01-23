@@ -12540,23 +12540,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hubert.yuan\\.nuget\\packages\\": {},
+    "C:\\Users\\dillon.sun\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hubert.yuan\\Downloads\\AngularJSTest-dillon\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "projectUniqueName": "C:\\Users\\dillon.sun\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
       "projectName": "AngularTest",
-      "projectPath": "C:\\Users\\hubert.yuan\\Downloads\\AngularJSTest-dillon\\AngularTest\\AngularTest\\AngularTest.csproj",
-      "packagesPath": "C:\\Users\\hubert.yuan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hubert.yuan\\Downloads\\AngularJSTest-dillon\\AngularTest\\AngularTest\\obj\\",
+      "projectPath": "C:\\Users\\dillon.sun\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "packagesPath": "C:\\Users\\dillon.sun\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dillon.sun\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\hubert.yuan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dillon.sun\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

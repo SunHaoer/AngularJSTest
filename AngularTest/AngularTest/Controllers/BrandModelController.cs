@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using AngularTest.Data;
 using AngularTest.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,22 @@ namespace AngularTest.Controllers
         public BrandModelController(BrandModelContext context)
         {
             _context = context;
-            if (context.BrandModels.Count() == 0)
+            if (_context.BrandModels.Count() == 0)
             {
-                _context.Add(new BrandModel { Brand = "HUAWEI"});
-                _context.Add(new BrandModel { Brand = "OPPO"});
-                _context.Add(new BrandModel { Brand = "IPHONE"});
-                _context.Add(new BrandModel { Brand = "SAMSUNG"});
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@".\phones\phonesDetail.xml");
+                XmlNode root = doc.SelectSingleNode("Detail");
+                XmlNodeList brands = root.ChildNodes;
+                foreach (XmlNode brand in brands)
+                {
+                    string brandName = brand.Name;
+                    _context.Add(new BrandModel { Brand = brandName });
+                }
                 _context.SaveChanges();
             }
         }
+            
+        
 
         /// <summary>
         /// 获取所有手机品牌
