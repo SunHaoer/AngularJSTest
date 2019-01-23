@@ -22,7 +22,7 @@ namespace AngularTest.Controllers
 
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", InputDate = "20181125", EndDate = "20190101" });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = "20181125", EndDate = "20190101" });
                 _context.SaveChanges();
             }
         }
@@ -66,9 +66,9 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SaveUserPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string inputDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> SaveUserPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
         {
-            Phone phone = new Phone(id, phoneUser, brand, type, productNo, inputDate, endDate, deleteDate, AbandonReason, 1);
+            Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 1);
             _context.Phones.Add(phone);
             _context.SaveChanges();
             return true;
@@ -104,9 +104,9 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string inputDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> AbandonUserPhoneById(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
         {
-            Phone phone = new Phone(id, phoneUser, brand, type, productNo, inputDate, endDate, deleteDate, AbandonReason, 2);
+            Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
             _context.Phones.Update(_context.Phones.FirstOrDefault(item => item.Id == id));
             _context.SaveChanges();
             return true;

@@ -12,7 +12,7 @@ namespace AngularTest.Models
         public string Brand { get; set; }    // 品牌
         public string Type { get; set; }    // 型号
         public string ProductNo { get; set; }    // 编号
-        public string InputDate { get; set; }    // 使用日期
+        public string StartDate { get; set; }    // 使用日期
         public string EndDate { get; set; }    // 停止使用日期，默认为保质期到期日
         public string DeleteDate { get; set; }    // 删除日期
         public string AbandonReason { get; set; }    // 删除原因
@@ -22,14 +22,14 @@ namespace AngularTest.Models
         {
         }
 
-        public Phone(long id, string phoneUser, string brand, string type, string productNo, string inputDate, string endDate, string deleteDate, string abandonReason, int state)
+        public Phone(long id, string phoneUser, string brand, string type, string productNo, string startDate, string endDate, string deleteDate, string abandonReason, int state)
         {
             Id = id;
             PhoneUser = phoneUser;
             Brand = brand;
             Type = type;
             ProductNo = productNo;
-            InputDate = inputDate;
+            StartDate = startDate;
             EndDate = endDate;
             DeleteDate = deleteDate;
             AbandonReason = abandonReason;
