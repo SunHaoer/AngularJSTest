@@ -1,0 +1,38 @@
+
+<div>
+    <h1>Thanks for Using!</h1>
+    <a href="#!/phone/registerPage">注册</a>
+</div>
+<div>
+    <center>
+        <table border="1" width="80%">
+            <tr>
+                <th>Id</th>
+                <th>产品编号</th>
+                <th>品牌</th>
+                <th>类型</th>
+                <th>开始日期</th>
+                <th>结束日期</th>
+                <th>删除日期</th>
+                <th>状态</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="phone in userPhoneAll">
+                <td>{{phone.id}}</td>
+                <td>{{phone.productNo}}</td>
+                <td>{{phone.brand}}</td>
+                <td>{{phone.type}}</td>
+                <td>{{phone.inputDate}}</td>
+                <td>{{phone.endDate}}</td>
+                <td>{{phone.deleteDate}}</td>
+                <td>{{phone.state}}</td>
+                <td><a href="">修改</a></td>
+                <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
+                <td><a href="#!/phone/deletePage" ng-click="remove(phone.id)">删除</a></td>
+            </tr>
+
+        </table>
+    </center>
+    <p ng-repeat="phone in userPhoneAll">{{phone}}</p>
+</div>
