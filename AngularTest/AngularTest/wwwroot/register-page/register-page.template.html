@@ -1,11 +1,12 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="panel-title">Register</div>
+        <div class="panel-title" ng-model="isReplace" ng-show="isReplace" >Replace</div>
+        <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="myForm" >
+                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg(phone)">
                     <div class="form-group">
                         <label class="col-md-2">
                             手机用户
@@ -19,7 +20,7 @@
                             手机品牌：
                         </label>
                         <div class="col-md-10">
-                            <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()" >
+                            <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()">
                                 <option ng-repeat="x in brandList">{{x}}</option>
                             </select>
                         </div>
@@ -29,9 +30,9 @@
                             手机型号：
                         </label>
                         <div class="col-md-10">
-                            <select ng-model="phone.type" name="type" id="type" required >
-                                <option selected="selected" value="none">请先选择手机品牌</option>
-                                <option ng-repeat="x in typeList" >{{x}}</option>
+                            <select ng-model="phone.type" name="type" id="type" required ng-blur="getYearByType()">
+                                <option selected="selected">请先选择手机品牌</option>
+                                <option ng-repeat="x in typeList">{{x}}</option>
                             </select>
                         </div>
                     </div>
@@ -49,26 +50,31 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 输入日期 -->
+                    <!-- 启用日期 -->
                     <div class="form-group">
                         <label class="col-md-2">
-                            输入日期：
+                            启用日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" ng-model="inputDate" required name="inputDate" id="inputDate" />
+                            <input type="date" ng-model="phone.startDate" required name="startDate" id="startDate" ng-blur="formatDate()" />
                         </div>
                     </div>
-
                     <!-- 测试使用，最后需要删除 -->
                     <span>{{phone}}</span>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10" ng-mouseenter="getYearByType()" style="padding:30px">
-                            <span>{{flag}}</span>
-                            <input type="submit" ng-disabled="myForm.$invalid || !flag" value="注册" ng-mouseenter="formatDate()" />
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
                             <button ng-click="sendToTempPhone()">sendToTempPhone</button>
                         </div>
                     </div>
-                    
+
+                    <div class="form-group ">
+                        <div class="col-md-offset-2 col-md-10 ">
+                            <input type="button" value="取消" ng-click="$ctrl.cancle()" />
+                            <input type="submit" value="下一步"/>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
