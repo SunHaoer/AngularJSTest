@@ -1,0 +1,76 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="panel-title">Register</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form" name="myForm" >
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            手机用户
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="phone.phoneUser" name="phoneUser" id="phoneUser" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            手机品牌：
+                        </label>
+                        <div class="col-md-10">
+                            <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()" >
+                                <option ng-repeat="x in brandList">{{x}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            手机型号：
+                        </label>
+                        <div class="col-md-10">
+                            <select ng-model="phone.type" name="type" id="type" required >
+                                <option selected="selected" value="none">请先选择手机品牌</option>
+                                <option ng-repeat="x in typeList" >{{x}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            产品编号
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="phone.productNo" id="productNo" name="productNo"
+                                   ng-pattern="brandRegex" required />
+                            <div ng-show="myForm.productNo.$invalid && myForm.productNo.$dirty" style="color:red;">
+                                Invalid:
+                                <span ng-show="myForm.productNo.$error.required">请输入编号</span>
+                                <span ng-show="myForm.productNo.$invalid">请输入正确的编号</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 输入日期 -->
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            输入日期：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" ng-model="inputDate" required name="inputDate" id="inputDate" />
+                        </div>
+                    </div>
+
+                    <!-- 测试使用，最后需要删除 -->
+                    <span>{{phone}}</span>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10" ng-mouseenter="getYearByType()" style="padding:30px">
+                            <span>{{flag}}</span>
+                            <input type="submit" ng-disabled="myForm.$invalid || !flag" value="注册" ng-mouseenter="formatDate()" />
+                            <button ng-click="sendToTempPhone()">sendToTempPhone</button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
