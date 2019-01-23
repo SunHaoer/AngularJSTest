@@ -9,11 +9,20 @@ config(['$routeProvider',
         when('/phone/registerPage', {
             template: '<register-page></register-page>'
         }).
-        when('/phone/updatePage', {
-            template: '<update-page></update-page>'
+        when('/phone/replacePage', {
+            template: '<replace-page></replace-page>'
         }).
         when('/phone/deletePage', {
             template: '<delete-page></delete-page>'
+        }).
+        when('/phone/checkPage', {
+            template: '<check-page></check-page>'
+        }).
+        when('/phone/successPage', {
+            template: '<success-page></success-page>'
+        }).
+        when('/phone/errorPage', {
+            template: '<error-page></error-page>'
         }).
         otherwise('/phone');
     }
