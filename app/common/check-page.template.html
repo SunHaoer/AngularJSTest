@@ -7,40 +7,40 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg()">
+                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
                     <div class="form-group">
                         <label class="col-md-2" id="brand">
-                            手机品牌：{{$ctrl.phone.brand}}
+                            手机品牌：{{phone.brand}}
                         </label>
                     </div>
                     <div class="form-group" id="type">
                         <label class="col-md-2">
-                            手机型号：{{$ctrl.phone.type}}
+                            手机型号：{{phone.type}}
                         </label>
                     </div>
                     <div class="form-group" id="productNo">
                         <label class="col-md-2">
-                            产品编号：{{$ctrl.phone.productNo}}
+                            产品编号：{{phone.productNo}}
                         </label>
                     </div>
                     <div class="form-group" id="startDate">
                         <label class="col-md-2">
-                            开机日期：{{$ctrl.phone.startDate}}
+                            开机日期：{{phone.startDate}}
                         </label>
                     </div>
                     <div class="form-group" id="removeDate">
                         <label class="col-md-2">
-                            关机日期：{{$ctrl.phone.limitDate}}
+                            关机日期：{{phone.limitDate}}
                         </label>
                     </div>
                     <div class="form-group" id="changeDate">
                         <label class="col-md-2">
-                            更换日期：{{$ctrl.phone.changeDate}}
+                            更换日期：{{phone.changeDate}}
                         </label>
                     </div>
                     <div class="form-group" id="status">
                         <label class="col-md-2">
-                            状态：{{$ctrl.phone.status}}
+                            状态：{{phone.status}}
                         </label>
                     </div>
 

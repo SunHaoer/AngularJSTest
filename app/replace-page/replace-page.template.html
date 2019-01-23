@@ -13,8 +13,8 @@
                             手机品牌：
                         </label>
                         <div class="col-md-10 ">
-                            <select ng-model="$ctrl.phone.brand" name="brand ">
-                                <option ng-repeat="x in $ctrl.brandList ">{{x}}</option>
+                            <select ng-model="phone.brand" name="brand ">
+                                <option ng-repeat="x in brandList">{{x}}</option>
                             </select>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             手机型号：
                         </label>
                         <div class="col-md-10 ">
-                            <input type="text " ng-model="phone.type" name="type " id="type" />
+                            <input type="text" ng-model="phone.type" name="type " id="type" />
                         </div>
                     </div>
                     <div class="form-group ">
@@ -31,7 +31,7 @@
                             产品编号：
                         </label>
                         <div class="col-md-10 ">
-                            <input type="text " ng-model="$ctrl.phone.productNo " name="productNo " id="productNo " ng-pattern="$ctrl.brandRegex " />
+                            <input type="text " ng-model="phone.productNo " name="productNo " id="productNo " ng-pattern="$ctrl.brandRegex " />
                             <!--
                             <div ng-show="replaceForm.productNo.$invalid && replaceForm.productNo.$dirty " style="color:red; ">
                                 Invalid:
