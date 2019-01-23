@@ -101,7 +101,7 @@ angular.
                         brand: phone.brand,
                         type: phone.type,
                         productNo: phone.productNo,
-                        inputDate: phone.startDate,
+                        startDate: phone.startDate,
                         endDate: phone.endDate
                     }),
                     url: '/api/DoubleCheck/SetTempPhone',
