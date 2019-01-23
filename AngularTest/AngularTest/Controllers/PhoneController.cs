@@ -19,10 +19,12 @@ namespace AngularTest.Controllers
 
             if (_context.Phones.Count() == 0)
             {
-
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = "20181125", EndDate = "20190101" });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = "20181125", EndDate = "20191125", State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = "20180109", EndDate = "20190109", State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = "20171125", EndDate = "20191125", State = 2 });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = "20181125", EndDate = "20191125", State = 1 });
                 _context.SaveChanges();
             }
         }
@@ -59,7 +61,7 @@ namespace AngularTest.Controllers
         /// <param name="brand"></param>
         /// <param name="type"></param>
         /// <param name="productNo"></param>
-        /// <param name="inputDate"></param>
+        /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
         /// <param name="AbandonReason"></param>
@@ -97,7 +99,7 @@ namespace AngularTest.Controllers
         /// <param name="brand"></param>
         /// <param name="type"></param>
         /// <param name="productNo"></param>
-        /// <param name="inputDate"></param>
+        /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
         /// <param name="AbandonReason"></param>
