@@ -98,7 +98,7 @@ angular.
                 $http({
                     method: 'POST',
                     params: ({
-                        phoneUser: 'Dillon',
+                        phoneUser: phone.phoneUser,
                         brand: phone.brand,
                         type: phone.type,
                         productNo: phone.productNo,
