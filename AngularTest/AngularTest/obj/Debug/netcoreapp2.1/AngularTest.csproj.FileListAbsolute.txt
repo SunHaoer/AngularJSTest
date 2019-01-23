@@ -26,6 +26,7 @@ C:\Users\dillon.sun\Downloads\AngularJSTest-aldin\AngularJSTest-aldin\AngularTes
 C:\Users\dillon.sun\Downloads\AngularJSTest-aldin\AngularJSTest-aldin\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
 C:\Users\dillon.sun\Downloads\AngularJSTest-aldin\AngularJSTest-aldin\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
 C:\Users\dillon.sun\Downloads\AngularJSTest-aldin\AngularJSTest-aldin\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
+<<<<<<< HEAD
 C:\Users\aldin.chen\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.deps.json
 C:\Users\aldin.chen\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.json
 C:\Users\aldin.chen\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.dev.json
@@ -68,3 +69,19 @@ C:\Users\dillon.sun\Downloads\AngularJSTest-master\AngularJSTest-master\AngularT
 C:\Users\dillon.sun\Downloads\AngularJSTest-master\AngularJSTest-master\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
 C:\Users\dillon.sun\Downloads\AngularJSTest-master\AngularJSTest-master\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
 C:\Users\dillon.sun\Downloads\AngularJSTest-master\AngularJSTest-master\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
+=======
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.deps.json
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.json
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.dev.json
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.dll
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.pdb
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csprojAssemblyReference.cache
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csproj.CoreCompileInputs.cache
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cache
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cs
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfoInputs.cache
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfo.cs
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
+C:\Users\hubert.yuan\Downloads\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
+>>>>>>> origin/hubert

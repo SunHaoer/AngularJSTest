@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AngularTest.Models;
+<<<<<<< HEAD
 using System.Xml;
+=======
+>>>>>>> origin/hubert
 
 namespace AngularTest.Controllers
 {
@@ -19,6 +22,7 @@ namespace AngularTest.Controllers
         public BrandTypeModelsController(BrandTypeContext context)
         {
             _context = context;
+<<<<<<< HEAD
             if (_context.BrandTypes.Count() == 0)
             {
                 XmlDocument doc = new XmlDocument();
@@ -57,6 +61,28 @@ namespace AngularTest.Controllers
                 //_context.Add(new BrandType { Brand = "SAMSUNG", Type = "Galaxy S9" });
                 _context.SaveChanges();
             //}
+=======
+            if (context.BrandTypes.Count() == 0)
+            {
+                _context.Add(new BrandType { Brand = "HUAWEI", Type = "Mate 20" });
+                _context.Add(new BrandType { Brand = "HUAWEI", Type = "Mate RS" });
+                _context.Add(new BrandType { Brand = "HUAWEI", Type = "Mate 20Pro" });
+                _context.Add(new BrandType { Brand = "HUAWEI", Type = "Nova 3" });
+                _context.Add(new BrandType { Brand = "IPHONE", Type = "X" });
+                _context.Add(new BrandType { Brand = "IPHONE", Type = "7Plus" });
+                _context.Add(new BrandType { Brand = "IPHONE", Type = "6" });
+                _context.Add(new BrandType { Brand = "IPHONE", Type = "6s" });
+                _context.Add(new BrandType { Brand = "OPPO", Type = "K1" });
+                _context.Add(new BrandType { Brand = "OPPO", Type = "R17" });
+                _context.Add(new BrandType { Brand = "OPPO", Type = "A7x" });
+                _context.Add(new BrandType { Brand = "OPPO", Type = "R15x" });
+                _context.Add(new BrandType { Brand = "SAMSUNG", Type = "Galaxy S8" });
+                _context.Add(new BrandType { Brand = "SAMSUNG", Type = "Galaxy Note8" });
+                _context.Add(new BrandType { Brand = "SAMSUNG", Type = "Galaxy A8s" });
+                _context.Add(new BrandType { Brand = "SAMSUNG", Type = "Galaxy S9" });
+                _context.SaveChanges();
+            }
+>>>>>>> origin/hubert
         }
 
         /// <summary>

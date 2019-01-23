@@ -6,7 +6,11 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
+<<<<<<< HEAD:app/register-page/register-page.template.html
                 <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg(phone)">
+=======
+                <form class="form-horizontal" role="form" name="myForm" >
+>>>>>>> origin/hubert:AngularTest/AngularTest/wwwroot/register-page/register-page.template.html
                     <div class="form-group">
                         <label class="col-md-2">
                             手机用户
@@ -20,7 +24,11 @@
                             手机品牌：
                         </label>
                         <div class="col-md-10">
+<<<<<<< HEAD:app/register-page/register-page.template.html
                             <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()">
+=======
+                            <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()" >
+>>>>>>> origin/hubert:AngularTest/AngularTest/wwwroot/register-page/register-page.template.html
                                 <option ng-repeat="x in brandList">{{x}}</option>
                             </select>
                         </div>
@@ -50,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+<<<<<<< HEAD:app/register-page/register-page.template.html
                     <!-- 启用日期 -->
                     <div class="form-group">
                         <label class="col-md-2">
@@ -59,12 +68,25 @@
                             <input type="date" ng-model="phone.startDate" required name="startDate" id="startDate" ng-blur="formatDate()" />
                         </div>
                     </div>
+=======
+                    <!-- 输入日期 -->
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            输入日期：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" ng-model="phone.inputDate" required name="inputDate" id="inputDate" ng-blur="formatDate()" />
+                        </div>
+                    </div>
+
+>>>>>>> origin/hubert:AngularTest/AngularTest/wwwroot/register-page/register-page.template.html
                     <!-- 测试使用，最后需要删除 -->
                     <span>{{phone}}</span>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
                             <button ng-click="sendToTempPhone()">sendToTempPhone</button>
+<<<<<<< HEAD:app/register-page/register-page.template.html
                         </div>
                     </div>
 
@@ -75,6 +97,11 @@
                         </div>
                     </div>
 
+=======
+                        </div>
+                    </div>
+                    
+>>>>>>> origin/hubert:AngularTest/AngularTest/wwwroot/register-page/register-page.template.html
                 </form>
             </div>
         </div>
