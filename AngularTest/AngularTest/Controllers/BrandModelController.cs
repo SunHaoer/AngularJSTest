@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using System.Xml;
-=======
->>>>>>> origin/hubert
 using AngularTest.Data;
 using AngularTest.Models;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +19,6 @@ namespace AngularTest.Controllers
         public BrandModelController(BrandModelContext context)
         {
             _context = context;
-<<<<<<< HEAD
             if (_context.BrandModels.Count() == 0)
             {
                 XmlDocument doc = new XmlDocument();
@@ -39,17 +35,6 @@ namespace AngularTest.Controllers
         }
             
         
-=======
-            if (context.BrandModels.Count() == 0)
-            {
-                _context.Add(new BrandModel { Brand = "HUAWEI"});
-                _context.Add(new BrandModel { Brand = "OPPO"});
-                _context.Add(new BrandModel { Brand = "IPHONE"});
-                _context.Add(new BrandModel { Brand = "SAMSUNG"});
-                _context.SaveChanges();
-            }
-        }
->>>>>>> origin/hubert
 
         /// <summary>
         /// 获取所有手机品牌

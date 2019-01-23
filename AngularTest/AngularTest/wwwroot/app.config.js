@@ -14,9 +14,6 @@ config(['$routeProvider',
         }).
         when('/phone/deletePage', {
             template: '<delete-page></delete-page>'
-            }).
-        when('/phone/doubleCheck', {
-            template: '<double-check></double-check>'
         }).
         when('/phone/checkPage', {
             template: '<check-page></check-page>'

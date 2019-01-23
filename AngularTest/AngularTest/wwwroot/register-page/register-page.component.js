@@ -5,12 +5,9 @@ angular.
         controller: ['$scope', '$http', function RegisterPageCtrl($scope, $http) {
             $scope.brandRegex = '\\d+';
 
-<<<<<<< HEAD
             $scope.isRegister = true;
             $scope.isReplace = false;
 
-=======
->>>>>>> origin/hubert
             /**
              * 获取所有手机品牌
              * */
