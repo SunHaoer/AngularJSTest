@@ -12,7 +12,15 @@ namespace AngularTest.Controllers
     [ApiController]
     public class DoubleCheckController : ControllerBase
     {
+        private readonly PhoneContext _context;
+
+        public DoubleCheckController(PhoneContext context)
+        {
+            _context = context;
+        }
+
         static Phone tempPhone = new Phone();
+        static long oldId = -1;
 
         /// <summary>
         /// 存入tempPhone
@@ -23,16 +31,29 @@ namespace AngularTest.Controllers
         /// <param name="brand"></param>
         /// <param name="type"></param>
         /// <param name="productNo"></param>
-        /// <param name="inputDate"></param>
+        /// <param name="StartDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
         /// <param name="AbandonReason"></param>
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetTempPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string inputDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> SetTempPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
         {
-            tempPhone = new Phone(id, phoneUser, brand, type, productNo, inputDate, endDate, deleteDate, AbandonReason, state);
+            tempPhone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, state);
+            return true;
+        }
+
+        /// <summary>
+        /// 将对应id的phone存入temp
+        /// url: 'api/DoubleCheck/SetTempPhoneById'
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> SetTempPhoneById(long id)
+        {
+            tempPhone = _context.Phones.FirstOrDefault(item => item.Id == id);
             return true;
         }
 
@@ -45,6 +66,30 @@ namespace AngularTest.Controllers
         public ActionResult<Phone> GetTempPhone()
         {
             return tempPhone;
+        }
+
+        /// <summary>
+        /// 存入旧id
+        /// url: 'api/DoubleCheck/SetOldId'
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> SetOldId(long id = -1)
+        {
+            oldId = id;
+            return true;
+        }
+
+        /// <summary>
+        /// 取出旧id
+        /// url: 'api/DoubleCheck/GetOldId'
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<long> GetOldId()
+        {
+            return oldId;
         }
     }
 }
