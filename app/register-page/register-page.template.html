@@ -5,7 +5,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
+                <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
                             手机品牌：
@@ -37,12 +37,20 @@
                                 <span ng-show="myForm.productNo.$invalid">请输入正确的编号</span>
                             </div>
                         </div>
+						<!-- 输入日期 -->
+						<label class="col-md-2">
+							输入日期：
+						</label>
+						<div class="col-md-10">
+							<input type="date" ng-model="$ctrl.phone.inputDate" required name="inputDate" id="inputDate" ng-blur="$ctrl.formatDate()"/>
+						</div>
                         <!-- 测试使用，最后需要删除 -->
                         <span>{{$ctrl.phone}}</span>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" ng-disabled="myForm.$invalid" value="注册" />
+							<button ng-click="$ctrl.save()">SAVE</button>
                         </div>
                     </div>
                     <!-- 测试使用，调取json中数据，最后删除 -->

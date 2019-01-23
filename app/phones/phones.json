@@ -1,12 +1,12 @@
-[
-    {
-        "type":"8Plus",
-        "brand":"IPHONE",
-        "productNo":"123"
+[{
+        "id": 1,
+        "type": "8Plus",
+        "brand": "IPHONE",
+        "productNo": "123"
     },
     {
-        "type":"9Plus",
-        "brand":"HUAWEI",
-        "productNo":"223"
+        "type": "9Plus",
+        "brand": "HUAWEI",
+        "productNo": "223"
     }
 ]
