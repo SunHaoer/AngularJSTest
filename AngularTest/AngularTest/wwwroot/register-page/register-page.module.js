@@ -1,1 +1,1 @@
-angular.module('registerPage',[]);
+angular.module('registerPage',['core.phone']);
