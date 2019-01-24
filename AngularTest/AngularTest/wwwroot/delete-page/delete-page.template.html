@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p>{{TempPhone}}</p>
-                <form class="form-horizontal" role="form" name="myForm" >
+                <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
                             产品编号：
@@ -49,13 +49,15 @@
                             日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" ng-model="TempPhone.deleteDate" required name="date" id="date" />
+                            <input type="date" ng-model="TempPhone.deleteDate" required name="date" id="date" onfocus="WdatePicker({minDate:'%yyyy-%MM-%dd'})"/>
                         </div>
                     </div>
-                    
+
                 </form>
+
                 <a href="#!/phone">返回</a>
-                <a href="#!/phone/doubleCheck" ng-click="setTempPhone()">确认</a>
+                <button ng-click="setTempPhone()">确认</button>
+                <!--<a href="#!/phone/doubleCheck" ng-click="setTempPhone()">确认</a>-->
             </div>
         </div>
     </div>

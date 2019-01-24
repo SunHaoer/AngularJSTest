@@ -5,7 +5,7 @@ component('choosePage',{
     controller: ['$scope', '$http','$location', function ChoosePageCtrl($scope, $http,$location) {
 
      
-        //alert('srccess');
+        //获取所有手机
         $scope.getUserPhoneAll = function () {
             //alert("haha");
             $http({
@@ -24,7 +24,7 @@ component('choosePage',{
             });
         }
         $scope.getUserPhoneAll();
-        //
+        //根据id将手机存入temp
         $scope.remove = function (id) {
           
                 $http({
