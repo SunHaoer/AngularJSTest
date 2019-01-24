@@ -2,7 +2,7 @@ angular.
 module('choosePage').
 component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
-    controller: ['$scope', '$http', function ChoosePageCtrl($scope, $http) {
+    controller: ['$scope', '$http','$location', function ChoosePageCtrl($scope, $http,$location) {
 
      
         //alert('srccess');
@@ -24,22 +24,22 @@ component('choosePage',{
             });
         }
         $scope.getUserPhoneAll();
-
+        //
         $scope.remove = function (id) {
-            $http({
-                method: 'POST',
-                params: ({
-                    id: id
-                }),
-                url: '/api/DoubleCheck/SetTempPhoneById',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                //alert($scope.phone);
-            }, function error(response) {
-                alert("error");
-            });
-        
-        }
+          
+                $http({
+                    method: 'POST',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/DoubleCheck/SetTempPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/deletePage');
+                }, function error(response) {
+                    alert("error");
+                });
+            }
 
     }]
 

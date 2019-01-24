@@ -1,18 +1,18 @@
-﻿<!--<div class="panel panel-primary">
+﻿<div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="panel-title">Delete</div>
+        <div class="panel-title">Recheck</div>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <p>{{TempPhone}}</p>
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
+                <p>{{checkPhone}}</p>
+                <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
                             产品编号：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="TempPhone.productNo" name="productNo" id="proNo" disabled />
+                            <input type="text" ng-model="checkPhone.productNo" name="productNo" id="proNo" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -20,7 +20,7 @@
                             品牌：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="TempPhone.brand" name="brand" id="mbrand" disabled />
+                            <input type="text" ng-model="checkPhone.brand" name="brand" id="mbrand" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +28,7 @@
                             类型：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="TempPhone.type" name="type" id="type" disabled />
+                            <input type="text" ng-model="checkPhone.type" name="type" id="type" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
                             原因：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" name="reason" id="reason" required />
+                            <input type="text" ng-model="checkPhone.abandonReason" name="reason" id="reason" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,18 +44,19 @@
                             日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" required name="date" id="date" />
+                            <input type="text" ng-model="checkPhone.deleteDate" disabled name="date" id="date" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="button" value="提交" />
+                            <input type="button" value="提交" ng-click="changeStatus()" />
                         </div>
                     </div>
                 </form>
                 <a href="#!/phone/deletePage">返回</a>
+                <a href="#!/phone">主页</a>
+
             </div>
         </div>
     </div>
-</div>-->
-<p>qqqq</p>
+</div>

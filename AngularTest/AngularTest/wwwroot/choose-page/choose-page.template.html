@@ -14,6 +14,7 @@
                 <th>开始日期</th>
                 <th>结束日期</th>
                 <th>删除日期</th>
+                <th>弃用原因</th>
                 <th>状态</th>
                 <th></th>
                 <th></th>
@@ -23,13 +24,14 @@
                 <td>{{phone.productNo}}</td>
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
-                <td>{{phone.inputDate}}</td>
+                <td>{{phone.startDate}}</td>
                 <td>{{phone.endDate}}</td>
                 <td>{{phone.deleteDate}}</td>
+                <td>{{phone.abandonReason}}
                 <td>{{phone.state}}</td>
-                <td><a href="">修改</a></td>
+                <td><button>修改</button></td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <td><a href="#!/phone/deletePage" ng-click="remove(phone.id)">删除</a></td>
+                <td><button  ng-click="remove(phone.id)">删除</button></td>
             </tr>
 
         </table>

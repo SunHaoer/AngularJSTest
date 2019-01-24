@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p>{{TempPhone}}</p>
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="$ctrl.submitMsg()">
+                <form class="form-horizontal" role="form" name="myForm" >
                     <div class="form-group">
                         <label class="col-md-2">
                             产品编号：
@@ -36,7 +36,12 @@
                             原因：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" name="reason" id="reason" required />
+                            <select ng-model="TempPhone.abandonReason">
+                                <option>lost</option>
+                                <option>buy new phone</option>
+                                <option>time end</option>
+                            </select>
+                            <!--<input type="text" ng-model="TempPhone.abandonReason"  id="reason" required />-->
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,13 +49,13 @@
                             日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" required name="date" id="date" />
+                            <input type="date" ng-model="TempPhone.deleteDate" required name="date" id="date" />
                         </div>
                     </div>
                     
                 </form>
                 <a href="#!/phone">返回</a>
-                <a href="#!/phone/doubleCheck">提交</a>
+                <a href="#!/phone/doubleCheck" ng-click="setTempPhone()">确认</a>
             </div>
         </div>
     </div>
