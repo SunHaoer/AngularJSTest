@@ -7,7 +7,12 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
+                <form class="form-horizontal" role="form" name="checkForm">
+                    <div class="form-group">
+                        <label class="col-md-2" id="brand">
+                            手机用户：{{phone.phoneUser}}
+                        </label>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-2" id="brand">
                             手机品牌：{{phone.brand}}
@@ -25,34 +30,35 @@
                     </div>
                     <div class="form-group" id="startDate">
                         <label class="col-md-2">
-                            开机日期：{{phone.startDate}}
+                            启用日期：{{phone.startDate}}
                         </label>
                     </div>
                     <div class="form-group" id="removeDate">
                         <label class="col-md-2">
-                            关机日期：{{phone.limitDate}}
+                            有效日期：{{phone.endDate}}
                         </label>
                     </div>
                     <div class="form-group" id="changeDate">
                         <label class="col-md-2">
-                            更换日期：{{phone.changeDate}}
+                            更换日期：{{phone.deleteDate}}
                         </label>
                     </div>
-                    <div class="form-group" id="status">
+                    <div class="form-group" id="state">
                         <label class="col-md-2">
-                            状态：{{phone.status}}
+                            状态：{{state}}
                         </label>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-10">
                             <input type="button" value="取消" ng-click="$ctrl.cancle()" />
-                            <input type="submit" value="确定" />
+                            
+                            <input type="button" value="确定" ng-click="$ctrl.submitMsg()" />
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <h1>{{$ctrl.test}}</h1>
+
 </div>

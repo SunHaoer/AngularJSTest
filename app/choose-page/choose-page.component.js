@@ -37,7 +37,7 @@ component('choosePage', {
                 'endDate': '',
                 'deleteDate': '',
                 'abandonReson': '',
-                'state': 0
+                'state': 1
             }
 
             console.log(oldId);

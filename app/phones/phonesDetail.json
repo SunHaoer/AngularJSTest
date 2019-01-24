@@ -1,34 +1,7 @@
-[
-    {
-        "HUAWEI":{
-            "Mate 20X":"3",
-            "Mate RS":"4",
-            "Mate 20Pro":"5",
-            "Nova 3":"2"
-        }
-    },
-    {
-        "IPHONE":{
-            "X":"3",
-            "8 Plus":"4",
-            "6s Plus":"5",
-            "7 Plus":"2"
-        }
-    },
-    {
-        "SAMSUNG":{
-            "Galaxy S8":"3",
-            "Galaxy Note8":"4",
-            "Galaxy A8s":"2",
-            "Galaxy S9":"5"
-        }
-    },
-    {
-        "OPPO":{
-            "K1":"3",
-            "R17":"5",
-            "A7x":"4",
-            "R15x":"2"
-        }
-    }
-]
+{
+    "0": "HUAWEI",
+    "1": "OPPO",
+    "2": "IPHONE",
+    "3": "SAMSUNG"
+
+}

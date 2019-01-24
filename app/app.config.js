@@ -19,10 +19,10 @@ config(['$routeProvider',
             template: '<check-page></check-page>'
         }).
         when('/phone/registerCheckPage', {
-            template: '<registerCheck-page></registerCheck-page>'
+            template: '<register-check-page></register-check-page>'
         }).
         when('/phone/replaceCheckPage', {
-            template: '<replaceCheck-page></replaceCheck-page>'
+            template: '<replace-check-page></replace-check-page>'
         }).
         when('/phone/successPage', {
             template: '<success-page></success-page>'

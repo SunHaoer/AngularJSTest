@@ -1,7 +1,7 @@
 angular.
 module('registerPage').
 component('registerPage', {
-    templateUrl: 'register-page/register-page.template.html',
+    templateUrl: 'common/register-page.template.html',
     controller: ['$scope', '$http', '$location', function RegisterPageCtrl($scope, $http, $location) {
         $scope.brandRegex = '\\d+';
         $scope.flag = false;
@@ -85,9 +85,9 @@ component('registerPage', {
             if (month < 10) month = '0' + month;
             var date = inputDate.getDate();
             if (date < 10) date = '0' + date;
-            var startDate = year + '' + month + '' + date;
-            var endDate = (year + $scope.phone.life) + '' + month + '' + date;
-            $scope.phone.startDate = startDate;
+            var startDate = year + '/' + month + '/' + date;
+            var endDate = (year + $scope.phone.life) + '/' + month + '/' + date;
+            $scope.phone.startDate = startDate;         
             $scope.phone.endDate = endDate;
 
         }        
@@ -98,9 +98,6 @@ component('registerPage', {
 
         // ���ȷ��
         $scope.submitMsg = function(phone) {
-
-            //  for test
-            this.test = "�������ύ";
 
             // ���������ֻ�����tempPhone
             $http({

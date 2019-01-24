@@ -3,8 +3,10 @@ module('registerPage').
 component('registerCheckPage', {
 
     templateUrl: 'common/check-page.template.html',
-    controller: ['$location', '$http', '$scope', function commonPage($location, $http, $scope) {
+    controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
 
+        var state = 1;
+        var dateString = '';
 
         $http({
             method: 'Get',
@@ -12,12 +14,24 @@ component('registerCheckPage', {
         }).then(function successCallback(response) {
             // 请求成功执行的代码
             $scope.phone = response.data;
+            state = $scope.phone.state;
+            dateString = $scope.phone.startDate
 
         }, function errorCallback(response) {
             // 请求失败执行代码
 
-            });
+        });
 
+        if (state == 1) {
+            $scope.state = '正在使用';
+        } else {
+            $scope.state = '已停用';
+        }
+
+        console.log(dateString);
+
+        /*
+         * 
         $scope.formatDate = function () {
             var inputDate = $scope.phone.inputDate;
             var year = inputDate.getFullYear();
@@ -31,10 +45,10 @@ component('registerCheckPage', {
             $scope.phone.endDate = endDate;
 
         }
-
-        this.test = "你还没点击";
+        *
+        */
+        
         this.submitMsg = function() {
-            this.test = "你点击了确定";
 
             // 更换的新手机存入tempPhone
             $http({
@@ -55,9 +69,6 @@ component('registerCheckPage', {
             }).then(function successCallback(response) {
                 // 请求成功执行的代码
 
-                // 更改旧手机的状态
-
-
                 $location.url('/phone/successPage');
 
             }, function errorCallback(response) {
@@ -68,7 +79,6 @@ component('registerCheckPage', {
         };
 
         this.cancle = function() {
-            this.test = "你点击了取消";
 
             $location.url('/phone/registerPage');
         };
