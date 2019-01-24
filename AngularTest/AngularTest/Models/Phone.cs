@@ -36,5 +36,18 @@ namespace AngularTest.Models
             State = state;
         }
 
+        public Phone(string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string abandonReason, int state)
+        {
+            PhoneUser = phoneUser;
+            Brand = brand;
+            Type = type;
+            ProductNo = productNo;
+            StartDate = startDate;
+            EndDate = endDate;
+            DeleteDate = deleteDate;
+            AbandonReason = abandonReason;
+            State = state;
+        }
+
     }
 }

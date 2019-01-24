@@ -1,15 +1,12 @@
 angular.
     module('registerPage').
     component('registerPage', {
-        templateUrl: 'register-page/register-page.template.html',
+        templateUrl: 'common/register-page.template.html',
         controller: ['$scope', '$http','$location', function RegisterPageCtrl($scope, $http,$location) {
             $scope.brandRegex = '\\d+';
             $scope.flag = false;
             $scope.isRegister = true;
             $scope.isReplace = false;
-
-            
-          
 
             /**
              * 获取所有手机品牌
@@ -81,7 +78,7 @@ angular.
              * 日期格式化
              * */
             $scope.formatDate = function () {
-                var inputDate = $scope.inputDate;
+                var inputDate = $scope.phone.inputDate;
                 var year = inputDate.getFullYear();
                 var month = inputDate.getMonth() + 1;
                 if (month < 10) month = '0' + month;
@@ -96,22 +93,24 @@ angular.
             /**
              * 保存数据
              * */
-            $scope.sendToTempPhone = function () {
-                var phone = $scope.phone;
+            $scope.submitMsg = function () {
+
+                alert('submit');
+
                 $http({
                     method: 'POST',
                     params: ({
-                        phoneUser: phone.phoneUser,
-                        brand: phone.brand,
-                        type: phone.type,
-                        productNo: phone.productNo,
-                        startDate: phone.startDate,
-                        endDate: phone.endDate
+                        phoneUser: $scope.phone.phoneUser,
+                        brand: $scope.phone.brand,
+                        type: $scope.phone.type,
+                        productNo: $scope.phone.productNo,
+                        startDate: $scope.phone.startDate,
+                        endDate: $scope.phone.endDate
                     }),
                     url: '/api/DoubleCheck/SetTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    $location.path("/phone/checkPage");
+                    $location.path("/phone/registerCheckPage");
                 }, function error(response) {
                     alert("error");
                 });

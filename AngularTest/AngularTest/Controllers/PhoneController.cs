@@ -69,9 +69,9 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SaveUserPhone(long id, string phoneUser, string brand , string type, string productNo, DateTime startDate , DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
+        public ActionResult<bool> SaveUserPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
         {
-            Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 1);
+            Phone phone = new Phone(phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 1);
             _context.Phones.Add(phone);
             _context.SaveChanges();
             return true;
@@ -107,9 +107,19 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
+        public ActionResult<bool> AbandonUserPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
         {
             Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
+            _context.Phones.Update(phone);
+            _context.SaveChanges();
+            return true;
+        }
+
+        [HttpPost]
+        public ActionResult<bool> AbandonUserPhoneById(long id)
+        {
+            Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
+            phone.State = 2;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;

@@ -6,7 +6,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="sendToTempPhone()">
+                <form class="form-horizontal" role="form" name="myForm" ng-submit="submitMsg()">
                     <div class="form-group">
                         <label class="col-md-2">
                             手机用户
@@ -21,6 +21,7 @@
                         </label>
                         <div class="col-md-10">
                             <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()">
+                                <option value="">请选择手机品牌</option>
                                 <option ng-repeat="x in brandList">{{x}}</option>
                             </select>
                         </div>
@@ -31,7 +32,7 @@
                         </label>
                         <div class="col-md-10">
                             <select ng-model="phone.type" name="type" id="type" required>
-                                <option selected="selected" value="none">请先选择手机品牌</option>
+                                <option value="">请先选择手机型号</option>
                                 <option ng-repeat="x in typeList">{{x}}</option>
                             </select>
                         </div>
@@ -52,12 +53,23 @@
                     <!-- 输入日期 -->
                     <div class="form-group">
                         <label class="col-md-2">
-                            输入日期：
+                            启用日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" ng-model="inputDate" required name="inputDate" id="inputDate"/>
+                            <input type="date" ng-model="phone.inputDate" required name="inputDate" id="inputDate"/>
                         </div>
                     </div>
+
+                    <div class="form-group" ng-show="isReplace">
+                        <label class="col-md-2">
+                           停用日期：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" ng-model="phone.deleteDate" name="deleteDate" id="deleteDate"/>
+                        </div>
+               
+                    </div>
+
                     <!-- 测试使用，最后需要删除 -->
                     <span>{{inputDate}}</span>
                     <span>{{phone}}</span>
@@ -68,7 +80,7 @@
                                 <input type="button"  value=" 返回主页" style="color:black"/>
                             </a>
         
-                            <input type="submit" ng-disabled="myForm.$invalid || !flag" value="下一步" ng-mouseenter="formatDate()" />
+                            <input type="submit" value="下一步" ng-mouseenter="formatDate()" />
                         </div>
                     </div>
                 </form>

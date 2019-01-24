@@ -17,13 +17,20 @@ config(['$routeProvider',
         }).
         when('/phone/checkPage', {
             template: '<check-page></check-page>'
-        }).
-        when('/phone/successPage', {
+            }).
+            when('/phone/registerCheckPage', {
+            template: '<register-check-page></register-check-page>'
+        }).when('/phone/replaceCheckPage', {
+            template: '<replace-check-page></replace-check-page>'
+        }).when('/phone/successPage', {
             template: '<success-page></success-page>'
         }).
         when('/phone/errorPage', {
             template: '<error-page></error-page>'
-        }).
+         }).
+         when('/phone/doubleCheck', {
+             template: '<double-check></double-check>'
+         }).
         otherwise('/phone');
     }
 ]);

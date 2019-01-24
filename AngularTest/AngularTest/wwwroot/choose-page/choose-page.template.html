@@ -1,13 +1,40 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="panel-title">
-            <h1>Thanks for Using!</h1>
-        </div>
-    </div>
-    <div class="panel-body">
-        <a href='#!/phone/registerPage'>Register</a>
-        <!--<a href='#!/phone/replacePage'>Replace </a>-->
-        <input type="button" value="Replace" ng-click="$ctrl.replace()" />
-        <a href="#!/phone/deletePage">Delete</a>
-    </div>
+
+<div>
+    <h1>Thanks for Using!</h1>
+    <a href="#!/phone/registerPage">注册</a>
+</div>
+<div>
+    <center>
+        <table border="1" >
+            <tr>
+                <th>Id</th>
+                <th>产品编号</th>
+                <th>品牌</th>
+                <th>类型</th>
+                <th>开始日期</th>
+                <th>结束日期</th>
+                <th>删除日期</th>
+                <th>弃用原因</th>
+                <th>状态</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="phone in userPhoneAll">
+                <td>{{phone.id}}</td>
+                <td>{{phone.productNo}}</td>
+                <td>{{phone.brand}}</td>
+                <td>{{phone.type}}</td>
+                <td>{{phone.startDate}}</td>
+                <td>{{phone.endDate}}</td>
+                <td>{{phone.deleteDate}}</td>
+                <td>{{phone.abandonReason}}
+                <td>{{phone.state}}</td>
+                <td><button ng-click="update(phone.id)">修改</button></td>
+                <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
+                <td><button ng-click="remove(phone.id)">删除</button></td>
+            </tr>
+
+        </table>
+    </center>
+    <p ng-repeat="phone in userPhoneAll">{{phone}}</p>
 </div>

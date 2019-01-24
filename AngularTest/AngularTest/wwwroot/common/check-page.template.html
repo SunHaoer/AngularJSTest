@@ -30,22 +30,22 @@
                     </div>
                     <div class="form-group" id="startDate">
                         <label class="col-md-2">
-                            开机日期：{{phone.startDate}}
+                            开机日期：{{phone.startDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
                     <div class="form-group" id="endDate">
                         <label class="col-md-2">
-                            关机日期：{{phone.endDate}}
+                            关机日期：{{phone.endDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
                     <div class="form-group" id="deleteDate">
                         <label class="col-md-2">
-                            更换日期：{{phone.deleteDate}}
+                            更换日期：{{phone.deleteDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="status">
+                    <div class="form-group" id="state">
                         <label class="col-md-2">
-                            状态：{{phone.status}}
+                            状态：{{state}}
                         </label>
                     </div>
 
