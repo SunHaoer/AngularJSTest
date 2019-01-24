@@ -38,8 +38,9 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetTempPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> SetTempPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
         {
+            
             tempPhone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, state);
             return true;
         }

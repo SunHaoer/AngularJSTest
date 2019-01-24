@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AngularTest.Models;
+using System;
 
 namespace AngularTest.Controllers
 {
@@ -21,10 +22,10 @@ namespace AngularTest.Controllers
             {
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = "20181125", EndDate = "20191125", State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = "20180109", EndDate = "20190109", State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = "20171125", EndDate = "20191125", State = 2 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = "20181125", EndDate = "20191125", State = 1 });
+                //_context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = "2018-11-25", EndDate = "2019-11-25", State = 1 });
+                //_context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = "2018-01-09", EndDate = "2019-01-09", State = 1 });
+                //_context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = "2017-11-25", EndDate = "2019-11-25", State = 2 });
+                //_context.Phones.Add(new Phone { PhoneUser = "user1", Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = "2018-11-25", EndDate = "2019-11-25", State = 1 });
                 _context.SaveChanges();
             }
         }
@@ -68,7 +69,7 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SaveUserPhone(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> SaveUserPhone(long id, string phoneUser, string brand , string type, string productNo, DateTime startDate , DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
         {
             Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 1);
             _context.Phones.Add(phone);
@@ -106,10 +107,10 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id = -1, string phoneUser = "", string brand = "", string type = "", string productNo = "", string startDate = "", string endDate = "", string deleteDate = "", string AbandonReason = "", int state = -1)
+        public ActionResult<bool> AbandonUserPhoneById(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
         {
             Phone phone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
-            _context.Phones.Update(_context.Phones.FirstOrDefault(item => item.Id == id));
+            _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;
         }

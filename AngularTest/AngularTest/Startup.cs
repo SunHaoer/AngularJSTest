@@ -30,10 +30,10 @@ namespace AngularTest
             services.AddDbContext<TypeYearContext>(opt =>
                          opt.UseInMemoryDatabase("TypeList"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMvc().AddJsonOptions(
-                            json => {
-                                json.SerializerSettings.DateFormatString = "yyyy-mm-dd";
-                            });
+            //services.AddMvc().AddJsonOptions(
+            //                json => {
+            //                    json.SerializerSettings.DateFormatString = "yyyy-mm-dd";
+            //                });
 
         }
 

@@ -11,7 +11,7 @@ component('checkPage', {
         }).then(function successCallback(response) {
             // 请求成功执行的代码
             $scope.phone = response.data;
-
+            console.log($scope.phone.startDate);
         }, function errorCallback(response) {
             // 请求失败执行代码
 

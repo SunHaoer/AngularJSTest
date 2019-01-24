@@ -9,6 +9,11 @@
             <div class="col-md-12">
                 <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
                     <div class="form-group">
+                        <label class="col-md-2" id="phoneUser">
+                            手机用户：{{phone.phoneUser}}
+                        </label>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2" id="brand">
                             手机品牌：{{phone.brand}}
                         </label>
@@ -28,14 +33,14 @@
                             开机日期：{{phone.startDate}}
                         </label>
                     </div>
-                    <div class="form-group" id="removeDate">
+                    <div class="form-group" id="endDate">
                         <label class="col-md-2">
-                            关机日期：{{phone.limitDate}}
+                            关机日期：{{phone.endDate}}
                         </label>
                     </div>
-                    <div class="form-group" id="changeDate">
+                    <div class="form-group" id="deleteDate">
                         <label class="col-md-2">
-                            更换日期：{{phone.changeDate}}
+                            更换日期：{{phone.deleteDate}}
                         </label>
                     </div>
                     <div class="form-group" id="status">
