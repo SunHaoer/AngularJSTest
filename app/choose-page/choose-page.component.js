@@ -1,16 +1,16 @@
 angular.
 module('choosePage').
-component('choosePage',{
-    templateUrl:'choose-page/choose-page.template.html',
-    controller: ['$scope', '$http','$location', function ChoosePageCtrl($scope, $http, $location) {
+component('choosePage', {
+    templateUrl: 'choose-page/choose-page.template.html',
+    controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
 
         var brand2 = "OPPO";
         var phone = this.phone;
         $http({
             method: 'GET',
             params: ({
-            brand: brand2,
-        }),
+                brand: brand2,
+            }),
             url: '/api/BrandTypeModels/GetTypeByBrand',
             headers: { 'Content-Type': 'application/json' }
         }).then(function success(response) {
@@ -25,7 +25,7 @@ component('choosePage',{
             alert("error");
         });
 
-        this.replace = function (oldId) {
+        this.replace = function(oldId) {
 
             $scope.phone = {
                 'id': 1,
@@ -33,7 +33,7 @@ component('choosePage',{
                 'brand': 'OPPO',
                 'type': 'K1',
                 'productNo': '123456',
-                'startDate': '20190123',
+                'startDate': '20190101',
                 'endDate': '',
                 'deleteDate': '',
                 'abandonReson': '',
@@ -58,15 +58,15 @@ component('choosePage',{
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {
-                // ÇëÇó³É¹¦Ö´ÐÐµÄ´úÂë
+                // ï¿½ï¿½ï¿½ï¿½É¹ï¿½Ö´ï¿½ÐµÄ´ï¿½ï¿½ï¿½
                 $location.url('/phone/replacePage');
 
             }, function errorCallback(response) {
-                // ÇëÇóÊ§°ÜÖ´ÐÐ´úÂë
+                // ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½Ö´ï¿½Ð´ï¿½ï¿½ï¿½
                 alert('error');
             });
-       
+
         };
-        
+
     }]
 });

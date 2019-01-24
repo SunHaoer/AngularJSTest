@@ -1,132 +1,132 @@
 angular.
-    module('registerPage').
-    component('registerPage', {
-        templateUrl: 'register-page/register-page.template.html',
-        controller: ['$scope', '$http', function RegisterPageCtrl($scope, $http) {
-            $scope.brandRegex = '\\d+';
+module('registerPage').
+component('registerPage', {
+    templateUrl: 'register-page/register-page.template.html',
+    controller: ['$scope', '$http', '$location', function RegisterPageCtrl($scope, $http, $location) {
+        $scope.brandRegex = '\\d+';
+        $scope.flag = false;
+        
+        // ×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+        $scope.isRegister = true;
+        $scope.isReplace = false;
 
-            $scope.isRegister = true;
-            $scope.isReplace = false;
+        /**
+         * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½Æ·ï¿½ï¿½
+         * */
+        $scope.getBrandAll = function() {
+            $http({
+                method: 'GET',
+                url: '/api/BrandModel/GetBrandAll',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                var list = response.data;
+                $scope.brandList = [];
+                for (var i = 0; i < list.length; i++) {
+                    $scope.brandList.push(list[i]["brand"]);
+                }
 
-            /**
-             * »ñÈ¡ËùÓÐÊÖ»úÆ·ÅÆ
-             * */
-            $scope.getBrandAll = function () {
-                $http({
-                    method: 'GET',
-                    url: '/api/BrandModel/GetBrandAll',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    var list = response.data;
-                    $scope.brandList = [];
-                    for (var i = 0; i < list.length; i++) {
-                        $scope.brandList.push(list[i]["brand"]);
-                    }
-                    
-                }, function error(response) {
-                    alert("error");
-                });
+            }, function error(response) {
+                alert("brand error");
+            });
+        }
+        $scope.getBrandAll();
+
+        /**
+         * ï¿½ï¿½ï¿½ï¿½Æ·ï¿½Æ»ï¿½È¡ï¿½Íºï¿½
+         * */
+        $scope.getTypeByBrand = function() {
+            var phone = $scope.phone;
+            $http({
+                method: 'GET',
+                params: ({
+                    brand: phone.brand,
+                }),
+                url: '/api/BrandTypeModels/GetTypeByBrand',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                var list = response.data;
+                $scope.typeList = [];
+                for (var i = 0; i < list.length; i++) {
+                    $scope.typeList.push(list[i]["type"]);
+                }
+            }, function error(response) {
+                alert("type error");
+            });
+        }
+        /**
+         * ï¿½ï¿½ï¿½ï¿½ï¿½ÍºÅ»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+         * */
+        $scope.getYearByType = function() {
+            var typeFlag = $scope.phone.type;
+            if (typeFlag != "none") {
+                console.log(typeFlag);
+                $scope.flag = true;
+            } else {
+                $scope.flag = false;
             }
-            $scope.getBrandAll();
+            $http({
+                method: 'GET',
+                params: ({
+                    type: $scope.phone.type
+                }),
+                url: '/api/TypeYear/GetYearByType',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $scope.phone.life = response.data;
+            }, function error(response) {});
+        }
+        /**
+         * ï¿½ï¿½ï¿½Ú¸ï¿½Ê½ï¿½ï¿½
+         * */
+        $scope.formatDate = function () {
+            var inputDate = $scope.phone.inputDate;
+            var year = inputDate.getFullYear();
+            var month = inputDate.getMonth() + 1;
+            if (month < 10) month = '0' + month;
+            var date = inputDate.getDate();
+            if (date < 10) date = '0' + date;
+            var startDate = year + '' + month + '' + date;
+            var endDate = (year + $scope.phone.life) + '' + month + '' + date;
+            $scope.phone.startDate = startDate;
+            $scope.phone.endDate = endDate;
 
-            /**
-             * ¸ù¾ÝÆ·ÅÆ»ñÈ¡ÐÍºÅ
-             * */
-            $scope.getTypeByBrand = function () {
-                var phone = $scope.phone;
-                $http({
-                    method: 'GET',
-                    params: ({
-                        brand: $scope.phone.brand,
-                    }),
-                    url: '/api/BrandTypeModels/GetTypeByBrand',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    var list = response.data;
-                    console.log(list);
-                    $scope.typeList = [];
-                    for (var i = 0; i < list.length; i++) {
-                        $scope.typeList.push(list[i]["type"]);
-                    }
-                }, function error(response) {
-                    alert("error");
-                });
-            }
+        }        
 
-            /**
-             * ¸ù¾ÝÐÍºÅ»ñÈ¡±£ÖÊÆÚ
-             * */
-            $scope.getYearByType = function() {
-                $http({
-                    method: 'GET',
-                    params: ({
-                        type: $scope.phone.type
-                    }),
-                    url: '/api/TypeYear/GetYearByType',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    $scope.phone.life = response.data;
-                    //alert('+' + $scope.phone.life);
-                }, function error(response) {
-                    alert("error");
-                });
-            }
+        $scope.cancle = function() {
+            $location.url('/phone');
+        }
 
-            /**
-             * ÈÕÆÚ¸ñÊ½»¯
-             * */
-            $scope.formatDate = function () {
-                var inputDate = $scope.phone.inputDate;
-                var year = inputDate.getFullYear();
-                var month = inputDate.getMonth() + 1;
-                if (month < 10) month = '0' + month;
-                var date = inputDate.getDate();
-                if (date < 10) date = '0' + date;
-                var startDate = year + '' + month + '' + date;
-                var endDate = (year + $scope.phone.life) + '' + month + '' + date;
-                $scope.phone.startDate = startDate;
-                $scope.phone.endDate = endDate;
-                //alert('-' + $scope.phone.life);
-                //alert(startDate);
-                //alert(endDate);
-            }
+        // ï¿½ï¿½ï¿½È·ï¿½ï¿½
+        $scope.submitMsg = function(phone) {
 
-            /**
-             * ±£´æÊý¾Ý
-             * */
-            $scope.sendToTempPhone = function () {
-                var phone = $scope.phone;
-                $http({
-                    method: 'POST',
-                    params: ({
-                        phoneUser: 'Dillon',
-                        brand: phone.brand,
-                        type: phone.type,
-                        productNo: phone.productNo,
-                        inputDate: phone.startDate,
-                        endDate: phone.endDate
-                    }),
-                    url: '/api/DoubleCheck/SetTempPhone',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    alert(response.data);
-                }, function error(response) {
-                    alert("error");
-                });
-            }
+            //  for test
+            this.test = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»";
 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½tempPhone
+            $http({
+                method: 'Post',
+                url: 'api/DoubleCheck/SetTempPhone',
+                params: ({
+                    id: $scope.phone.id,
+                    phoneUser: $scope.phone.phoneUser,
+                    brand: $scope.phone.brand,
+                    type: $scope.phone.type,
+                    productNo: $scope.phone.productNo,
+                    startDate: $scope.phone.startDate,
+                    endDate: $scope.phone.endDate,
+                    deleteDate: $scope.phone.deleteDate,
+                    abandonReson: $scope.phone.abandonReson,
+                    state: $scope.phone.state
+                })
+            }).then(function successCallback(response) {
+                // ï¿½ï¿½ï¿½ï¿½É¹ï¿½Ö´ï¿½ÐµÄ´ï¿½ï¿½ï¿½
+                $location.url('/phone/registerCheckPage');
 
-            $scope.submitMsg = function () {
-                console.log($scope.phone);
-                var json = JSON.stringify($scope.phone);
-                console.log(json);
-                PhoneMsg.save(json, function (data) {
-                    json = data;
-                }, function (resp) {
-                    console.log('error');
-                });
-            }
+            }, function errorCallback(response) {
+                // ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½Ö´ï¿½Ð´ï¿½ï¿½ï¿½
+                alert('error');
+            });
 
-
-        }]
-    })
+        };
+    }]
+})

@@ -9,9 +9,9 @@ component('replacePage', {
         $scope.isReplace = true;
 
         /**
-        * 获取所有手机品牌
-        * */
-        $scope.getBrandAll = function () {
+         * 获取所有手机品牌
+         * */
+        $scope.getBrandAll = function() {
             $http({
                 method: 'GET',
                 url: '/api/BrandModel/GetBrandAll',
@@ -24,15 +24,16 @@ component('replacePage', {
                 }
 
             }, function error(response) {
-                alert("error");
+                alert("brand error");
             });
         }
+
         $scope.getBrandAll();
 
         /**
          * 根据品牌获取型号
          * */
-        $scope.getTypeByBrand = function () {
+        $scope.getTypeByBrand = function() {
             var phone = $scope.phone;
             $http({
                 method: 'GET',
@@ -43,20 +44,26 @@ component('replacePage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 var list = response.data;
-                console.log(list);
                 $scope.typeList = [];
                 for (var i = 0; i < list.length; i++) {
                     $scope.typeList.push(list[i]["type"]);
                 }
             }, function error(response) {
-                alert("error");
+                alert("type error");
             });
         }
 
         /**
          * 根据型号获取保质期
          * */
-        $scope.getYearByType = function () {
+        $scope.getYearByType = function() {
+            var typeFlag = $scope.phone.type;
+            if (typeFlag != "none") {
+                console.log(typeFlag);
+                $scope.flag = true;
+            } else {
+                $scope.flag = false;
+            }
             $http({
                 method: 'GET',
                 params: ({
@@ -66,29 +73,24 @@ component('replacePage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $scope.phone.life = response.data;
-                //alert('+' + $scope.phone.life);
-            }, function error(response) {
-                alert("error");
-            });
+            }, function error(response) {});
         }
+
 
         /**
          * 日期格式化
          * */
-        $scope.formatDate = function () {
-            var inputDate = $scope.phone.inputDate;
-            var year = inputDate.getFullYear();
-            var month = inputDate.getMonth() + 1;
+        $scope.formatDate = function() {
+            var startDate = $scope.phone.startDate;
+            var year = startDate.getFullYear();
+            var month = startDate.getMonth() + 1;
             if (month < 10) month = '0' + month;
-            var date = inputDate.getDate();
+            var date = startDate.getDate();
             if (date < 10) date = '0' + date;
-            var startDate = year + '' + month + '' + date;
-            var endDate = (year + $scope.phone.life) + '' + month + '' + date;
+            var startDate = year + '-' + month + '-' + date;
+            var endDate = (year + $scope.phone.life) + '-' + month + '-' + date;
             $scope.phone.startDate = startDate;
             $scope.phone.endDate = endDate;
-            //alert('-' + $scope.phone.life);
-            //alert(startDate);
-            //alert(endDate);
         }
 
 
@@ -109,7 +111,7 @@ component('replacePage', {
         this.test = "你还没点击提交";
 
         // 点击确认
-        this.submitMsg = function(phone) {
+        $scope.submitMsg = function(phone) {
 
             //  for test
             this.test = "你点击了提交";
@@ -132,18 +134,17 @@ component('replacePage', {
                 })
             }).then(function successCallback(response) {
                 // 请求成功执行的代码
-                $location.url('/phone/replacePage');
+                $location.url('/phone/replaceCheckPage');
 
             }, function errorCallback(response) {
                 // 请求失败执行代码
                 alert('error');
             });
 
-            $location.url('/phone/checkPage');
-
         };
 
-        this.cancle = function() {
+        $scope.cancle = function(phone) {
+
             $location.url('/phone');
         }
     }]
