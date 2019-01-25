@@ -68,7 +68,7 @@ angular.
                         productNo: $scope.phone.productNo,
                         startDate: $scope.phone.startDate,
                         endDate: $scope.phone.endDate,
-                        deleteDate: $scope.phone.deleteDate,
+                        //deleteDate: $scope.phone.deleteDate,
                         abandonReson: $scope.phone.abandonReson,
                         state: $scope.phone.state
                     })
@@ -79,7 +79,8 @@ angular.
                         method: 'POST',
                         url: 'api/Phone/AbandonUserPhoneById',
                         params: ({
-                            id: oldId
+                            id: oldId,
+                            deleteDate: $scope.phone.deleteDate
                         })
                     }).then(function successCallback(response) {
 

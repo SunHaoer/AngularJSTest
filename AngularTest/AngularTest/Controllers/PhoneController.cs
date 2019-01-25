@@ -93,7 +93,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 弃用
-        /// url: 'api/Phone/AbandonUserPhoneById'
+        /// url: 'api/Phone/AbandonUserPhoneBy'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -116,10 +116,11 @@ namespace AngularTest.Controllers
         }
 
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id)
+        public ActionResult<bool> AbandonUserPhoneById(long id, DateTime deleteDate)
         {
             Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
             phone.State = 2;
+            phone.DeleteDate = deleteDate;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;

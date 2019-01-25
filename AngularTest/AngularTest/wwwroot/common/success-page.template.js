@@ -7,7 +7,7 @@ component('successPage', {
 
         $timeout(function() {
             $location.url('/phone');
-        }, 3000);
+        }, 50000);
 
     }]
 })
