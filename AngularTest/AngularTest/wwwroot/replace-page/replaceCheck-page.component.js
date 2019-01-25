@@ -6,6 +6,8 @@ angular.
 
             var state = 1;
             $scope.isReplace = true;
+            $scope.myDate = new Date();
+            $scope.myDate.toLocaleDateString();//获取当前日期
 
             $http({
                 method: 'Get',
@@ -51,7 +53,7 @@ angular.
                 //console.log(response.data);
             }, function errorCallback(response) {
                 alert('保存旧id失败');
-                });
+            });
 
             this.submitMsg = function () {
                 // 更换的新手机存入tempPhone
@@ -72,7 +74,7 @@ angular.
                     })
                 }).then(function successCallback(response) {
                     // 请求成功执行的代码
-                    alert(oldId);
+                    //alert(oldId);
                     $http({
                         method: 'POST',
                         url: 'api/Phone/AbandonUserPhoneById',

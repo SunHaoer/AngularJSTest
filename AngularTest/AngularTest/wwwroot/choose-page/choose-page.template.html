@@ -7,10 +7,10 @@
     <center>
         <table border="1" >
             <tr>
-                <th>Id</th>
-                <th>产品编号</th>
+                <th>phoneUser</th>
                 <th>品牌</th>
                 <th>类型</th>
+                <th>产品编号</th>
                 <th>开始日期</th>
                 <th>结束日期</th>
                 <th>删除日期</th>
@@ -20,15 +20,15 @@
                 <th></th>
             </tr>
             <tr ng-repeat="phone in userPhoneAll">
-                <td>{{phone.id}}</td>
-                <td>{{phone.productNo}}</td>
+                <td>{{phone.phoneUser}}</td>
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
+                <td>{{phone.productNo}}</td>
                 <td>{{phone.startDate |date:'yyyy-MM-dd'}}</td>
                 <td>{{phone.endDate |date:'yyyy-MM-dd'}}</td>
                 <td>{{phone.deleteDate |date:'yyyy-MM-dd'}}</td>
                 <td>{{phone.abandonReason}}
-                <td>{{phone.state}}</td>
+                <td>{{phone.stateString }}</td>
                 <td><button ng-click="update(phone.id)">修改</button></td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
                 <td><button ng-click="remove(phone.id, phone.state)">删除</button></td>
@@ -36,5 +36,7 @@
 
         </table>
     </center>
+    <!--
     <p ng-repeat="phone in userPhoneAll">{{phone}}</p>
+        -->
 </div>

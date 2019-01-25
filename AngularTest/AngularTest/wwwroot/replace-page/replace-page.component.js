@@ -24,7 +24,12 @@ component('replacePage', {
                 //alert(oldId);
                 $scope.saveOldIdTotemp(oldId);
                 $scope.phone.inputDate = new Date($scope.phone.startDate);
-                $scope.phone.deleteDate = new Date($scope.phone.deleteDate);
+                //$scope.phone.deleteDate = new Date($scope.phone.deleteDate);
+                if ($scope.phone.deleteDate == "0001-01-01T00:00:00") {
+                    $scope.phone.deleteDate = new Date($scope.myDate);
+                } else {
+                    $scope.phone.deleteDate = new Date($scope.phone.deleteDate);
+                }
             }, function errorCallback(response) {
                 alert('error');
             });
@@ -45,7 +50,6 @@ component('replacePage', {
                 alert('保存旧id失败');
             });
         }
-        
 
         /**
          * 获取所有手机品牌
@@ -155,7 +159,7 @@ component('replacePage', {
 
         // 点击确认
         $scope.submitMsg = function() {
-            alert('submit');
+            //alert('submit');
             //  for test
             this.test = "你点击了提交";
 
@@ -184,15 +188,12 @@ component('replacePage', {
                 else {
                     alert('StartDate can not early then deleteDate!');
                 }
-
             }, function errorCallback(response) {
                 alert('error');
             });
-
         };
 
         $scope.cancle = function(phone) {
-
             $location.url('/phone');
         }
     }]

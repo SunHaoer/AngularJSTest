@@ -19,9 +19,10 @@
                     $scope.TempPhone = response.data;
                     if ($scope.TempPhone.deleteDate == "0001-01-01T00:00:00") {
                         $scope.TempPhone.deleteDate = new Date($scope.myDate);
+                    } else {
+                        $scope.TempPhone.deleteDate = new Date($scope.TempPhone.deleteDate);
                     }
-                    else
-                    $scope.TempPhone.deleteDate = new Date($scope.TempPhone.deleteDate);
+                    
                 }, function error(response) {
                     alert("error");
                 });

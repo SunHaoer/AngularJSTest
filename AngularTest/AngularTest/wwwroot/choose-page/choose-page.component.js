@@ -31,6 +31,13 @@ component('choosePage',{
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $scope.userPhoneAll = response.data;
+                for (var i = 0; i < $scope.userPhoneAll.length; i++) {
+                    //console.log($scope.userPhoneAll[i].id + " " + $scope.userPhoneAll[i].state + '\n')
+                    if ($scope.userPhoneAll[i].state == 1) $scope.userPhoneAll[i].stateString = 'using';
+                    else $scope.userPhoneAll[i].stateString = 'abandon';
+                    if ($scope.userPhoneAll[i].deleteDate == "0001-01-01T00:00:00")
+                        $scope.userPhoneAll[i].deleteDate = "";
+                }
                 //console.log($scope.userPhoneAll);
                 //alert('srccess');
                 //alert('+' + $scope.phone.life);
@@ -60,6 +67,21 @@ component('choosePage',{
             }
 
         }
+
+        $scope.stateFilter = function (phoneState) {
+
+            console.log(phoneState);
+
+            if (phoneState == 1) {
+                $scope.state = 'using';
+            }
+            else {
+                $scope.state = 'abandon';
+            }
+
+            console.log($scope.state);
+
+        } 
 
         $scope.update = function(id) {
             $http({
