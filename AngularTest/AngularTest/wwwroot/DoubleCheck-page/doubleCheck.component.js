@@ -2,18 +2,26 @@
     module("doubleCheck").
     component("doubleCheck", {
         templateUrl: 'DoubleCheck-page/recheck.html',
-        controller: ['$scope', '$http', '$location',function DeleteDoubleCtrl($scope, $http,$location) {
+        controller: ['$scope', '$http', '$location', function DeleteDoubleCtrl($scope, $http, $location) {
+
+            $scope.format = function () {
+                var deleteDate = $scope.checkPhone.deleteDate;
+                var year = deleteDate.getFullYear();
+                var month = ("0" + (deleteDate.getMonth() + 1)).slice(-2);
+                var date = ("0" + deleteDate.getDate()).slice(-2);
+                return year + "-" + month + "-" + date;
+            }
+
             $scope.getCheckPhone = function () {
                 $http({
                     method: 'GET',
                     params: ({
-
                     }),
                     url: '/api/DoubleCheck/GetTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.checkPhone = response.data;
-                    //alert($scope.checkPhone);
+                   // $scope.checkPhone.deleteDate = $scope.checkPhone.deleteDate.
                 }, function error(response) {
                     alert("error");
                 });
@@ -21,7 +29,6 @@
             $scope.getCheckPhone();
 
             $scope.changeStatus = function () {
-                //alert('hhh');
                 $http({
                     method: 'POST',
                     params: ({
@@ -36,15 +43,14 @@
                         AbandonReason: $scope.checkPhone.abandonReason,
                         state: $scope.checkPhone.state
                     }),
-                    url: '/api/Phone/AbandonUserPhoneById',
+                    url: '/api/Phone/AbandonUserPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    $location.url ('/phone');
-                    //$scope.checkPhone = response.data;
-                    //alert(response.data);
-                }, function error(response) {
-                    alert("error");
+                    $location.url('/phone/successPage');
+                    }, function error(response) {
+                        $location.url('phone/errorPage');
                 });
             }
+
         }]
     });

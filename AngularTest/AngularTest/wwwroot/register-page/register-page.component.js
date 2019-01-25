@@ -2,15 +2,36 @@ angular.
     module('registerPage').
     component('registerPage', {
         templateUrl: 'common/register-page.template.html',
-        controller: ['$scope', '$http','$location', function RegisterPageCtrl($scope, $http,$location) {
+        controller: ['$scope', '$http','$location', function RegisterPageCtrl($scope, $http, $location) {
             $scope.brandRegex = '\\d+';
             $scope.flag = false;
             $scope.isRegister = true;
             $scope.isReplace = false;
+            $scope.myDate = new Date();
+            $scope.myDate.toLocaleDateString();//获取当前日期
+            
+            /**
+             * 获取需要回填的phone
+             */
+            $scope.getTempPhone = function () {
+                $http({
+                    method: 'Get',
+                    url: 'api/DoubleCheck/GetTempPhone',
+                }).then(function successCallback(response) {
+                    $scope.phone = response.data;
+                    if ($scope.phone.startDate == "0001-01-01T00:00:00") {
+                        $scope.phone.startDate = new Date($scope.myDate);
+                    }
+                    $scope.phone.inputDate = new Date($scope.phone.startDate);
+                }, function errorCallback(response) {
+                    alert('error');
+                });
+            }
+            $scope.getTempPhone();
 
             /**
              * 获取所有手机品牌
-             * */
+             */
             $scope.getBrandAll = function () {
                 $http({
                     method: 'GET',
@@ -30,9 +51,9 @@ angular.
 
             /**
              * 根据品牌获取型号
-             * */
+             */
             $scope.getTypeByBrand = function () {
-                var phone = $scope.phone;
+                //var phone = $scope.phone;
                 $http({
                     method: 'GET',
                     params: ({
@@ -53,7 +74,7 @@ angular.
 
             /**
              * 根据型号获取保质期
-             * */
+             */
             $scope.getYearByType = function () {
                 var typeFlag = $scope.phone.type;
                 if (typeFlag != "none") {
@@ -76,7 +97,7 @@ angular.
 
             /**
              * 日期格式化
-             * */
+             */
             $scope.formatDate = function () {
                 var inputDate = $scope.phone.inputDate;
                 var year = inputDate.getFullYear();
@@ -91,12 +112,26 @@ angular.
             }
 
             /**
+             * 启用日期不能早于当前日期
+             */
+            $scope.daysBetween = function (DateOne, DateTwo) {
+                var oneYear = DateOne.getFullYear();
+                var twoYear = DateTwo.getFullYear();
+                var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
+                var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
+                var oneDate = ("0" + DateOne.getDate()).slice(-2);
+                var TwoDate = ("0" + DateTwo.getDate()).slice(-2);
+                if ((oneYear - twoYear) < 0) return false;
+                if ((oneMonth - twoMonth) < 0) return false;
+                if ((oneDate - TwoDate) < 0) return false;
+                return true;
+            }
+
+            /**
              * 保存数据
-             * */
+             */
             $scope.submitMsg = function () {
-
-                alert('submit');
-
+                //alert('submit');
                 $http({
                     method: 'POST',
                     params: ({
@@ -110,12 +145,16 @@ angular.
                     url: '/api/DoubleCheck/SetTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    $location.path("/phone/registerCheckPage");
+                    if ($scope.daysBetween($scope.phone.inputDate, $scope.myDate) == true) {
+                        $location.path("/phone/registerCheckPage");
+                    }
+                    else {
+                        alert('StartDate is too earyl!');
+                    }
                 }, function error(response) {
                     alert("error");
                 });
             }
-
             
         }]
     })

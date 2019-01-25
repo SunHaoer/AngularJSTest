@@ -2,10 +2,24 @@ angular.
 module('choosePage').
 component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
-    controller: ['$scope', '$http','$location', function ChoosePageCtrl($scope, $http,$location) {
+    controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
 
-        //alert('hhhhh');
-        //alert('srccess');
+        $scope.register = function () {
+            $http({
+                method: 'POST',
+                params: ({
+
+                }),
+                url: '/api/DoubleCheck/SetTempPhone',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $location.url('/phone/registerPage');
+            }, function error(response) {
+                alert("error");
+            });
+        }
+
+       
         $scope.getUserPhoneAll = function () {
             //alert("haha");
             $http({
@@ -26,19 +40,25 @@ component('choosePage',{
         }
         $scope.getUserPhoneAll();
         
-        $scope.remove = function (id) {
-            $http({
-                method: 'POST',
-                params: ({
-                    id: id
-                }),
-                url: '/api/DoubleCheck/SetTempPhoneById',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                $location.url('/phone/deletePage');
-            }, function error(response) {
-                alert("error");
-            });
+        $scope.remove = function (id, state) {
+            //alert(state);
+            if (state != 2) {
+                $http({
+                    method: 'POST',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/DoubleCheck/SetTempPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/deletePage');
+                }, function error(response) {
+                    alert("error");
+                });
+            } else {
+                alert('The phone is already delete!');
+            }
+
         }
 
         $scope.update = function(id) {

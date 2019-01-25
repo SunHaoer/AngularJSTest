@@ -1,34 +1,29 @@
 angular.
 module('registerPage').
 component('registerCheckPage', {
-
     templateUrl: 'common/check-page.template.html',
     controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
-
         var state = 1;
         var dateString = '';
+
+        $scope.isReplace = false;
 
         $http({
             method: 'Get',
             url: 'api/DoubleCheck/GetTempPhone',
         }).then(function successCallback(response) {
-            // 请求成功执行的代码
             $scope.phone = response.data;
             state = $scope.phone.state;
             dateString = $scope.phone.startDate
-
         }, function errorCallback(response) {
-            // 请求失败执行代码
-
+            alert('error');
         });
-
         if (state == 1) {
             $scope.state = '正在使用';
         } else {
             $scope.state = '已停用';
         }
-
-        console.log(dateString);
+        //console.log(dateString);
 
         /*
          * 
@@ -49,10 +44,6 @@ component('registerCheckPage', {
         */
         
         this.submitMsg = function () {
-
-            
-
-
             // 更换的新手机存入数据库
             $http({
                 method: 'Post',
@@ -70,19 +61,13 @@ component('registerCheckPage', {
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {
-                // 请求成功执行的代码
-
                 $location.url('/phone/successPage');
-
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 $location.url('phone/errorPage');
             });
-
         };
 
         this.cancle = function() {
-
             $location.url('/phone/registerPage');
         };
 

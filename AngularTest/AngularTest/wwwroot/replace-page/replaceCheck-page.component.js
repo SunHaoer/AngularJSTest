@@ -1,22 +1,19 @@
 angular.
     module('replacePage').
     component('replaceCheckPage', {
-
         templateUrl: 'common/check-page.template.html',
         controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
 
             var state = 1;
+            $scope.isReplace = true;
 
             $http({
                 method: 'Get',
                 url: 'api/DoubleCheck/GetTempPhone',
             }).then(function successCallback(response) {
-                // 请求成功执行的代码
                 $scope.phone = response.data;
                 state = $scope.phone.state;
-
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 alert('error');
             });
 
@@ -43,25 +40,20 @@ angular.
             }
             *
             */
+
             // 获取旧id
             var oldId = 0;
             $http({
                 method: 'GET',
                 url: 'api/DoubleCheck/GetOldId',
-
             }).then(function successCallback(response) {
-                // 请求成功执行的代码                
                 oldId = response.data;
-
-                console.log(response.data);
-
+                //console.log(response.data);
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 alert('保存旧id失败');
-            });
+                });
 
             this.submitMsg = function () {
-
                 // 更换的新手机存入tempPhone
                 $http({
                     method: 'Post',
@@ -92,21 +84,15 @@ angular.
                     }, function errorCallback(response) {
                         alert('error');
                     });
-
                     $location.url('/phone/successPage');
-
                 }, function errorCallback(response) {
-                    // 请求失败执行代码
                     $location.url('phone/errorPage');
                 });
-
             };
 
             this.cancle = function () {
-
                 $location.url('/phone/replacePage');
             };
 
         }]
-
     })

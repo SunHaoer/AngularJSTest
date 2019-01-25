@@ -5,8 +5,8 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <p>{{TempPhone}}</p>
-                <form class="form-horizontal" role="form" name="myForm" >
+
+                <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
                             产品编号：
@@ -52,10 +52,9 @@
                             <input type="date" ng-model="TempPhone.deleteDate" required name="date" id="date" />
                         </div>
                     </div>
-                    
                 </form>
                 <a href="#!/phone">返回</a>
-                <a href="#!/phone/doubleCheck" ng-click="setTempPhone()">确认</a>
+                <button ng-click="setTempPhone()">确认</button>
             </div>
         </div>
     </div>

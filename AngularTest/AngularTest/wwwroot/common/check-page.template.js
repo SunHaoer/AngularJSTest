@@ -9,11 +9,9 @@ component('checkPage', {
             method: 'Get',
             url: 'api/DoubleCheck/GetTempPhone',
         }).then(function successCallback(response) {
-            // 请求成功执行的代码
             $scope.phone = response.data;
-            console.log($scope.phone.startDate);
+            //console.log($scope.phone.startDate);
         }, function errorCallback(response) {
-            // 请求失败执行代码
 
         });
 
@@ -21,7 +19,7 @@ component('checkPage', {
         this.submitMsg = function() {
             this.test = "你点击了确定";
 
-            // 更换的新手机存入tempPhone
+            // 更换的新手机存入数据库
             $http({
                 method: 'Post',
                 url: 'api/Phone/SaveUserPhone',
@@ -46,10 +44,8 @@ component('checkPage', {
                 $location.url('/phone/replacePage');
 
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 $location.url('phone/errorPage');
             });
-
         };
 
         this.cancle = function() {

@@ -39,7 +39,7 @@
                         </label>
                     </div>
                     <div class="form-group" id="deleteDate">
-                        <label class="col-md-2">
+                        <label class="col-md-2" ng-show="isReplace">
                             更换日期：{{phone.deleteDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
@@ -48,7 +48,6 @@
                             状态：{{state}}
                         </label>
                     </div>
-
                     <div class="form-group">
                         <div class="col-md-10">
                             <input type="button" value="取消" ng-click="$ctrl.cancle()" />

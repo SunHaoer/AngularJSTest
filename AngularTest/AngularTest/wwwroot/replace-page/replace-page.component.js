@@ -11,21 +11,21 @@ component('replacePage', {
         
         // 从tempPhone获取需要修改的phone
         $scope.savePhoneToTemp = function () {
-            alert('savetemp');
+            //alert('savetemp');
             $http({
                 method: 'Get',
                 url: 'api/DoubleCheck/GetTempPhone',
             }).then(function successCallback(response) {
                 // 请求成功执行的代码
                 $scope.phone = response.data;
-                console.log(response.data);
+                //console.log(response.data);
                 oldId = $scope.phone.id;
                 //console.log(oldId);
-                alert(oldId);
+                //alert(oldId);
                 $scope.saveOldIdTotemp(oldId);
-
+                $scope.phone.inputDate = new Date($scope.phone.startDate);
+                $scope.phone.deleteDate = new Date($scope.phone.deleteDate);
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 alert('error');
             });
         }
@@ -40,15 +40,11 @@ component('replacePage', {
                     id: oldId
                 }
             }).then(function successCallback(response) {
-                 // 请求成功执行的代码                
+                               
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 alert('保存旧id失败');
             });
         }
-        
-        
-        //$scope.saveOldIdTotemp;
         
 
         /**
@@ -116,7 +112,9 @@ component('replacePage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $scope.phone.life = response.data;
-            }, function error(response) {});
+                }, function error(response) {
+
+                });
         }
 
 
@@ -139,6 +137,21 @@ component('replacePage', {
 
         //  for test
         this.test = "你还没点击提交";
+
+        //时间大小比较
+        $scope.daysBetween = function (DateOne, DateTwo) {
+            //alert(DateOne + '\n' + DateTwo);
+            var oneYear = DateOne.getFullYear();
+            var twoYear = DateTwo.getFullYear();
+            var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
+            var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
+            var oneDate = ("0" + DateOne.getDate()).slice(-2);
+            var TwoDate = ("0" + DateTwo.getDate()).slice(-2);
+            if ((oneYear - twoYear) < 0) return false;
+            if ((oneMonth - twoMonth) < 0) return false;
+            if ((oneDate - TwoDate) < 0) return false;
+            return true;
+        }
 
         // 点击确认
         $scope.submitMsg = function() {
@@ -164,11 +177,15 @@ component('replacePage', {
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {
-                // 请求成功执行的代码
-                $location.url('/phone/replaceCheckPage');
+                //alert($scope.phone.inputDate + '\n' + $scope.phone.deleteDate);
+                if ($scope.daysBetween($scope.phone.inputDate, $scope.phone.deleteDate) == true) {
+                    $location.url('/phone/replaceCheckPage');
+                }
+                else {
+                    alert('StartDate can not early then deleteDate!');
+                }
 
             }, function errorCallback(response) {
-                // 请求失败执行代码
                 alert('error');
             });
 

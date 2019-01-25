@@ -1,7 +1,7 @@
 
 <div>
     <h1>Thanks for Using!</h1>
-    <a href="#!/phone/registerPage">注册</a>
+    <button ng-click="register()">注册</button>
 </div>
 <div>
     <center>
@@ -24,14 +24,14 @@
                 <td>{{phone.productNo}}</td>
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
-                <td>{{phone.startDate}}</td>
-                <td>{{phone.endDate}}</td>
-                <td>{{phone.deleteDate}}</td>
+                <td>{{phone.startDate |date:'yyyy-MM-dd'}}</td>
+                <td>{{phone.endDate |date:'yyyy-MM-dd'}}</td>
+                <td>{{phone.deleteDate |date:'yyyy-MM-dd'}}</td>
                 <td>{{phone.abandonReason}}
                 <td>{{phone.state}}</td>
                 <td><button ng-click="update(phone.id)">修改</button></td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <td><button ng-click="remove(phone.id)">删除</button></td>
+                <td><button ng-click="remove(phone.id, phone.state)">删除</button></td>
             </tr>
 
         </table>
