@@ -9,6 +9,7 @@ angular.
             $scope.isReplace = false;
             $scope.myDate = new Date();
             $scope.myDate.toLocaleDateString();//获取当前日期
+            alert('isRegister');
             
             /**
              * 获取需要回填的phone
@@ -72,6 +73,42 @@ angular.
                 });
             }
 
+            $scope.GetBrandTypeByProductNo = function () {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        productNo: $scope.phone.productNo
+                    }),
+                    url: '/api/BrandTypeProductNo/GetBrandTypeByProductNo',
+                    headers: { 'Content-Type': 'application/json' },
+                }).then(function success(response) {
+                    //$scope.ProductNoIsLegal = response.data;
+                    //alert(response.data.type);
+                    $scope.phone.brand = response.data.brand;
+                    $scope.phone.type = response.data.type;
+                }, function error(response) {
+                    alert('error');
+                });
+            }
+
+            $scope.validateProductNo = function () {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        productNo: $scope.phone.productNo,
+                        brand: $scope.phone.brand,
+                        type: $scope.phone.type,
+                    }),
+                    url: '/api/BrandTypeProductNo/ValidateProductNo',
+                    headers: { 'Content-Type': 'application/json' },
+                }).then(function success(response) {
+                    $scope.ProductNoIsLegal = response.data;
+                    //alert(response.data);
+                }, function error(response) {
+                    alert('error');
+                });
+            }
+
             /**
              * 根据型号获取保质期
              */
@@ -122,11 +159,11 @@ angular.
                 var oneDate = ("0" + DateOne.getDate()).slice(-2);
                 var twoDate = ("0" + DateTwo.getDate()).slice(-2);
                 if (oneYear != twoYear) {
-                    return oneYear > twoYear;
+                    return oneYear >= twoYear;
                 } else if (oneMonth != twoMonth) {
-                    return oneMonth > twoMonth;
+                    return oneMonth >= twoMonth;
                 } else {
-                    return oneDate > twoDate;
+                    return oneDate >= twoDate;
                 }
                 //if ((oneYear - twoYear) < 0) return false;
                 //if ((oneMonth - twoMonth) < 0) return false;
@@ -138,6 +175,11 @@ angular.
              * 保存数据
              */
             $scope.submitMsg = function () {
+                $scope.validateProductNo();
+                if ($scope.ProductNoIsLegal == false) {
+                    alert('ProductNo is not legal');
+                    return;
+                }
                 $http({
                     method: 'POST',
                     params: ({

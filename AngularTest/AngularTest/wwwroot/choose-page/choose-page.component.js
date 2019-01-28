@@ -4,6 +4,24 @@ component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
     controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
 
+        $scope.checkLogin = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                    
+                }),
+                url: '/api/Phone/GetLoginUserInfo',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data['notLogin'] == 'true') {
+                    $location.url('/phone/errorPage');
+                } 
+            }, function error(response) {
+                alert("error");
+            });
+        }
+        $scope.checkLogin();
+
         $scope.register = function () {
             $http({
                 method: 'POST',
@@ -14,6 +32,21 @@ component('choosePage',{
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $location.url('/phone/registerPage');
+            }, function error(response) {
+                alert("error");
+            });
+        }
+
+        $scope.logout = function () {
+            $http({
+                method: 'GET',
+                params: ({
+
+                }),
+                url: '/api/Login/Logout',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $location.url('/#!/phone');
             }, function error(response) {
                 alert("error");
             });
@@ -46,9 +79,46 @@ component('choosePage',{
             });
         }
         $scope.getUserPhoneAll();
+
+        $scope.abandon = function (id, state) {
+            if (state == 3) {
+                alert('The phone is already delete!');
+            } else if (state == 1) {
+                confirm('Abandon?');
+                $http({
+                    method: 'POST',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/Phone/AbandonUserPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    //$location.url('/phone/deletePage');
+                    alert('Abandon Success!');
+                }, function error(response) {
+                    alert("error");
+                });
+            } else if (state == 2) {
+                alert('Using?');
+                $http({
+                    method: 'POST',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/Phone/UsingPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    //$location.url('/phone/deletePage');
+                    alert('Using Success!');
+                }, function error(response) {
+                    alert("error");
+                });
+            }
+            location.reload();
+        }
         
-        $scope.remove = function (id, state) {
-            if (state != 2) {
+        $scope.delete = function (id, state) {
+            if (state != 3) {
                 $http({
                     method: 'POST',
                     params: ({
@@ -76,15 +146,29 @@ component('choosePage',{
             }
         } 
         */
-        $scope.update = function(id) {
+        $scope.replace = function (id) {
+            $http({
+                method: 'POST',
+                params: ({
+
+                }),
+                url: '/api/TempPhone/SetNewTempPhone',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+
+            }, function error(response) {
+                alert("error");
+            });
+
             $http({
                 method: 'POST',
                 params: ({
                     id: id
                 }),
-                url: '/api/TempPhone/SetNewTempPhoneById',
+                url: '/api/TempPhone/SetOldTempPhoneById',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
+                alert('/phone/replacePage');
                 $location.url('/phone/replacePage');
             }, function error(response) {
                 alert("error");

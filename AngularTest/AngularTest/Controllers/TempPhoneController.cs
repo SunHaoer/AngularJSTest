@@ -13,7 +13,7 @@ namespace AngularTest.Controllers
     public class TempPhoneController : ControllerBase
     {
         private readonly PhoneContext _context;
-        private readonly long userId = 1;
+        private long userId;    
 
         public TempPhoneController(PhoneContext context)
         {
@@ -22,10 +22,11 @@ namespace AngularTest.Controllers
         }
 
         static Phone newTempPhone = new Phone();
+        static Phone oldTempPhone = new Phone();
         static long oldId = -1;
 
         /// <summary>
-        /// 存入tempPhone
+        /// 存入newNempPhone
         /// url: 'api/TempPhoneCheck/SetNewTempPhone'
         /// </summary>
         /// <param name="id"></param>
@@ -40,14 +41,38 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetNewTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SetNewTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
         {
-            newTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, state);
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            newTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, state);
             return true;
         }
 
         /// <summary>
-        /// 将对应id的phone存入temp
+        /// 存入newNempPhone
+        /// url: 'api/TempPhoneCheck/SetOldTempPhone'
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="phoneUser"></param>
+        /// <param name="brand"></param>
+        /// <param name="type"></param>
+        /// <param name="productNo"></param>
+        /// <param name="StartDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="deleteDate"></param>
+        /// <param name="AbandonReason"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> SetOldTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        {
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            oldTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, state);
+            return true;
+        }
+
+        /// <summary>
+        /// 将对应id的phone存入newTemp
         /// url: '/api/TempPhone/SetNewTempPhoneById'
         /// </summary>
         /// <param name="id"></param>
@@ -60,7 +85,20 @@ namespace AngularTest.Controllers
         }
 
         /// <summary>
-        /// 从tempPhone中取出
+        /// 将对应id的phone存入oldTemp
+        /// url: '/api/TempPhone/SetOldTempPhoneById'
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> SetOldTempPhoneById(long id)
+        {
+            oldTempPhone = _context.Phones.FirstOrDefault(item => item.Id == id);
+            return true;
+        }
+
+        /// <summary>
+        /// 从newTempPhone中取出
         /// url: '/api/TempPhoneCheck/GetNewTempPhone'
         /// </summary>
         /// <returns></returns>
@@ -68,6 +106,17 @@ namespace AngularTest.Controllers
         public ActionResult<Phone> GetNewTempPhone()
         {
             return newTempPhone;
+        }
+
+        /// <summary>
+        /// 从oldTempPhone中取出
+        /// url: '/api/TempPhoneCheck/GetOldTempPhone'
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<Phone> GetOldTempPhone()
+        {
+            return oldTempPhone;
         }
 
         /// <summary>

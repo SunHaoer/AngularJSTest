@@ -19,6 +19,16 @@ angular.
                 alert('error');
             });
 
+            $http({
+                method: 'Get',
+                url: 'api/TempPhone/GetOldTempPhone',
+            }).then(function successCallback(response) {
+                $scope.oldPhone = response.data;
+                state = $scope.oldPhone.state;
+            }, function errorCallback(response) {
+                alert('error');
+            });
+
             if (state == 1) {
                 $scope.state = 'using';
             } else if (state == 2) {

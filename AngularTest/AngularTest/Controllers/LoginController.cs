@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AngularTest.Models;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +76,25 @@ namespace AngularTest.Controllers
         public ActionResult<string> GetLoginUserInfo()
         {
             return HttpContext.Session.GetString("loginUser");
+        }
+
+        /// <summary>
+        /// 登录
+        /// url: "/api/Login/NotLogin"
+        /// </summary>
+        /// <returns></returns>
+        //public void NotLogin()
+        //{
+        //    Response.Redirect("https://localhost:44313/#!/phone");
+        //}
+
+        public Dictionary<string, string> NotLogin()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>
+            {
+                { "notLogin", "true" }
+            };
+            return dictionary;
         }
     }
 }

@@ -2,6 +2,7 @@
 <div>
     <h1>Thanks for Using!</h1>
     <button ng-click="register()">注册</button>
+    <button ng-click="logout()">登出</button>
 </div>
 <div>
     <center>
@@ -18,6 +19,7 @@
                 <th>状态</th>
                 <th>操作1</th>
                 <th>操作2</th>
+                <th>操作3</th>
             </tr>
             <tr ng-repeat="phone in userPhoneAll">
                 <td>{{phone.phoneUser}}</td>
@@ -29,14 +31,15 @@
                 <td>{{phone.deleteDate |date:'yyyy-MM-dd'}}</td>
                 <td>{{phone.abandonReason}}
                 <td>{{phone.stateString }}</td>
-                <td><button ng-click="update(phone.id)">修改</button></td>
+                <td><button ng-click="replace(phone.id)">replace</button></td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <td><button ng-click="remove(phone.id, phone.state)">删除</button></td>
+                <td><button ng-click="abandon(phone.id, phone.state)">abandon</button></td>
+                <td><button ng-click="delete(phone.id, phone.state)">delete</button></td>
             </tr>
 
         </table>
     </center>
-    <!--
+    
     <p ng-repeat="phone in userPhoneAll">{{phone}}</p>
-        -->
+        
 </div>

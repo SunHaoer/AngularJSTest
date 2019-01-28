@@ -1,0 +1,33 @@
+﻿
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offerset-3">
+            <form class="form-horizontal" ng-submit="login()">
+                <div class="form-group has-feedback">
+                    <label class="col-sm-3 control-label" for="username">UserName :</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="username"
+                               placeholder="Enter username" required ng-model="info.username">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-sm-3 control-label" for="password">PassWord :</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="password"
+                               placeholder="Enter password" required ng-model="info.password">
+                        <span class=""></span>
+                    </div>
+                </div>
+                <p class="text-right">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">
+                        Login
+                    </button>
+                    <button type="reset" class="btn btn-danger" ng-click="reset()">
+                        Reset
+                    </button>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

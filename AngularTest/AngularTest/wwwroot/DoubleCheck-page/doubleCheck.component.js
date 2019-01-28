@@ -31,18 +31,18 @@
                 $http({
                     method: 'POST',
                     params: ({
-                        id: $scope.checkPhone.id,
-                        phoneUser: $scope.checkPhone.phoneUser,
-                        brand: $scope.checkPhone.brand,
-                        type: $scope.checkPhone.type,
-                        productNo: $scope.checkPhone.productNo,
-                        startDate: $scope.checkPhone.startDate,
-                        endDate: $scope.checkPhone.endDate,
-                        deleteDate: $scope.checkPhone.deleteDate,
-                        AbandonReason: $scope.checkPhone.abandonReason,
-                        state: $scope.checkPhone.state
+                        id: $scope.checkPhone.id
+                        //phoneUser: $scope.checkPhone.phoneUser,
+                        //brand: $scope.checkPhone.brand,
+                        //type: $scope.checkPhone.type,
+                        //productNo: $scope.checkPhone.productNo,
+                        //startDate: $scope.checkPhone.startDate,
+                        //endDate: $scope.checkPhone.endDate,
+                        //deleteDate: $scope.checkPhone.deleteDate,
+                        //AbandonReason: $scope.checkPhone.abandonReason,
+                        //state: $scope.checkPhone.state
                     }),
-                    url: '/api/Phone/AbandonUserPhone',
+                    url: '/api/Phone/DeleteUserPhoneById',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $location.url('/phone/successPage');

@@ -48,11 +48,11 @@
                 var twoDate = ("0" + DateTwo.getDate()).slice(-2);
                 //alert(oneMonth + "\n" + twoMonth);
                 if (oneYear != twoYear) {
-                    return oneYear > twoYear;
+                    return oneYear >= twoYear;
                 } else if (oneMonth != twoMonth) {
-                    return oneMonth > twoMonth;
+                    return oneMonth >= twoMonth;
                 } else {
-                    return oneDate > twoDate;
+                    return oneDate >= twoDate;
                 }
                 //if (oneYear > twoYear) {
                 //    return true;

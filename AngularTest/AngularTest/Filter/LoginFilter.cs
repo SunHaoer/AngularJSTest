@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AngularTest.Filter
 {
-    public class LoginFilter : ActionFilterAttribute, IActionFilter
+    public class LoginFilter : IActionFilter
     {
 
         void IActionFilter.OnActionExecuting(ActionExecutingContext context)
@@ -18,7 +18,7 @@ namespace AngularTest.Filter
             {
                 if (context.Controller.GetType() != typeof(LoginController))
                 {
-                    context.Result = new RedirectResult("/api/Login/Login");
+                    context.Result = new RedirectResult("/api/Login/NotLogin");
                 }
             }
         }

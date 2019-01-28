@@ -16,39 +16,64 @@ namespace AngularTest.Controllers
         private readonly PhoneContext _context;
         private IQueryable<Phone> PhoneIQ;
         private long userId;
+        //private static int ans = 0;    // 用于调试
 
         public PhoneController(PhoneContext context)
         {
             _context = context;
 
+            //if (_context.Phones.Count() == 0)
+            //{
+            //    // Create a new TodoItem if collection is empty,
+            //    // which means you can't delete all TodoItems.
+            //    _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
+            //    _context.Phones.Add(new Phone { PhoneUser = "user2", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
+            //    _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 2, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
+            //    _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 2, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+            //    _context.SaveChanges();
+            //    ans++;
+            //}
+            //HttpContext.Session.SetString("loginUser", "1,admin");
+            //HttpContext.Session.GetString("loginUser");
+            //long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            //userId = 1;
+            //PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
+        }
+
+        /// <summary>
+        /// 初始化Phone数据库
+        /// url:"/api/Phone/InitDB"
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public bool InitPhoneDB()
+        {
             if (_context.Phones.Count() == 0)
             {
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018-11-2), EndDate = new DateTime(2019-11-25), State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018-01-09), EndDate = new DateTime(2019-01-09), State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017-11-25), EndDate = new DateTime (2019-11-25), State = 2 });
-                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018-11-25), EndDate = new DateTime(2019-11-25), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user2", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 2, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
+                _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 2, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _context.SaveChanges();
+                //ans++;
             }
-            //HttpContext.Session.SetString("loginUser", "1,admin");
-            //HttpContext.Session.GetString("loginUser");
-            //long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
-            userId = 1;
-            PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
+            return true;
         }
 
         /// <summary>
         /// 获取用户所有的手机
-        /// url: '/api/Phone/GetUserPhoneAll'
+        /// url: "/api/Phone/GetUserPhoneAll"
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public ActionResult<List<Phone>> GetUserPhoneAll(string searchString = "")
         {
-            HttpContext.Session.SetString("loginUser", "1,admin");
-            HttpContext.Session.GetString("loginUser");
-            long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            //HttpContext.Session.SetString("loginUser", "1,admin");
+            //HttpContext.Session.GetString("loginUser");
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             searchString = searchString.Trim().ToLower();
             PhoneIQ = PhoneIQ.Where(item => item.PhoneUser.ToLower().Contains(searchString) || item.Brand.ToLower().Contains(searchString) || item.Type.ToLower().Contains(searchString) || item.AbandonReason.ToLower().Contains(searchString));
             return PhoneIQ.ToList();
@@ -82,16 +107,18 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SaveUserPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SaveUserPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
         {
-            Phone phone = new Phone(phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 1);
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
+            Phone phone = new Phone(phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, 1);
             _context.Phones.Add(phone);
             _context.SaveChanges();
             return true;
         }
 
         /// <summary>
-        /// 删除
+        /// 从数据库删除手机
         /// url: '/api/Phone/DeleteUserPhoneInDBById'
         /// </summary>
         /// <param name="id"></param>
@@ -104,29 +131,29 @@ namespace AngularTest.Controllers
             return true;
         }
 
-        /// <summary>
-        /// 弃用
-        /// url: 'api/Phone/AbandonUserPhone'
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="phoneUser"></param>
-        /// <param name="brand"></param>
-        /// <param name="type"></param>
-        /// <param name="productNo"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="deleteDate"></param>
-        /// <param name="AbandonReason"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<bool> AbandonUserPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string AbandonReason, int state)
-        {
-            Phone phone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
-            _context.Phones.Update(phone);
-            _context.SaveChanges();
-            return true;
-        }
+        ///// <summary>
+        ///// 弃用
+        ///// url: 'api/Phone/AbandonUserPhone'
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="phoneUser"></param>
+        ///// <param name="brand"></param>
+        ///// <param name="type"></param>
+        ///// <param name="productNo"></param>
+        ///// <param name="startDate"></param>
+        ///// <param name="endDate"></param>
+        ///// <param name="deleteDate"></param>
+        ///// <param name="AbandonReason"></param>
+        ///// <param name="state"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public ActionResult<bool> AbandonUserPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime abandon, DateTime deleteDate, string AbandonReason, int state)
+        //{
+        //    Phone phone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
+        //    _context.Phones.Update(phone);
+        //    _context.SaveChanges();
+        //    return true;
+        //}
 
         /// <summary>
         /// 弃用手机
@@ -136,11 +163,12 @@ namespace AngularTest.Controllers
         /// <param name="deleteDate"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id, DateTime deleteDate)
+        public ActionResult<bool> AbandonUserPhoneById(long id)
         {
-            Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
+            Phone phone = PhoneIQ.FirstOrDefault(item => item.Id == id);
             phone.State = 2;
-            phone.DeleteDate = deleteDate;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;
@@ -152,12 +180,46 @@ namespace AngularTest.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult<bool> UsingPhoneById(long id)
         {
+            userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
+            PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             Phone phone = PhoneIQ.FirstOrDefault(item => item.Id == id);
             phone.State = 1;
             _context.Phones.Update(phone);
+            _context.SaveChanges();
             return true;
+        }
+
+        /// <summary>
+        /// 删除手机
+        /// url: "/api/Phone/AbandonUserPhoneById"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="deleteDate"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> DeleteUserPhoneById(long id, DateTime deleteDate)
+        {
+            Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
+            phone.State = 3;
+            phone.DeleteDate = deleteDate;
+            _context.Phones.Update(phone);
+            _context.SaveChanges();
+            return true;
+        }
+
+        /// <summary>
+        /// 获取登录者信息
+        /// url: "/api/Phone/GetLoginUserInfo"
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<string> GetLoginUserInfo()
+        {
+            return HttpContext.Session.GetString("loginUser");
         }
 
     }

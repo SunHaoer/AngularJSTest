@@ -19,6 +19,29 @@ namespace AngularTest.Controllers
         public BrandModelController(BrandModelContext context)
         {
             _context = context;
+            //if (_context.BrandModels.Count() == 0)
+            //{
+            //    XmlDocument doc = new XmlDocument();
+            //    doc.Load(@".\phones\phonesDetail.xml");
+            //    XmlNode root = doc.SelectSingleNode("Detail");
+            //    XmlNodeList brands = root.ChildNodes;
+            //    foreach (XmlNode brand in brands)
+            //    {
+            //        string brandName = brand.Name;
+            //        _context.Add(new BrandModel { Brand = brandName });
+            //    }
+            //    _context.SaveChanges();
+            //}
+        }
+
+        /// <summary>
+        /// 初始化品牌数据库
+        /// url: "/api/BrandModel/InitBrandModelDB"
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public bool InitBrandModelDB()
+        {
             if (_context.BrandModels.Count() == 0)
             {
                 XmlDocument doc = new XmlDocument();
@@ -32,9 +55,8 @@ namespace AngularTest.Controllers
                 }
                 _context.SaveChanges();
             }
+            return true;
         }
-            
-        
 
         /// <summary>
         /// 获取所有手机品牌

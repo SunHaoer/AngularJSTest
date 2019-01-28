@@ -8,6 +8,7 @@ component('replacePage', {
         $scope.isRegister = false;
         $scope.isReplace = true;
         var oldId = 0;
+        alert('isReplace');
         
         // 从NewTempPhone获取需要修改的phone
         $scope.savePhoneToNewTemp = function () {
