@@ -9,22 +9,16 @@ component('replacePage', {
         $scope.isReplace = true;
         var oldId = 0;
         
-        // 从tempPhone获取需要修改的phone
-        $scope.savePhoneToTemp = function () {
-            //alert('savetemp');
+        // 从NewTempPhone获取需要修改的phone
+        $scope.savePhoneToNewTemp = function () {
             $http({
                 method: 'Get',
-                url: 'api/DoubleCheck/GetTempPhone',
+                url: 'api/TempPhone/GetNewTempPhone',
             }).then(function successCallback(response) {
-                // 请求成功执行的代码
                 $scope.phone = response.data;
-                //console.log(response.data);
                 oldId = $scope.phone.id;
-                //console.log(oldId);
-                //alert(oldId);
                 $scope.saveOldIdTotemp(oldId);
                 $scope.phone.inputDate = new Date($scope.phone.startDate);
-                //$scope.phone.deleteDate = new Date($scope.phone.deleteDate);
                 if ($scope.phone.deleteDate == "0001-01-01T00:00:00") {
                     $scope.phone.deleteDate = new Date($scope.myDate);
                 } else {
@@ -34,13 +28,13 @@ component('replacePage', {
                 alert('error');
             });
         }
-        $scope.savePhoneToTemp();
+        $scope.savePhoneToNewTemp();
 
         // 保存旧id
         $scope.saveOldIdTotemp = function (oldId) {
             $http({
                 method: 'POST',
-                url: 'api/DoubleCheck/SetOldId',
+                url: 'api/TempPhone/SetOldId',
                 params: {
                     id: oldId
                 }
@@ -159,15 +153,12 @@ component('replacePage', {
 
         // 点击确认
         $scope.submitMsg = function() {
-            //alert('submit');
-            //  for test
             this.test = "你点击了提交";
 
-            //console.log($scope.phone.id + " " + $scope.phone.phoneUser + " " + $scope.phone.brand + " " + $scope.phone.type + " " + $scope.phone.startDate + " " + $scope.phone.endDate + " " + $scope.phone.deleteDate);
-            // 更换的新手机存入tempPhone
+            // 更换的新手机存入newTempPhone
             $http({
                 method: 'Post',
-                url: '/api/DoubleCheck/SetTempPhone',
+                url: '/api/TempPhone/SetNewTempPhone',
                 params: ({
                     id: $scope.phone.id,
                     phoneUser: $scope.phone.phoneUser,
@@ -181,7 +172,6 @@ component('replacePage', {
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {
-                //alert($scope.phone.inputDate + '\n' + $scope.phone.deleteDate);
                 if ($scope.daysBetween($scope.phone.inputDate, $scope.phone.deleteDate) == true) {
                     $location.url('/phone/replaceCheckPage');
                 }

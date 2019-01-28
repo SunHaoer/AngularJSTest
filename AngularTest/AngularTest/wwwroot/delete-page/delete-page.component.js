@@ -7,13 +7,13 @@
             $scope.myDate.toLocaleDateString();//获取当前日期
 
             //导入数据
-            $scope.getTempPhone = function () {
+            $scope.getNewTempPhone = function () {
                 $http({
                     method: 'GET',
                     params: ({
 
                     }),
-                    url: '/api/DoubleCheck/GetTempPhone',
+                    url: '/api/TempPhone/GetNewTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.TempPhone = response.data;
@@ -27,7 +27,7 @@
                     alert("error");
                 });
             }
-            $scope.getTempPhone();
+            $scope.getNewTempPhone();
 
             //日期格式化
             $scope.formatDate = function () {
@@ -45,15 +45,29 @@
                 var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
                 var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
                 var oneDate = ("0" + DateOne.getDate()).slice(-2);
-                var TwoDate = ("0" + DateTwo.getDate()).slice(-2);
-                if ((oneYear - twoYear) < 0) return false;
-                if ((oneMonth - twoMonth) < 0) return false;
-                if ((oneDate - TwoDate) < 0) return false;
-                return true;             
+                var twoDate = ("0" + DateTwo.getDate()).slice(-2);
+                //alert(oneMonth + "\n" + twoMonth);
+                if (oneYear != twoYear) {
+                    return oneYear > twoYear;
+                } else if (oneMonth != twoMonth) {
+                    return oneMonth > twoMonth;
+                } else {
+                    return oneDate > twoDate;
+                }
+                //if (oneYear > twoYear) {
+                //    return true;
+                //}
+                //if (oneYear == twoYear && oneMonth > twoMonth) {
+                //    return true;
+                //}
+                //if (oneYear == twoYear && oneMonth == twoMonth && oneDate > TwoDate) {
+                //    return true;
+                //}
+                //return false;             
             }
 
-            //将修改值传入temp
-            $scope.setTempPhone = function () {
+            //将修改值传入newTemp
+            $scope.setNewTempPhone = function () {
                 $http({
                     method: 'Post',
                     params: ({
@@ -68,7 +82,7 @@
                         abandonReason: $scope.TempPhone.abandonReason,
                         state: $scope.TempPhone.state
                     }),
-                    url: '/api/DoubleCheck/SetTempPhone',
+                    url: '/api/TempPhone/SetNewTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if ($scope.daysBetween($scope.TempPhone.deleteDate, $scope.myDate) == true) {

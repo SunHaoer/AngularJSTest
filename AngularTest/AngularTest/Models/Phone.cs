@@ -9,6 +9,7 @@ namespace AngularTest.Models
     {
         public long Id { get; set; }    // Id
         public string PhoneUser { get; set; }    // 使用者
+        public long UserId { get; set; }    // 所有者Id
         public string Brand { get; set; }    // 品牌
         public string Type { get; set; }    // 型号
         public string ProductNo { get; set; }    // 编号
@@ -22,10 +23,11 @@ namespace AngularTest.Models
         {
         }
 
-        public Phone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string abandonReason, int state)
+        public Phone(long id, string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string abandonReason, int state)
         {
             Id = id;
             PhoneUser = phoneUser;
+            UserId = userId;
             Brand = brand;
             Type = type;
             ProductNo = productNo;
@@ -36,9 +38,10 @@ namespace AngularTest.Models
             State = state;
         }
 
-        public Phone(string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string abandonReason, int state)
+        public Phone(string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime deleteDate, string abandonReason, int state)
         {
             PhoneUser = phoneUser;
+            UserId = userId;
             Brand = brand;
             Type = type;
             ProductNo = productNo;

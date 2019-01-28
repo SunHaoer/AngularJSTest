@@ -13,10 +13,10 @@ angular.
             /**
              * 获取需要回填的phone
              */
-            $scope.getTempPhone = function () {
+            $scope.getNewTempPhone = function () {
                 $http({
                     method: 'Get',
-                    url: 'api/DoubleCheck/GetTempPhone',
+                    url: 'api/TempPhone/GetNewTempPhone',
                 }).then(function successCallback(response) {
                     $scope.phone = response.data;
                     if ($scope.phone.startDate == "0001-01-01T00:00:00") {
@@ -27,7 +27,7 @@ angular.
                     alert('error');
                 });
             }
-            $scope.getTempPhone();
+            $scope.getNewTempPhone();
 
             /**
              * 获取所有手机品牌
@@ -120,18 +120,24 @@ angular.
                 var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
                 var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
                 var oneDate = ("0" + DateOne.getDate()).slice(-2);
-                var TwoDate = ("0" + DateTwo.getDate()).slice(-2);
-                if ((oneYear - twoYear) < 0) return false;
-                if ((oneMonth - twoMonth) < 0) return false;
-                if ((oneDate - TwoDate) < 0) return false;
-                return true;
+                var twoDate = ("0" + DateTwo.getDate()).slice(-2);
+                if (oneYear != twoYear) {
+                    return oneYear > twoYear;
+                } else if (oneMonth != twoMonth) {
+                    return oneMonth > twoMonth;
+                } else {
+                    return oneDate > twoDate;
+                }
+                //if ((oneYear - twoYear) < 0) return false;
+                //if ((oneMonth - twoMonth) < 0) return false;
+                //if ((oneDate - TwoDate) < 0) return false;
+                //return true;
             }
 
             /**
              * 保存数据
              */
             $scope.submitMsg = function () {
-                //alert('submit');
                 $http({
                     method: 'POST',
                     params: ({
@@ -142,7 +148,7 @@ angular.
                         startDate: $scope.phone.startDate,
                         endDate: $scope.phone.endDate
                     }),
-                    url: '/api/DoubleCheck/SetTempPhone',
+                    url: '/api/TempPhone/SetNewTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if ($scope.daysBetween($scope.phone.inputDate, $scope.myDate) == true) {

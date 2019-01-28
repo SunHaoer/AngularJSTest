@@ -10,7 +10,7 @@ component('registerCheckPage', {
 
         $http({
             method: 'Get',
-            url: 'api/DoubleCheck/GetTempPhone',
+            url: '/api/TempPhone/GetNewTempPhone',
         }).then(function successCallback(response) {
             $scope.phone = response.data;
             state = $scope.phone.state;
@@ -19,9 +19,9 @@ component('registerCheckPage', {
             alert('error');
         });
         if (state == 1) {
-            $scope.state = '正在使用';
-        } else {
-            $scope.state = '已停用';
+            $scope.state = 'using';
+        } else if(state == 2) {
+            $scope.state = 'abandoned';
         }
         //console.log(dateString);
 

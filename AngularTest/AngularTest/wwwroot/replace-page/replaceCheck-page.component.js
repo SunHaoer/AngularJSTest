@@ -11,7 +11,7 @@ angular.
 
             $http({
                 method: 'Get',
-                url: 'api/DoubleCheck/GetTempPhone',
+                url: 'api/TempPhone/GetNewTempPhone',
             }).then(function successCallback(response) {
                 $scope.phone = response.data;
                 state = $scope.phone.state;
@@ -20,9 +20,11 @@ angular.
             });
 
             if (state == 1) {
-                $scope.state = '正在使用';
-            } else {
-                $scope.state = '已停用';
+                $scope.state = 'using';
+            } else if (state == 2) {
+                $scope.state = 'abandoned';
+            } else if (state === 3) {
+                $scope.state = 'deleted';
             }
 
             /*
@@ -47,16 +49,15 @@ angular.
             var oldId = 0;
             $http({
                 method: 'GET',
-                url: 'api/DoubleCheck/GetOldId',
+                url: 'api/TempPhone/GetOldId',
             }).then(function successCallback(response) {
                 oldId = response.data;
-                //console.log(response.data);
             }, function errorCallback(response) {
                 alert('保存旧id失败');
             });
 
+            // 更换的新手机存入newTempPhone
             this.submitMsg = function () {
-                // 更换的新手机存入tempPhone
                 $http({
                     method: 'Post',
                     url: 'api/Phone/SaveUserPhone',
@@ -68,13 +69,11 @@ angular.
                         productNo: $scope.phone.productNo,
                         startDate: $scope.phone.startDate,
                         endDate: $scope.phone.endDate,
-                        //deleteDate: $scope.phone.deleteDate,
                         abandonReson: $scope.phone.abandonReson,
                         state: $scope.phone.state
                     })
                 }).then(function successCallback(response) {
                     // 请求成功执行的代码
-                    //alert(oldId);
                     $http({
                         method: 'POST',
                         url: 'api/Phone/AbandonUserPhoneById',

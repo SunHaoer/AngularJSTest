@@ -17,11 +17,10 @@
                     method: 'GET',
                     params: ({
                     }),
-                    url: '/api/DoubleCheck/GetTempPhone',
+                    url: '/api/TempPhone/GetNewTempPhone',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.checkPhone = response.data;
-                   // $scope.checkPhone.deleteDate = $scope.checkPhone.deleteDate.
                 }, function error(response) {
                     alert("error");
                 });

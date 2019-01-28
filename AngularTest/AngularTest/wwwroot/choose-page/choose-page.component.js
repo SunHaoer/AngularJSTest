@@ -10,7 +10,7 @@ component('choosePage',{
                 params: ({
 
                 }),
-                url: '/api/DoubleCheck/SetTempPhone',
+                url: '/api/TempPhone/SetNewTempPhone',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $location.url('/phone/registerPage');
@@ -19,9 +19,7 @@ component('choosePage',{
             });
         }
 
-       
         $scope.getUserPhoneAll = function () {
-            //alert("haha");
             $http({
                 method: 'GET',
                 params: ({
@@ -32,15 +30,17 @@ component('choosePage',{
             }).then(function success(response) {
                 $scope.userPhoneAll = response.data;
                 for (var i = 0; i < $scope.userPhoneAll.length; i++) {
-                    //console.log($scope.userPhoneAll[i].id + " " + $scope.userPhoneAll[i].state + '\n')
-                    if ($scope.userPhoneAll[i].state == 1) $scope.userPhoneAll[i].stateString = 'using';
-                    else $scope.userPhoneAll[i].stateString = 'abandon';
-                    if ($scope.userPhoneAll[i].deleteDate == "0001-01-01T00:00:00")
+                    if ($scope.userPhoneAll[i].state == 1) {
+                        $scope.userPhoneAll[i].stateString = 'using';
+                    } else if($scope.userPhoneAll[i].state == 2) {
+                        $scope.userPhoneAll[i].stateString = 'abandoned';
+                    } else if ($scope.userPhoneAll[i].state == 3) {
+                        $scope.userPhoneAll[i].stateString = 'deleted';
+                    }
+                    if ($scope.userPhoneAll[i].deleteDate == "0001-01-01T00:00:00") {
                         $scope.userPhoneAll[i].deleteDate = "";
+                    }
                 }
-                //console.log($scope.userPhoneAll);
-                //alert('srccess');
-                //alert('+' + $scope.phone.life);
             }, function error(response) {
                 alert("error");
             });
@@ -48,14 +48,13 @@ component('choosePage',{
         $scope.getUserPhoneAll();
         
         $scope.remove = function (id, state) {
-            //alert(state);
             if (state != 2) {
                 $http({
                     method: 'POST',
                     params: ({
                         id: id
                     }),
-                    url: '/api/DoubleCheck/SetTempPhoneById',
+                    url: '/api/TempPhone/SetNewTempPhoneById',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $location.url('/phone/deletePage');
@@ -65,31 +64,25 @@ component('choosePage',{
             } else {
                 alert('The phone is already delete!');
             }
-
         }
-
+        /*
         $scope.stateFilter = function (phoneState) {
-
-            console.log(phoneState);
-
             if (phoneState == 1) {
                 $scope.state = 'using';
-            }
-            else {
+            } else if (phoneState == 2) {
                 $scope.state = 'abandon';
+            } else if (phoneState == 3) {
+                $scope.state = 'delelte';
             }
-
-            console.log($scope.state);
-
         } 
-
+        */
         $scope.update = function(id) {
             $http({
                 method: 'POST',
                 params: ({
                     id: id
                 }),
-                url: '/api/DoubleCheck/SetTempPhoneById',
+                url: '/api/TempPhone/SetNewTempPhoneById',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $location.url('/phone/replacePage');

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AngularTest.Models;
 using AngularTest.Data;
+using System;
+using AngularTest.Filter;
 
 namespace AngularTest
 {
@@ -29,11 +31,26 @@ namespace AngularTest
                          opt.UseInMemoryDatabase("BrandModelList"));
             services.AddDbContext<TypeYearContext>(opt =>
                          opt.UseInMemoryDatabase("TypeList"));
+            services.AddDbContext<UserContext>(opt =>
+                         opt.UseInMemoryDatabase("UserList"));
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(600);
+                options.Cookie.HttpOnly = true;
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(LoginFilter));
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddMvc().AddJsonOptions(
-            //                json => {
-            //                    json.SerializerSettings.DateFormatString = "yyyy-mm-dd";
-            //                });
+
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(typeof(LoginFilter));
+            //});
 
         }
 
@@ -51,6 +68,8 @@ namespace AngularTest
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
+            app.UseSession();
+
             app.UseMvc();
         }
     }

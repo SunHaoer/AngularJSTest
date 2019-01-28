@@ -10,21 +10,23 @@ namespace AngularTest.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class DoubleCheckController : ControllerBase
+    public class TempPhoneController : ControllerBase
     {
         private readonly PhoneContext _context;
+        private readonly long userId = 1;
 
-        public DoubleCheckController(PhoneContext context)
+        public TempPhoneController(PhoneContext context)
         {
             _context = context;
+            //userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
         }
 
-        static Phone tempPhone = new Phone();
+        static Phone newTempPhone = new Phone();
         static long oldId = -1;
 
         /// <summary>
         /// 存入tempPhone
-        /// url: 'api/DoubleCheck/SetTempPhone'
+        /// url: 'api/TempPhoneCheck/SetNewTempPhone'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -38,40 +40,39 @@ namespace AngularTest.Controllers
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SetNewTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
         {
-            
-            tempPhone = new Phone(id, phoneUser, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, state);
+            newTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, state);
             return true;
         }
 
         /// <summary>
         /// 将对应id的phone存入temp
-        /// url: 'api/DoubleCheck/SetTempPhoneById'
+        /// url: '/api/TempPhone/SetNewTempPhoneById'
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetTempPhoneById(long id)
+        public ActionResult<bool> SetNewTempPhoneById(long id)
         {
-            tempPhone = _context.Phones.FirstOrDefault(item => item.Id == id);
+            newTempPhone = _context.Phones.FirstOrDefault(item => item.Id == id);
             return true;
         }
 
         /// <summary>
         /// 从tempPhone中取出
-        /// url: 'api/DoubleCheck/GetTempPhone'
+        /// url: '/api/TempPhoneCheck/GetNewTempPhone'
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<Phone> GetTempPhone()
+        public ActionResult<Phone> GetNewTempPhone()
         {
-            return tempPhone;
+            return newTempPhone;
         }
 
         /// <summary>
         /// 存入旧id
-        /// url: 'api/DoubleCheck/SetOldId'
+        /// url: '/api/DoubleCheck/SetOldId'
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -84,7 +85,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 取出旧id
-        /// url: 'api/DoubleCheck/GetOldId'
+        /// url: '/api/DoubleCheck/GetOldId'
         /// </summary>
         /// <returns></returns>
         [HttpGet]
