@@ -21,7 +21,7 @@
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.checkPhone = response.data;
-                    $scope.checkPhone.deleteReason = response.data.abandonReason;
+                    //$scope.checkPhone.deleteReason = response.data.abandonReason;
                     $scope.checkPhone.deleteDate = $scope.format();
                 }, function error(response) {
                     alert("error");
@@ -35,7 +35,7 @@
                     params: ({
                         id: $scope.checkPhone.id,
                         deleteDate: $scope.checkPhone.deleteDate,
-                        abandonReason: $scope.checkPhone.deleteReason,
+                        deleteReason: $scope.checkPhone.deleteReason,
                     }),
                     url: '/api/Phone/DeleteUserPhoneById',
                     headers: { 'Content-Type': 'application/json' }

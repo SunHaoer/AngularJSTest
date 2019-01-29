@@ -79,7 +79,7 @@
                         startDate: $scope.TempPhone.startDate,
                         endDate: $scope.TempPhone.endDate,
                         deleteDate: $scope.formatDate(),
-                        abandonReason: $scope.TempPhone.deleteReason,
+                        deleteReason: $scope.TempPhone.deleteReason,
                         state: $scope.TempPhone.state
                     }),
                     url: '/api/TempPhone/SetNewTempPhone',

@@ -75,7 +75,7 @@ namespace AngularTest.Controllers
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
             PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             searchString = searchString.Trim().ToLower();
-            PhoneIQ = PhoneIQ.Where(item => item.PhoneUser.ToLower().Contains(searchString) || item.Brand.ToLower().Contains(searchString) || item.Type.ToLower().Contains(searchString) || item.AbandonReason.ToLower().Contains(searchString));
+            PhoneIQ = PhoneIQ.Where(item => item.PhoneUser.ToLower().Contains(searchString) || item.Brand.ToLower().Contains(searchString) || item.Type.ToLower().Contains(searchString) || item.DeleteReason.ToLower().Contains(searchString));
             return PhoneIQ.ToList();
         }
 
@@ -103,15 +103,15 @@ namespace AngularTest.Controllers
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
-        /// <param name="AbandonReason"></param>
+        /// <param name="deleteReason"></param>
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SaveUserPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SaveUserPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string deleteReason = "", int state = 0)
         {
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
             PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
-            Phone phone = new Phone(phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, 1);
+            Phone phone = new Phone(phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, deleteReason, 1);
             _context.Phones.Add(phone);
             _context.SaveChanges();
             return true;
@@ -143,13 +143,13 @@ namespace AngularTest.Controllers
         ///// <param name="startDate"></param>
         ///// <param name="endDate"></param>
         ///// <param name="deleteDate"></param>
-        ///// <param name="AbandonReason"></param>
+        ///// <param name="deleteReason"></param>
         ///// <param name="state"></param>
         ///// <returns></returns>
         //[HttpPost]
-        //public ActionResult<bool> AbandonUserPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime abandon, DateTime deleteDate, string AbandonReason, int state)
+        //public ActionResult<bool> AbandonUserPhone(long id, string phoneUser, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime abandon, DateTime deleteDate, string deleteReason, int state)
         //{
-        //    Phone phone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, AbandonReason, 2);
+        //    Phone phone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, deleteDate, deleteReason, 2);
         //    _context.Phones.Update(phone);
         //    _context.SaveChanges();
         //    return true;
@@ -200,12 +200,12 @@ namespace AngularTest.Controllers
         /// <param name="deleteDate"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> DeleteUserPhoneById(long id, DateTime deleteDate, string abandonReason)
+        public ActionResult<bool> DeleteUserPhoneById(long id, DateTime deleteDate, string deleteReason)
         {
             Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
             phone.State = 3;
             phone.DeleteDate = deleteDate;
-            phone.AbandonReason = abandonReason;
+            phone.DeleteReason = deleteReason;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;

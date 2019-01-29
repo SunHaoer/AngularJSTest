@@ -198,7 +198,7 @@ component('choosePage',{
             $scope.startDate = phone.startDate;
             $scope.endDate = phone.endDate;
             $scope.deleteDate = phone.deleteDate;
-            $scope.abandonReason = phone.abandonReason;
+            $scope.deleteReason = phone.deleteReason;
             $scope.stateString = phone.stateString;
         }
 

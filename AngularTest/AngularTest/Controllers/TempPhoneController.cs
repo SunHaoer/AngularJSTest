@@ -27,7 +27,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 存入newNempPhone
-        /// url: 'api/TempPhoneCheck/SetNewTempPhone'
+        /// url: '/api/TempPhoneCheck/SetNewTempPhone'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -37,20 +37,20 @@ namespace AngularTest.Controllers
         /// <param name="StartDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
-        /// <param name="AbandonReason"></param>
+        /// <param name="deleteReason"></param>
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetNewTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SetNewTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string deleteReason = "", int state = 0)
         {
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
-            newTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, state);
+            newTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, deleteReason, state);
             return true;
         }
 
         /// <summary>
         /// 存入newNempPhone
-        /// url: 'api/TempPhoneCheck/SetOldTempPhone'
+        /// url: '/api/TempPhoneCheck/SetOldTempPhone'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -60,14 +60,14 @@ namespace AngularTest.Controllers
         /// <param name="StartDate"></param>
         /// <param name="endDate"></param>
         /// <param name="deleteDate"></param>
-        /// <param name="AbandonReason"></param>
+        /// <param name="deleteReason"></param>
         /// <param name="state"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> SetOldTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string AbandonReason = "", int state = 0)
+        public ActionResult<bool> SetOldTempPhone(long id = 0, string phoneUser = "", string brand = "", string type = "", string productNo = "", DateTime startDate = new DateTime(), DateTime endDate = new DateTime(), DateTime abandonDate = new DateTime(), DateTime deleteDate = new DateTime(), string deleteReason = "", int state = 0)
         {
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
-            oldTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, AbandonReason, state);
+            oldTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, deleteReason, state);
             return true;
         }
 
@@ -99,7 +99,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 从newTempPhone中取出
-        /// url: '/api/TempPhoneCheck/GetNewTempPhone'
+        /// url: '/api/TempPhone/GetNewTempPhone'
         /// </summary>
         /// <returns></returns>
         [HttpGet]
