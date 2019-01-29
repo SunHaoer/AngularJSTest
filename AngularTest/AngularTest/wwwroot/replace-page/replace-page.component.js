@@ -20,10 +20,10 @@ component('replacePage', {
                 oldId = $scope.phone.id;
                 $scope.saveOldIdTotemp(oldId);
                 $scope.phone.inputDate = new Date($scope.phone.startDate);
-                if ($scope.phone.deleteDate == "0001-01-01T00:00:00") {
-                    $scope.phone.deleteDate = new Date($scope.myDate);
+                if ($scope.phone.abandonDate == "0001-01-01T00:00:00") {
+                    $scope.phone.abandonDate = new Date($scope.myDate);
                 } else {
-                    $scope.phone.deleteDate = new Date($scope.phone.deleteDate);
+                    $scope.phone.abandonDate = new Date($scope.phone.abandonDate);
                 }
             }, function errorCallback(response) {
                 alert('error');
@@ -112,7 +112,7 @@ component('replacePage', {
             }).then(function success(response) {
                 $scope.phone.life = response.data;
                 }, function error(response) {
-
+                    alert('error1');
                 });
         }
 
@@ -155,6 +155,18 @@ component('replacePage', {
         // 点击确认
         $scope.submitMsg = function() {
             this.test = "你点击了提交";
+            alert($scope.phone.abandonDate);
+            $http({
+                method: 'Post',
+                url: '/api/TempPhone/UpdateOldTempPhoneAbandonDate',
+                params: ({
+                    abandonDate: $scope.phone.abandonDate,
+                })
+            }).then(function successCallback(response) {
+
+            }, function errorCallback(response) {
+                alert('error');
+            });
 
             // 更换的新手机存入newTempPhone
             $http({
@@ -168,20 +180,20 @@ component('replacePage', {
                     productNo: $scope.phone.productNo,
                     startDate: $scope.phone.startDate,
                     endDate: $scope.phone.endDate,
-                    deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.deleteReson,
-                    state: $scope.phone.state
+                    //abandonDate: $scope.phone.abandonDate,
+                    //abandonReson: $scope.phone.abandonReson,
+                    //state: $scope.phone.state
                 })
             }).then(function successCallback(response) {
-                if ($scope.daysBetween($scope.phone.inputDate, $scope.phone.deleteDate) == true) {
+                if ($scope.daysBetween($scope.phone.inputDate, $scope.phone.abandonDate) == true) {
                     $location.url('/phone/replaceCheckPage');
-                }
-                else {
-                    alert('StartDate can not early then deleteDate!');
+                } else {
+                    alert('StartDate can not early then abandonDate!');
                 }
             }, function errorCallback(response) {
                 alert('error');
             });
+
         };
 
         $scope.cancle = function(phone) {

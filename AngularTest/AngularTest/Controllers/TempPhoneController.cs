@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AngularTest.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +25,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 存入newNempPhone
-        /// url: '/api/TempPhoneCheck/SetNewTempPhone'
+        /// url: '/api/TempPhone/SetNewTempPhone'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -49,8 +47,8 @@ namespace AngularTest.Controllers
         }
 
         /// <summary>
-        /// 存入newNempPhone
-        /// url: '/api/TempPhoneCheck/SetOldTempPhone'
+        /// 存入oldNempPhone
+        /// url: '/api/TempPhoneheck/SetOldTempPhone'
         /// </summary>
         /// <param name="id"></param>
         /// <param name="phoneUser"></param>
@@ -68,6 +66,19 @@ namespace AngularTest.Controllers
         {
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
             oldTempPhone = new Phone(id, phoneUser, userId, brand, type, productNo, startDate, endDate, abandonDate, deleteDate, deleteReason, state);
+            return true;
+        }
+
+        /// <summary>
+        /// 设置旧手机的abandon时间
+        /// url: "/api/TempPhone/UpdateOldTempPhoneAbandonDate"
+        /// </summary>
+        /// <param name="abandonDate"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<bool> UpdateOldTempPhoneAbandonDate(DateTime abandonDate = new DateTime())
+        {
+            oldTempPhone.AbandonDate = abandonDate;
             return true;
         }
 
@@ -110,7 +121,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 从oldTempPhone中取出
-        /// url: '/api/TempPhoneCheck/GetOldTempPhone'
+        /// url: '/api/TempPhone/GetOldTempPhone'
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -121,7 +132,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 存入旧id
-        /// url: '/api/DoubleCheck/SetOldId'
+        /// url: '/api/TempPhone/SetOldId'
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -134,7 +145,7 @@ namespace AngularTest.Controllers
 
         /// <summary>
         /// 取出旧id
-        /// url: '/api/DoubleCheck/GetOldId'
+        /// url: '/api/TempPhone/GetOldId'
         /// </summary>
         /// <returns></returns>
         [HttpGet]

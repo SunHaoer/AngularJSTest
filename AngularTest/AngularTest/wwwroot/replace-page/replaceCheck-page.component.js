@@ -79,17 +79,19 @@ angular.
                         productNo: $scope.phone.productNo,
                         startDate: $scope.phone.startDate,
                         endDate: $scope.phone.endDate,
-                        abandonReson: $scope.phone.deleteReson,
+                        //abandonReson: $scope.phone.deleteReson,
                         state: $scope.phone.state
                     })
                 }).then(function successCallback(response) {
+                    alert('oldId' + $scope.oldPhone.id);
+                    alert('abandonDate' + $scope.oldPhone.abandonDate);
                     // 请求成功执行的代码
                     $http({
                         method: 'POST',
-                        url: 'api/Phone/AbandonUserPhoneById',
+                        url: '/api/Phone/AbandonUserPhoneById',
                         params: ({
-                            id: oldId,
-                            deleteDate: $scope.phone.deleteDate
+                            id: $scope.oldPhone.id,
+                            abandonDate: $scope.oldPhone.abandonDate
                         })
                     }).then(function successCallback(response) {
 

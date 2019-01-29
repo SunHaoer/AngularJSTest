@@ -19,19 +19,6 @@ namespace AngularTest.Controllers
         public BrandModelController(BrandModelContext context)
         {
             _context = context;
-            //if (_context.BrandModels.Count() == 0)
-            //{
-            //    XmlDocument doc = new XmlDocument();
-            //    doc.Load(@".\phones\phonesDetail.xml");
-            //    XmlNode root = doc.SelectSingleNode("Detail");
-            //    XmlNodeList brands = root.ChildNodes;
-            //    foreach (XmlNode brand in brands)
-            //    {
-            //        string brandName = brand.Name;
-            //        _context.Add(new BrandModel { Brand = brandName });
-            //    }
-            //    _context.SaveChanges();
-            //}
         }
 
         /// <summary>

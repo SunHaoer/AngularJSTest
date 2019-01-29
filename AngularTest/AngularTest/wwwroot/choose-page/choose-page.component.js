@@ -3,24 +3,27 @@ module('choosePage').
 component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
     controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
+        $scope.notEmpty = false;
 
-        $scope.checkLogin = function () {
+        $scope.GetLoginUsername = function () {
             $http({
                 method: 'GET',
                 params: ({
                     
                 }),
-                url: '/api/Phone/GetLoginUserInfo',
+                url: '/api/Phone/GetLoginUsername',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 if (response.data['notLogin'] == 'true') {
                     $location.url('/phone/errorPage');
-                } 
+                } else {
+                    $scope.loginUsername = response.data;
+                }
             }, function error(response) {
                 alert("error");
             });
         }
-        $scope.checkLogin();
+        $scope.GetLoginUsername();
 
         $scope.register = function () {
             $http({
@@ -62,6 +65,11 @@ component('choosePage',{
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 $scope.userPhoneAll = response.data;
+                if ($scope.userPhoneAll.length == 0) {
+                    $scope.notEmpty = false;
+                } else {
+                    $scope.notEmpty = true;
+                }
                 for (var i = 0; i < $scope.userPhoneAll.length; i++) {
                     if ($scope.userPhoneAll[i].state == 1) {
                         $scope.userPhoneAll[i].stateString = 'using';
@@ -116,7 +124,6 @@ component('choosePage',{
                         alert("error");
                     });
                 }
-
             }
             location.reload();
         }
@@ -197,6 +204,7 @@ component('choosePage',{
             $scope.productNo = phone.productNo;
             $scope.startDate = phone.startDate;
             $scope.endDate = phone.endDate;
+            $scope.abandonDate = phone.abandonDate;
             $scope.deleteDate = phone.deleteDate;
             $scope.deleteReason = phone.deleteReason;
             $scope.stateString = phone.stateString;

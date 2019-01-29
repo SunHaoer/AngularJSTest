@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AngularTest.Models;
 using System;
 using Microsoft.AspNetCore.Http;
@@ -21,23 +19,6 @@ namespace AngularTest.Controllers
         public PhoneController(PhoneContext context)
         {
             _context = context;
-
-            //if (_context.Phones.Count() == 0)
-            //{
-            //    // Create a new TodoItem if collection is empty,
-            //    // which means you can't delete all TodoItems.
-            //    _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
-            //    _context.Phones.Add(new Phone { PhoneUser = "user2", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
-            //    _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 2, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
-            //    _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 2, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
-            //    _context.SaveChanges();
-            //    ans++;
-            //}
-            //HttpContext.Session.SetString("loginUser", "1,admin");
-            //HttpContext.Session.GetString("loginUser");
-            //long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
-            //userId = 1;
-            //PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
         }
 
         /// <summary>
@@ -54,8 +35,8 @@ namespace AngularTest.Controllers
                 // which means you can't delete all TodoItems.
                 _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _context.Phones.Add(new Phone { PhoneUser = "user2", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 2, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
-                _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 2, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 1, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
+                _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _context.SaveChanges();
                 //ans++;
             }
@@ -163,12 +144,13 @@ namespace AngularTest.Controllers
         /// <param name="deleteDate"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> AbandonUserPhoneById(long id)
+        public ActionResult<bool> AbandonUserPhoneById(long id, DateTime abandonDate = new DateTime())
         {
             userId = long.Parse(HttpContext.Session.GetString("loginUser").Split(",")[0]);
             PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             Phone phone = PhoneIQ.FirstOrDefault(item => item.Id == id);
             phone.State = 2;
+            phone.AbandonDate = abandonDate;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;
@@ -221,6 +203,17 @@ namespace AngularTest.Controllers
         public ActionResult<string> GetLoginUserInfo()
         {
             return HttpContext.Session.GetString("loginUser");
+        }
+
+        /// <summary>
+        /// 获取登录的用户名
+        /// url: "/api/Phone/GetLoginUsername"
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<string> GetLoginUsername()
+        {
+            return HttpContext.Session.GetString("loginUser").Split(",")[1];
         }
 
     }

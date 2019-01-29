@@ -53,17 +53,7 @@
                     return oneMonth >= twoMonth;
                 } else {
                     return oneDate >= twoDate;
-                }
-                //if (oneYear > twoYear) {
-                //    return true;
-                //}
-                //if (oneYear == twoYear && oneMonth > twoMonth) {
-                //    return true;
-                //}
-                //if (oneYear == twoYear && oneMonth == twoMonth && oneDate > TwoDate) {
-                //    return true;
-                //}
-                //return false;             
+                }          
             }
 
             //将修改值传入newTemp

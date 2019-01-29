@@ -38,9 +38,9 @@
                             关机日期：{{phone.endDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="deleteDate">
+                    <div class="form-group" id="abandonDate">
                         <label class="col-md-2" ng-show="isReplace">
-                            更换日期：{{phone.deleteDate | date:'yyyy-MM-dd'}}
+                            更换日期：{{phone.abandonDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
                     <div class="form-group" id="state">
@@ -51,6 +51,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             <input type="button" value="取消" ng-click="$ctrl.cancle()" />
+                            <input type="button" value="主页" ng-click="$ctrl.backIndex()" />
                             <input type="submit" value="确定" />
                         </div>
                     </div>

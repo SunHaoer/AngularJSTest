@@ -98,7 +98,7 @@
                         $scope.initDB();
                         $location.url('/phone/choosePage');
                     } else {
-                        alert('fail');
+                        alert('Login fail!');
                     }
                 }), function error(response) {
                     alert('error');
