@@ -4,7 +4,7 @@
             <h1>Check</h1>
         </div>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="float:left; width:50%">
         <div class="row">
             <div class="col-md-12">
                 <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
@@ -59,6 +59,50 @@
             </div>
         </div>
     </div>
+
+    <div class="panel-body" style="float:left; width:50%" ng-model="isCheck" ng-show="isReplace">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
+
+                    <div class="form-group">
+                        <label class="col-md-2" id="brand">
+                            Brand：{{oldPhone.brand}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="type">
+                        <label class="col-md-2">
+                            Type：{{oldPhone.type}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="productNo">
+                        <label class="col-md-2">
+                            Product Number：{{oldPhone.productNo}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="startDate">
+                        <label class="col-md-2">
+                            Start Date：{{oldPhone.startDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="endDate">
+                        <label class="col-md-2">
+                            End Date：{{oldPhone.endDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="deleteDate">
+                        <label class="col-md-2" ng-show="isReplace">
+                            Abandon Date：{{phone.startDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <h1>{{$ctrl.test}}</h1>
     <p>
         {{phone}}

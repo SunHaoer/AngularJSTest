@@ -4,6 +4,25 @@
         templateUrl: 'DoubleCheck-page/recheck.html',
         controller: ['$scope', '$http', '$location', function DeleteDoubleCtrl($scope, $http, $location) {
 
+            $scope.checkLogin = function () {   // 需提取
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/Phone/CheckLogin',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data['notLogin'] == 'true') {
+                        $location.url('/#!/phone');
+                    } else {
+                        $scope.loginUsername = response.data;
+                    }
+                }, function error(response) {
+                    alert("error");
+                });
+            }
+            $scope.checkLogin();
+
             $scope.format = function () {
                 var deleteDate = new Date($scope.checkPhone.deleteDate);
                 var year = deleteDate.getFullYear();

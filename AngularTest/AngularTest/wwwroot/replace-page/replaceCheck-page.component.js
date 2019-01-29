@@ -9,6 +9,25 @@ angular.
             $scope.myDate = new Date();
             $scope.myDate.toLocaleDateString();//获取当前日期
 
+            $scope.checkLogin = function () {   // 需提取
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/Phone/CheckLogin',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data['notLogin'] == 'true') {
+                        $location.url('/#!/phone');
+                    } else {
+                        $scope.loginUsername = response.data;
+                    }
+                }, function error(response) {
+                    alert("error");
+                });
+            }
+            $scope.checkLogin();
+
             $http({
                 method: 'Get',
                 url: 'api/TempPhone/GetNewTempPhone',
@@ -56,15 +75,15 @@ angular.
             */
 
             // 获取旧id
-            var oldId = 0;
-            $http({
-                method: 'GET',
-                url: 'api/TempPhone/GetOldId',
-            }).then(function successCallback(response) {
-                oldId = response.data;
-            }, function errorCallback(response) {
-                alert('保存旧id失败');
-            });
+            //var oldId = 0;
+            //$http({
+            //    method: 'GET',
+            //    url: 'api/TempPhone/GetOldId',
+            //}).then(function successCallback(response) {
+            //    oldId = response.data;
+            //}, function errorCallback(response) {
+            //    alert('保存旧id失败');
+            //});
 
             // 更换的新手机存入newTempPhone
             this.submitMsg = function () {
@@ -83,8 +102,8 @@ angular.
                         state: $scope.phone.state
                     })
                 }).then(function successCallback(response) {
-                    alert('oldId' + $scope.oldPhone.id);
-                    alert('abandonDate' + $scope.oldPhone.abandonDate);
+                    //alert('oldId' + $scope.oldPhone.id);
+                    //alert('abandonDate' + $scope.oldPhone.abandonDate);
                     // 请求成功执行的代码
                     $http({
                         method: 'POST',

@@ -4,6 +4,26 @@ component('checkPage', {
 
     templateUrl: 'common/check-page.template.html',
     controller: ['$location', '$http', '$scope', function commonPage($location, $http, $scope) {
+        $scope.isReplace = true;
+
+        $scope.checkLogin = function () {   // 需提取
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/Phone/CheckLogin',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data['notLogin'] == 'true') {
+                    $location.url('/#!/phone');
+                } else {
+                    $scope.loginUsername = response.data;
+                }
+            }, function error(response) {
+                alert("error");
+            });
+        }
+        $scope.checkLogin();
 
         $http({
             method: 'Get',

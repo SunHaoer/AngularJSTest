@@ -3,7 +3,7 @@
         <div class="panel-title" ng-model="isReplace" ng-show="isReplace">Replace</div>
         <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="width:50%;float:left">
         <div class="row">
             <div class="col-md-12">
                 <form class="form-horizontal" role="form" name="myForm" ng-submit="submitMsg()">
@@ -12,7 +12,7 @@
                             手机用户
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="phone.phoneUser" name="phoneUser" id="phoneUser" required />
+                            <input type="text" ng-model="phone.phoneUser" name="phoneUser" id="phoneUser" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -22,10 +22,10 @@
                         <div class="col-md-10">
                             <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" required />
                             <!--
-                            <div ng-show="myForm.productNo.$dirty">
-                                <span>{{ProductNoIsLegal}}</span>
-                            </div>
-                                -->
+                <div ng-show="myForm.productNo.$dirty">
+                    <span>{{ProductNoIsLegal}}</span>
+                </div>
+                    -->
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,7 +44,7 @@
                             手机型号：
                         </label>
                         <div class="col-md-10">
-                            <select ng-model="phone.type" name="type" id="type" ng-blur="validateProductNo()" required>
+                            <select ng-model="phone.type" name="type" id="type" ng-blur="validateProductNo();getYearByType()" required>
                                 <option value="">请先选择手机型号</option>
                                 <option ng-repeat="x in typeList">{{x}}</option>
                             </select>
@@ -57,33 +57,78 @@
                     <!-- 输入日期 -->
                     <div class="form-group">
                         <label class="col-md-2">
-                            启用日期：
+                            启用日期/旧手机弃用日期：
                         </label>
                         <div class="col-md-10">
-                            <input type="date" ng-model="phone.inputDate" required name="inputDate" id="inputDate" />
+                            <input type="date" ng-model="phone.inputDate" name="inputDate" id="inputDate" ng-blur="formatDate()" required />
                         </div>
-                    </div>
-                    <div class="form-group" ng-show="isReplace">
-                        <label class="col-md-2">
-                            停用日期：
-                        </label>
-                        <div class="col-md-10">
-                            <input type="date" ng-model="phone.abandonDate" name="abandonDate" id="abandonDate" />
-                        </div>
-
                     </div>
                     <!-- 测试使用，最后需要删除 -->
                     <span>{{phone}}</span>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10" ng-mouseenter="getYearByType()" style="padding:30px">
+                        <div class="col-md-offset-2 col-md-10" style="padding:30px">
                             <!--<span>{{flag}}</span>-->
                             <a href="#!/phone/choosePage">
                                 <input type="button" value=" 返回主页" style="color:black" />
                             </a>
-                            <input type="submit" value="下一步" ng-mouseenter="formatDate()" />
+                            <input type="submit" value="下一步"/>
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="width:50%;float:left" ng-show="isReplace">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            Phone User:
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="oldPhone.phoneUser" name="phoneUser" id="phoneUser" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            Product Number:
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" disabled />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            Brand：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="oldPhone.brand" id="brand" name="brand" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            Type：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="oldPhone.type" id="type" name="type" disabled />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="isReplace">
+                        <label class="col-md-2">
+                            Abandon Date：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" ng-model="phone.inputDate" name="abandonDate" id="abandonDate" required />
+                        </div>
+                    </div>
+
+                    <span>{{phone}}</span>
+                </div>
             </div>
         </div>
     </div>

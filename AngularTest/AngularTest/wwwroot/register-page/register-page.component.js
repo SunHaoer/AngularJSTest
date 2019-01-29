@@ -9,8 +9,28 @@ angular.
             $scope.isReplace = false;
             $scope.myDate = new Date();
             $scope.myDate.toLocaleDateString();//获取当前日期
+
             //alert('isRegister');
-            
+
+            $scope.checkLogin = function () {   // 需提取
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/Phone/CheckLogin',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data['notLogin'] == 'true') {
+                        $location.url('/#!/phone');
+                    } else {
+                        $scope.loginUsername = response.data;
+                    }
+                }, function error(response) {
+                    alert("error");
+                });
+            }
+            $scope.checkLogin();
+
             /**
              * 获取需要回填的phone
              */
@@ -24,11 +44,27 @@ angular.
                         $scope.phone.startDate = new Date($scope.myDate);
                     }
                     $scope.phone.inputDate = new Date($scope.phone.startDate);
+                    $scope.phone.phoneUser = $scope.loginUsername;
                 }, function errorCallback(response) {
                     alert('error');
                 });
             }
-            $scope.getNewTempPhone();
+
+            $scope.GetLoginUsername = function () {     // 需提取
+                $http({
+                    method: 'GET',
+                    params: ({
+
+                    }),
+                    url: '/api/Phone/GetLoginUsername',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $scope.loginUsername = response.data;
+                    //$scope.getNewTempPhone();
+                }, function error(response) {
+                    alert("error");
+                });
+            }
 
             /**
              * 获取所有手机品牌
@@ -48,7 +84,13 @@ angular.
                     alert("error");
                 });
             }
-            $scope.getBrandAll();
+
+            $scope.init = function () {
+                $scope.GetLoginUsername();
+                $scope.getBrandAll();
+                $scope.getNewTempPhone();
+            }
+            $scope.init();
 
             /**
              * 根据品牌获取型号

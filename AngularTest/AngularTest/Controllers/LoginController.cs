@@ -79,11 +79,13 @@ namespace AngularTest.Controllers
         /// url: "/api/Login/NotLogin"
         /// </summary>
         /// <returns></returns>
+        //[HttpGet]
         //public void NotLogin()
         //{
-        //    Response.Redirect("https://localhost:44313/#!/phone");
+        //    Response.Redirect("http://www.baidu.com", false);
         //}
 
+        [HttpGet]
         public Dictionary<string, string> NotLogin()
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>

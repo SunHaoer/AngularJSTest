@@ -5,6 +5,26 @@ component('choosePage',{
     controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
         $scope.notEmpty = false;
 
+
+        $scope.checkLogin = function () {   // –ËÃ·»°
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/Phone/CheckLogin',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data['notLogin'] == 'true') {
+                    $location.url('/#!/phone');
+                } else {
+                    $scope.loginUsername = response.data;
+                }
+            }, function error(response) {
+                alert("error");
+            });
+        }
+        $scope.checkLogin();
+
         $scope.GetLoginUsername = function () {
             $http({
                 method: 'GET',
@@ -14,11 +34,7 @@ component('choosePage',{
                 url: '/api/Phone/GetLoginUsername',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                if (response.data['notLogin'] == 'true') {
-                    $location.url('/phone/errorPage');
-                } else {
-                    $scope.loginUsername = response.data;
-                }
+                $scope.loginUsername = response.data;
             }, function error(response) {
                 alert("error");
             });
@@ -157,44 +173,48 @@ component('choosePage',{
             }
         } 
         */
-        $scope.replace = function (id) {
-            $http({
-                method: 'POST',
-                params: ({
+        $scope.replace = function (id, state) {
+            if (state == 1) {
+                $http({
+                    method: 'POST',
+                    params: ({
 
-                }),
-                url: '/api/TempPhone/SetNewTempPhone',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
+                    }),
+                    url: '/api/TempPhone/SetNewTempPhone',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
 
-            }, function error(response) {
-                alert("error");
-            });
+                }, function error(response) {
+                    alert("error");
+                });
 
-            $http({
-                method: 'POST',
-                params: ({
-                    id: id
-                }),
-                url: '/api/TempPhone/SetOldTempPhoneById',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                //alert('/phone/replacePage');
-                $location.url('/phone/replacePage');
-            }, function error(response) {
-                alert("error");
-            });
+                $http({
+                    method: 'POST',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/TempPhone/SetOldTempPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    //alert('/phone/replacePage');
+                    $location.url('/phone/replacePage');
+                }, function error(response) {
+                    alert("error");
+                });
+            } else if (state == 2) {
+                alert('The phone is already abandon!')
+            } else {
+                alert('The phone is already delete!');
+            }
         }
 
         $scope.tempId = null;
         $scope.showDetails = function (phone) {
             if ($scope.tempId == null) {
                 $scope.showDetail = true;
-            }
-            else if ($scope.tempId == phone.id) {
+            } else if ($scope.tempId == phone.id) {
                 $scope.showDetail = $scope.showDetail == false ? true : false;
-            }
-            else {
+            } else {
                 $scope.showDetail = true;
             }
             $scope.tempId = phone.id;
@@ -209,6 +229,5 @@ component('choosePage',{
             $scope.deleteReason = phone.deleteReason;
             $scope.stateString = phone.stateString;
         }
-
     }]
 });

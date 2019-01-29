@@ -26,12 +26,11 @@
                 <td>{{phone.productNo}}</td>
                 <td>{{phone.stateString }}</td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <td><a href="" ng-click="replace(phone.id)">replace</a></td>
+                <td><a href="" ng-click="replace(phone.id, phone.state)">replace</a></td>
                 <td><a href="" ng-click="abandon(phone.id, phone.state)">abandon</a></td>
                 <td><a href="" ng-click="delete(phone.id, phone.state)">delete</a></td>
                 <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="30px" height="30px"></a></td>
             </tr>
-
         </table>
     </center>
 

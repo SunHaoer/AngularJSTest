@@ -33,10 +33,10 @@ namespace AngularTest.Controllers
             {
                 // Create a new TodoItem if collection is empty,
                 // which means you can't delete all TodoItems.
-                _context.Phones.Add(new Phone { PhoneUser = "user1", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user2", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
-                _context.Phones.Add(new Phone { PhoneUser = "user3", UserId = 1, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
-                _context.Phones.Add(new Phone { PhoneUser = "user4", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "110", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "120", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
+                _context.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate RS", ProductNo = "119", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
+                _context.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate 20", ProductNo = "114", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _context.SaveChanges();
                 //ans++;
             }
@@ -214,6 +214,16 @@ namespace AngularTest.Controllers
         public ActionResult<string> GetLoginUsername()
         {
             return HttpContext.Session.GetString("loginUser").Split(",")[1];
+        }
+
+        /// <summary>
+        /// 空方法检查是否登录
+        /// url: "/api/Phone/CheckLogin"
+        /// </summary>
+        [HttpGet]
+        public void CheckLogin()
+        {
+
         }
 
     }
