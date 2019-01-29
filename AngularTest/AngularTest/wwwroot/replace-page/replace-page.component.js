@@ -8,7 +8,7 @@ component('replacePage', {
         $scope.isRegister = false;
         $scope.isReplace = true;
         var oldId = 0;
-        alert('isReplace');
+        //alert('isReplace');
         
         // 从NewTempPhone获取需要修改的phone
         $scope.savePhoneToNewTemp = function () {
@@ -169,7 +169,7 @@ component('replacePage', {
                     startDate: $scope.phone.startDate,
                     endDate: $scope.phone.endDate,
                     deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.abandonReson,
+                    abandonReson: $scope.phone.deleteReson,
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {

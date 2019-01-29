@@ -5,7 +5,7 @@
         controller: ['$scope', '$http', '$location', function DeleteDoubleCtrl($scope, $http, $location) {
 
             $scope.format = function () {
-                var deleteDate = $scope.checkPhone.deleteDate;
+                var deleteDate = new Date($scope.checkPhone.deleteDate);
                 var year = deleteDate.getFullYear();
                 var month = ("0" + (deleteDate.getMonth() + 1)).slice(-2);
                 var date = ("0" + deleteDate.getDate()).slice(-2);
@@ -21,6 +21,8 @@
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.checkPhone = response.data;
+                    $scope.checkPhone.deleteReason = response.data.abandonReason;
+                    $scope.checkPhone.deleteDate = $scope.format();
                 }, function error(response) {
                     alert("error");
                 });
@@ -31,16 +33,9 @@
                 $http({
                     method: 'POST',
                     params: ({
-                        id: $scope.checkPhone.id
-                        //phoneUser: $scope.checkPhone.phoneUser,
-                        //brand: $scope.checkPhone.brand,
-                        //type: $scope.checkPhone.type,
-                        //productNo: $scope.checkPhone.productNo,
-                        //startDate: $scope.checkPhone.startDate,
-                        //endDate: $scope.checkPhone.endDate,
-                        //deleteDate: $scope.checkPhone.deleteDate,
-                        //AbandonReason: $scope.checkPhone.abandonReason,
-                        //state: $scope.checkPhone.state
+                        id: $scope.checkPhone.id,
+                        deleteDate: $scope.checkPhone.deleteDate,
+                        abandonReason: $scope.checkPhone.deleteReason,
                     }),
                     url: '/api/Phone/DeleteUserPhoneById',
                     headers: { 'Content-Type': 'application/json' }

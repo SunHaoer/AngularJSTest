@@ -31,7 +31,7 @@ component('checkPage', {
                     startDate: $scope.phone.startDate,
                     endDate: $scope.phone.endDate,
                     deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.abandonReson,
+                    abandonReason: $scope.phone.deleteReason,
                     state: $scope.phone.state
                 })
             }).then(function successCallback(response) {

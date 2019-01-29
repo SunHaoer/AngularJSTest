@@ -200,11 +200,12 @@ namespace AngularTest.Controllers
         /// <param name="deleteDate"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<bool> DeleteUserPhoneById(long id, DateTime deleteDate)
+        public ActionResult<bool> DeleteUserPhoneById(long id, DateTime deleteDate, string abandonReason)
         {
             Phone phone = _context.Phones.FirstOrDefault(item => item.Id == id);
             phone.State = 3;
             phone.DeleteDate = deleteDate;
+            phone.AbandonReason = abandonReason;
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;

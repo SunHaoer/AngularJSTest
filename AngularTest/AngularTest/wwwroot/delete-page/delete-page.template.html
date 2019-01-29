@@ -36,7 +36,7 @@
                             原因：
                         </label>
                         <div class="col-md-10">
-                            <select ng-model="TempPhone.abandonReason">
+                            <select ng-model="TempPhone.deleteReason">
                                 <option value="">请选择原因</option>
                                 <option>lost</option>
                                 <option>buy new phone</option>
@@ -54,8 +54,9 @@
                         </div>
                     </div>
                 </form>
-                <a href="#!/phone">返回</a>
+                <a href="#!/phone/choosePage">返回</a>
                 <button ng-click="setNewTempPhone()">确认</button>
+                {{TempPhone}}
             </div>
         </div>
     </div>

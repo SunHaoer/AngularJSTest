@@ -84,35 +84,39 @@ component('choosePage',{
             if (state == 3) {
                 alert('The phone is already delete!');
             } else if (state == 1) {
-                confirm('Abandon?');
-                $http({
-                    method: 'POST',
-                    params: ({
-                        id: id
-                    }),
-                    url: '/api/Phone/AbandonUserPhoneById',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    //$location.url('/phone/deletePage');
-                    alert('Abandon Success!');
-                }, function error(response) {
-                    alert("error");
-                });
+                if (confirm('Abandon?')) {
+                    $http({
+                        method: 'POST',
+                        params: ({
+                            id: id
+                        }),
+                        url: '/api/Phone/AbandonUserPhoneById',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function success(response) {
+                        //$location.url('/phone/deletePage');
+                        alert('Abandon Success!');
+                    }, function error(response) {
+                        alert("error");
+                    });
+                }
+
             } else if (state == 2) {
-                alert('Using?');
-                $http({
-                    method: 'POST',
-                    params: ({
-                        id: id
-                    }),
-                    url: '/api/Phone/UsingPhoneById',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    //$location.url('/phone/deletePage');
-                    alert('Using Success!');
-                }, function error(response) {
-                    alert("error");
-                });
+                if (confirm('Using?')) {
+                    $http({
+                        method: 'POST',
+                        params: ({
+                            id: id
+                        }),
+                        url: '/api/Phone/UsingPhoneById',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function success(response) {
+                        //$location.url('/phone/deletePage');
+                        alert('Using Success!');
+                    }, function error(response) {
+                        alert("error");
+                    });
+                }
+
             }
             location.reload();
         }
@@ -168,11 +172,34 @@ component('choosePage',{
                 url: '/api/TempPhone/SetOldTempPhoneById',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                alert('/phone/replacePage');
+                //alert('/phone/replacePage');
                 $location.url('/phone/replacePage');
             }, function error(response) {
                 alert("error");
             });
+        }
+
+        $scope.tempId = null;
+        $scope.showDetails = function (phone) {
+            if ($scope.tempId == null) {
+                $scope.showDetail = true;
+            }
+            else if ($scope.tempId == phone.id) {
+                $scope.showDetail = $scope.showDetail == false ? true : false;
+            }
+            else {
+                $scope.showDetail = true;
+            }
+            $scope.tempId = phone.id;
+            $scope.phoneUser = phone.phoneUser;
+            $scope.brand = phone.brand;
+            $scope.type = phone.type;
+            $scope.productNo = phone.productNo;
+            $scope.startDate = phone.startDate;
+            $scope.endDate = phone.endDate;
+            $scope.deleteDate = phone.deleteDate;
+            $scope.abandonReason = phone.abandonReason;
+            $scope.stateString = phone.stateString;
         }
 
     }]

@@ -9,7 +9,7 @@ angular.
             $scope.isReplace = false;
             $scope.myDate = new Date();
             $scope.myDate.toLocaleDateString();//获取当前日期
-            alert('isRegister');
+            //alert('isRegister');
             
             /**
              * 获取需要回填的phone
@@ -17,7 +17,7 @@ angular.
             $scope.getNewTempPhone = function () {
                 $http({
                     method: 'Get',
-                    url: 'api/TempPhone/GetNewTempPhone',
+                    url: '/api/TempPhone/GetNewTempPhone',
                 }).then(function successCallback(response) {
                     $scope.phone = response.data;
                     if ($scope.phone.startDate == "0001-01-01T00:00:00") {

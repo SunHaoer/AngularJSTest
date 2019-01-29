@@ -1,45 +1,100 @@
 
 <div>
     <h1>Thanks for Using!</h1>
-    <button ng-click="register()">注册</button>
-    <button ng-click="logout()">登出</button>
+    <button ng-click="register()">Add</button>
+    <button ng-click="logout()">Logout</button>
 </div>
 <div>
     <center>
-        <table border="1" >
+        <table border="1">
             <tr>
-                <th>phoneUser</th>
-                <th>品牌</th>
-                <th>类型</th>
-                <th>产品编号</th>
-                <th>开始日期</th>
-                <th>结束日期</th>
-                <th>删除日期</th>
-                <th>弃用原因</th>
-                <th>状态</th>
-                <th>操作1</th>
-                <th>操作2</th>
-                <th>操作3</th>
+                <th>PhoneUser</th>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Product Number</th>
+                <th>Status</th>
+                <th>Operate1</th>
+                <th>Operate2</th>
+                <th>Operate3</th>
+                <th>Details</th>
             </tr>
             <tr ng-repeat="phone in userPhoneAll">
                 <td>{{phone.phoneUser}}</td>
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
                 <td>{{phone.productNo}}</td>
-                <td>{{phone.startDate |date:'yyyy-MM-dd'}}</td>
-                <td>{{phone.endDate |date:'yyyy-MM-dd'}}</td>
-                <td>{{phone.deleteDate |date:'yyyy-MM-dd'}}</td>
-                <td>{{phone.abandonReason}}
                 <td>{{phone.stateString }}</td>
-                <td><button ng-click="replace(phone.id)">replace</button></td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <td><button ng-click="abandon(phone.id, phone.state)">abandon</button></td>
-                <td><button ng-click="delete(phone.id, phone.state)">delete</button></td>
+                <td><a href="" ng-click="replace(phone.id)">replace</a></td>
+                <td><a href="" ng-click="abandon(phone.id, phone.state)">abandon</a></td>
+                <td><a href="" ng-click="delete(phone.id, phone.state)">delete</a></td>
+                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="30px" height="30px"></a></td>
             </tr>
 
         </table>
     </center>
-    
+
+    <div class="panel-body" ng-show="showDetail">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form" name="checkForm">
+
+                    <div class="form-group">
+                        <label class="col-md-2" id="phoneUser">
+                            Phone User：{{phoneUser}}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2" id="brand">
+                            Brand：{{brand}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="type">
+                        <label class="col-md-2">
+                            Type：{{type}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="productNo">
+                        <label class="col-md-2">
+                            Product Number：{{productNo}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="startDate">
+                        <label class="col-md-2">
+                            Start Date：{{startDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="endDate">
+                        <label class="col-md-2">
+                            End Date：{{endDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="abandonDate">
+                        <label class="col-md-2">
+                            Abandon Date：{{abandonDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="deleteDate">
+                        <label class="col-md-2">
+                            Delete Date：{{deleteDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="deleteReason">
+                        <label class="col-md-2">
+                            DeleteReson：{{abandonReason}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="state">
+                        <label class="col-md-2">
+                            status：{{stateString}}
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
     <p ng-repeat="phone in userPhoneAll">{{phone}}</p>
-        
+
 </div>

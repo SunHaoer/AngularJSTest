@@ -79,7 +79,7 @@ angular.
                         productNo: $scope.phone.productNo,
                         startDate: $scope.phone.startDate,
                         endDate: $scope.phone.endDate,
-                        abandonReson: $scope.phone.abandonReson,
+                        abandonReson: $scope.phone.deleteReson,
                         state: $scope.phone.state
                     })
                 }).then(function successCallback(response) {
