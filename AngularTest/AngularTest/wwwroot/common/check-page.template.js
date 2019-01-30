@@ -67,7 +67,6 @@ component('checkPage', {
         };
 
         this.backToIndex = function () {
-            alert(1);
             if (confirm('Back to index? Data will not be saved')) {
                 $location.url('/phone/choosePage');
             }

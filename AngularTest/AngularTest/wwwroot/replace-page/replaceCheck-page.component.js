@@ -130,7 +130,7 @@ angular.
             $scope.backToIndex = function () {
                 alert(1);
                 if (confirm('Back to index? Data will not be saved')) {
-                    $location.path('/phone/choosePage');     // ??????
+                    $location.path('/phone/choosePage');    
                 }
             }
 

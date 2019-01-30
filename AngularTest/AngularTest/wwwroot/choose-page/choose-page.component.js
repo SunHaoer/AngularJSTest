@@ -72,16 +72,24 @@ component('choosePage',{
             });
         }
 
-        $scope.getUserPhoneAll = function () {
+        $scope.getUserPhoneAll = function (pageIndex) {
             $http({
                 method: 'GET',
                 params: ({
-
+                    pageIndex: pageIndex
                 }),
                 url: '/api/Phone/GetUserPhoneAll',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                $scope.userPhoneAll = response.data;
+                $scope.userPhoneAll = response.data.list;
+                //alert(response.data.pageIndex);
+                //alert(response.data.totalPages);
+                $scope.totalPages = response.data.totalPages;
+                $scope.pageIndex = response.data.pageIndex;
+                $scope.totalPagesList = new Array();
+                for (var i = 0; i < $scope.totalPages; i++) {
+                    $scope.totalPagesList[i] = i;
+                }
                 if ($scope.userPhoneAll.length == 0) {
                     $scope.notEmpty = false;
                 } else {
@@ -90,13 +98,19 @@ component('choosePage',{
                 for (var i = 0; i < $scope.userPhoneAll.length; i++) {
                     if ($scope.userPhoneAll[i].state == 1) {
                         $scope.userPhoneAll[i].stateString = 'in using';
-                        $scope.userPhoneAll[i].stateString2 = 'to abandon';
+                        $scope.userPhoneAll[i].operate1 = 'replace';
+                        $scope.userPhoneAll[i].operate2 = 'to abandon';
+                        $scope.userPhoneAll[i].operate3 = 'delele';
                     } else if($scope.userPhoneAll[i].state == 2) {
                         $scope.userPhoneAll[i].stateString = 'abandoned';
-                        $scope.userPhoneAll[i].stateString2 = 'to using';
+                        $scope.userPhoneAll[i].operate1 = 'nothing';
+                        $scope.userPhoneAll[i].operate2 = 'to using';
+                        $scope.userPhoneAll[i].operate3 = 'delete';
                     } else if ($scope.userPhoneAll[i].state == 3) {
                         $scope.userPhoneAll[i].stateString = 'deleted';
-                        $scope.userPhoneAll[i].stateString2 = 'nothing';
+                        $scope.userPhoneAll[i].operate1 = 'nothing';
+                        $scope.userPhoneAll[i].operate2 = 'nothing';
+                        $scope.userPhoneAll[i].operate3 = 'nothing';
                     }
                     if ($scope.userPhoneAll[i].deleteDate == "0001-01-01T00:00:00") {
                         $scope.userPhoneAll[i].deleteDate = "";
@@ -106,7 +120,7 @@ component('choosePage',{
                 //alert("error");
             });
         }
-        $scope.getUserPhoneAll();
+        $scope.getUserPhoneAll(1);
 
         $scope.abandon = function (id, state) {
             if (state == 3) {
@@ -215,6 +229,7 @@ component('choosePage',{
 
         $scope.tempId = null;
         $scope.showDetails = function (phone) {
+            //alert(1);
             if ($scope.tempId == null) {
                 $scope.showDetail = true;
             } else if ($scope.tempId == phone.id) {
@@ -222,6 +237,7 @@ component('choosePage',{
             } else {
                 $scope.showDetail = true;
             }
+            //alert(2);
             $scope.tempId = phone.id;
             $scope.phoneUser = phone.phoneUser;
             $scope.brand = phone.brand;
@@ -235,7 +251,12 @@ component('choosePage',{
             }
             $scope.deleteDate = phone.deleteDate;
             $scope.deleteReason = phone.deleteReason;
+            $scope.state = phone.state;
             $scope.stateString = phone.stateString;
+            $scope.operate1 = phone.operate1;
+            $scope.operate2 = phone.operate2;
+            $scope.operate3 = phone.operate3;
+            //alert(3);
         }
     }]
 });

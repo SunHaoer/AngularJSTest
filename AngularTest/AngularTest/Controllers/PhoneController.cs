@@ -4,6 +4,7 @@ using System.Linq;
 using AngularTest.Models;
 using System;
 using Microsoft.AspNetCore.Http;
+using AngularTest.Utils;
 
 namespace AngularTest.Controllers
 {
@@ -49,7 +50,7 @@ namespace AngularTest.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<List<Phone>> GetUserPhoneAll(string searchString = "")
+        public ActionResult<PaginatedList<Phone>> GetUserPhoneAll(string searchString = "", int pageIndex = 1)
         {
             //HttpContext.Session.SetString("loginUser", "1,admin");
             //HttpContext.Session.GetString("loginUser");
@@ -57,7 +58,11 @@ namespace AngularTest.Controllers
             PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             searchString = searchString.Trim().ToLower();
             PhoneIQ = PhoneIQ.Where(item => item.PhoneUser.ToLower().Contains(searchString) || item.Brand.ToLower().Contains(searchString) || item.Type.ToLower().Contains(searchString) || item.DeleteReason.ToLower().Contains(searchString));
-            return PhoneIQ.ToList();
+
+            int pageSize = 4;
+            PaginatedList<Phone> paginatedList = PaginatedList<Phone>.Create(PhoneIQ, pageIndex, pageSize);
+            
+            return paginatedList;
         }
 
         /// <summary>

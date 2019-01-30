@@ -40,3 +40,15 @@
     .a-primary:hover::before {
         display: block;
     }
+
+table, td, th {
+    border: 2px solid black;
+}
+
+table {
+    width: 80%;
+}
+
+th {
+    height: 50px;
+}
