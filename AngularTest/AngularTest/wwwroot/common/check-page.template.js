@@ -20,7 +20,7 @@ component('checkPage', {
                     $scope.loginUsername = response.data;
                 }
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.checkLogin();
@@ -34,9 +34,9 @@ component('checkPage', {
 
         });
 
-        this.test = "你还没点击";
+        //this.test = "你还没点击";
         this.submitMsg = function() {
-            this.test = "你点击了确定";
+            //this.test = "你点击了确定";
             
             // 更换的新手机存入数据库
             $http({
@@ -62,8 +62,15 @@ component('checkPage', {
         };
 
         this.cancle = function() {
-            this.test = "你点击了取消";
+            //this.test = "你点击了取消";
             $location.url('/phone/replacePage');
+        };
+
+        this.backToIndex = function () {
+            alert(1);
+            if (confirm('Back to index? Data will not be saved')) {
+                $location.url('/phone/choosePage');
+            }
         };
 
     }]

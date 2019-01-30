@@ -169,6 +169,7 @@ namespace AngularTest.Controllers
             PhoneIQ = _context.Phones.Where(item => item.UserId == userId);
             Phone phone = PhoneIQ.FirstOrDefault(item => item.Id == id);
             phone.State = 1;
+            phone.AbandonDate = new DateTime();
             _context.Phones.Update(phone);
             _context.SaveChanges();
             return true;

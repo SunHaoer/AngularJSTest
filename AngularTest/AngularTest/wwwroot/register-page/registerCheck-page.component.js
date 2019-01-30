@@ -21,7 +21,7 @@ component('registerCheckPage', {
                     $scope.loginUsername = response.data;
                 }
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.checkLogin();
@@ -34,7 +34,7 @@ component('registerCheckPage', {
             state = $scope.phone.state;
             dateString = $scope.phone.startDate
         }, function errorCallback(response) {
-            alert('error');
+            //alert('error');
         });
         if (state == 1) {
             $scope.state = 'using';
@@ -88,6 +88,13 @@ component('registerCheckPage', {
         this.cancle = function() {
             $location.url('/phone/registerPage');
         };
+
+        $scope.backToIndex = function () {
+            alert(1);
+            if (confirm('Back to index? Data will not be saved')) {
+                $location.path('/phone/choosePage');     // ??????
+            }
+        }
 
     }]
 

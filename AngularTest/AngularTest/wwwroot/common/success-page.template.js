@@ -3,7 +3,7 @@ module('common').
 component('successPage', {
 
     templateUrl: 'common/success-page.template.html',
-    controller: ['$scope', '$timeout', '$location', function ChoosePageCtrl($scope, $timeout, $location) {
+    controller: ['$scope', '$timeout', '$http', '$location', function ChoosePageCtrl($scope, $timeout, $http, $location) {
 
         //$timeout(function() {
         //    $location.url('/phone/choosePage');

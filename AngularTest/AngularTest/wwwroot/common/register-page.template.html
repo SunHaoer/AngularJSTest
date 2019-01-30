@@ -3,13 +3,14 @@
         <div class="panel-title" ng-model="isReplace" ng-show="isReplace">Replace</div>
         <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
     </div>
-    <div class="panel-body" style="width:50%;float:left">
+    <div class="panel-body" style="width:50%;float:left" ng-mouseenter="getphoneUser()">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="myForm" ng-submit="submitMsg()">
+                <h1>New Phone</h1>
+                <form class="form-horizontal" role="form" name="myForm" novalidate ng-submit="submitMsg()">
                     <div class="form-group">
                         <label class="col-md-2">
-                            手机用户
+                            username:
                         </label>
                         <div class="col-md-10">
                             <input type="text" ng-model="phone.phoneUser" name="phoneUser" id="phoneUser" disabled />
@@ -17,39 +18,43 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            产品编号
+                            productNo:
                         </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" required />
-                            <!--
-                <div ng-show="myForm.productNo.$dirty">
-                    <span>{{ProductNoIsLegal}}</span>
-                </div>
-                    -->
+                        <div class="col-md-10" ng-mouseleave="GetBrandTypeByProductNo();getTypeByBrand()">
+                            <input type="text" ng-model="phone.productNo" id="productNo" name="productNo"
+                                   ng-mouseleave="GetBrandTypeByProductNo()" required="required" ng-pattern="productNoReg" />
+                            <span ng-show="myForm.productNo.$dirty && myForm.productNo.$error.required">
+                                <font color="red">*productNo can not be empty</font>
+                            </span>
+                            <span ng-show="myForm.productNo.$error.pattern">
+                                <font color="red">*productNo format error</font>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            手机品牌：
+                            phoneBrand：
                         </label>
                         <div class="col-md-10">
                             <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()">
-                                <option value="">请选择手机品牌</option>
+                                <option value="">select the brand</option>
                                 <option ng-repeat="x in brandList">{{x}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            手机型号：
+                            phoneType：
                         </label>
                         <div class="col-md-10">
                             <select ng-model="phone.type" name="type" id="type" ng-blur="validateProductNo();getYearByType()" required>
-                                <option value="">请先选择手机型号</option>
+                                <option value="">select the type</option>
                                 <option ng-repeat="x in typeList">{{x}}</option>
                             </select>
-                            <div ng-show="myForm.productNo.$dirty">
-                                <span>{{ProductNoIsLegal}}</span>
+                            <div ng-show="myForm.productNo.$dirty && !ProductNoIsLegal">
+                                <span>
+                                    <font color="red">productNo is unfind</font>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -57,79 +62,87 @@
                     <!-- 输入日期 -->
                     <div class="form-group">
                         <label class="col-md-2">
-                            启用日期/旧手机弃用日期：
+                            startDate:
                         </label>
                         <div class="col-md-10">
                             <input type="date" ng-model="phone.inputDate" name="inputDate" id="inputDate" ng-blur="formatDate()" required />
                         </div>
                     </div>
                     <!-- 测试使用，最后需要删除 -->
-                    <span>{{phone}}</span>
+                    <!--<span>{{phone}}</span>-->
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10" style="padding:30px">
                             <!--<span>{{flag}}</span>-->
-                            <a href="#!/phone/choosePage">
-                                <input type="button" value=" 返回主页" style="color:black" />
-                            </a>
-                            <input type="submit" value="下一步"/>
+                            <!--<a href="#!/phone/choosePage">-->
+                            <input type="button" value=" back to index" style="color:black" ng-click="backToIndex()" />
+                            <!--</a>-->
+                            <input type="submit" value="next" ng-mousemove="GetBrandTypeByProductNo();getTypeByBrand();validateProductNo();getYearByType();formatDate();" />
                         </div>
                     </div>
                 </form>
             </div>
+            </div>
         </div>
-    </div>
 
-    <div class="panel-body" style="width:50%;float:left" ng-show="isReplace">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-md-2">
-                            Phone User:
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="oldPhone.phoneUser" name="phoneUser" id="phoneUser" disabled />
+        <div class="panel-body" style="width:50%;float:left" ng-show="isReplace">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Old Phone</h1>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                userName:
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.phoneUser" name="phoneUser" id="phoneUser" disabled />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2">
-                            Product Number:
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" disabled />
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                productNo:
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" disabled />
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2">
-                            Brand：
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="oldPhone.brand" id="brand" name="brand" disabled />
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                phoneBrand：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.brand" id="brand" name="brand" disabled />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2">
-                            Type：
-                        </label>
-                        <div class="col-md-10">
-                            <input type="text" ng-model="oldPhone.type" id="type" name="type" disabled />
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                phoneType：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.type" id="type" name="type" disabled />
 
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group" ng-show="isReplace">
-                        <label class="col-md-2">
-                            Abandon Date：
-                        </label>
-                        <div class="col-md-10">
-                            <input type="date" ng-model="phone.inputDate" name="abandonDate" id="abandonDate" required />
+                        <div class="form-group" ng-show="isReplace">
+                            <label class="col-md-2">
+                                startDate：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="date" ng-model="oldPhone.startDate" name="startDate" id="startDate" disabled />
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group" ng-show="isReplace">
+                            <label class="col-md-2">
+                                abandonDate：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="date" ng-model="phone.inputDate" name="abandonDate" id="abandonDate" required />
+                            </div>
+                        </div>
 
-                    <span>{{phone}}</span>
+                        <!--<span>{{phone}}</span>-->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

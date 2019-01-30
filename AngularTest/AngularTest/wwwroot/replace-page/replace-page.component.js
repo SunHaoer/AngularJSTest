@@ -25,7 +25,7 @@ component('replacePage', {
                     $scope.loginUsername = response.data;
                 }
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.checkLogin();
@@ -42,7 +42,7 @@ component('replacePage', {
                 $scope.loginUsername = response.data;
                 //$scope.getNewTempPhone();
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.GetLoginUsername();
@@ -61,7 +61,7 @@ component('replacePage', {
                 $scope.phone.inputDate = new Date($scope.phone.startDate);
                 $scope.phone.phoneUser = $scope.loginUsername;
             }, function errorCallback(response) {
-                alert('error');
+                //alert('error');
             });
         }
         $scope.getPhoneToNewTemp();
@@ -72,8 +72,9 @@ component('replacePage', {
                 url: 'api/TempPhone/GetOldTempPhone',
             }).then(function successCallback(response) {
                 $scope.oldPhone = response.data;
+                $scope.oldPhone.startDate = new Date($scope.oldPhone.startDate);
             }, function errorCallback(response) {
-                alert('error');
+                //alert('error');
             });
         }
         $scope.GetOldTempPhone();
@@ -93,6 +94,50 @@ component('replacePage', {
         //    });
         //}
 
+        $scope.getphoneUser = function () {
+            $scope.phone.phoneUser = $scope.loginUsername;
+        }
+
+        $scope.GetBrandTypeByProductNo = function () {
+            $scope.phone.phoneUser = $scope.loginUsername;
+            $http({
+                method: 'GET',
+                params: ({
+                    productNo: $scope.phone.productNo
+                }),
+                url: '/api/BrandTypeProductNo/GetBrandTypeByProductNo',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(function success(response) {
+                //$scope.ProductNoIsLegal = response.data;
+                //alert(response.data.type);
+                $scope.phone.brand = response.data.brand;
+                $scope.phone.type = response.data.type;
+            }, function error(response) {
+                //alert('error');
+            });
+        }
+
+        $scope.validateProductNo = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                    productNo: $scope.phone.productNo,
+                    brand: $scope.phone.brand,
+                    type: $scope.phone.type,
+                }),
+                url: '/api/BrandTypeProductNo/ValidateProductNo',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(function success(response) {
+                $scope.ProductNoIsLegal = response.data;
+                if ($scope.ProductNoIsLegal) {
+                    $scope.getTypeByBrand();
+                }
+                //alert(response.data);
+            }, function error(response) {
+                //alert('error');
+            });
+        }
+
         /**
          * 获取所有手机品牌
          * */
@@ -109,7 +154,7 @@ component('replacePage', {
                 }
 
             }, function error(response) {
-                alert("brand error");
+                //alert("brand error");
             });
         }
         $scope.getBrandAll();
@@ -133,7 +178,7 @@ component('replacePage', {
                     $scope.typeList.push(list[i]["type"]);
                 }
             }, function error(response) {
-                alert("type error");
+                //alert("type error");
             });
         }
 
@@ -159,7 +204,7 @@ component('replacePage', {
                 $scope.phone.life = response.data;
                 //alert($scope.phone.life);
                 }, function error(response) {
-                    alert('error1');
+                    //alert('error1');
             });
         }
 
@@ -217,7 +262,7 @@ component('replacePage', {
             }).then(function successCallback(response) {
 
             }, function errorCallback(response) {
-                alert('error1');
+                //alert('error1');
             });
             //alert(endDate);
             // 更换的新手机存入newTempPhone
@@ -243,13 +288,20 @@ component('replacePage', {
                 //    alert('StartDate can not early then abandonDate!');
                 //}
             }, function errorCallback(response) {
-                alert('error2');
+                //alert('error2');
             });
 
         };
 
         $scope.cancle = function(phone) {
             $location.url('/phone');
+        }
+
+        $scope.backToIndex = function () {
+            //alert(1);
+            if (confirm('Back to index? Data will not be saved')) {
+                $location.path('/phone/choosePage');     
+            }
         }
     }]
 

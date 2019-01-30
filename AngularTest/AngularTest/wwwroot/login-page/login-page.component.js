@@ -4,6 +4,8 @@
         templateUrl: 'login-page/login-page.template.html',
         controller: ['$scope', '$http', '$location', function LoginpageCtrl($scope, $http, $location) {
 
+            $scope.usernameReg = '[a-zA-Z0-9]*';
+
             $scope.initPhoneDB = function () {
                 $http({
                     method: 'GET',
@@ -14,7 +16,7 @@
                 }).then(function success(response) {
                     //alert(response.data);
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 })
             }
 
@@ -28,7 +30,7 @@
                 }).then(function success(response) {
                     //alert(response.data);
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 })
             }
 
@@ -42,7 +44,7 @@
                 }).then(function success(response) {
                     //alert(response.data);
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 })
             }
 
@@ -56,7 +58,7 @@
                 }).then(function success(response) {
                     //alert(response.data);
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 })
             }
 

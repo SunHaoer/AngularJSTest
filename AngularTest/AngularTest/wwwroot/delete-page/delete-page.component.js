@@ -20,7 +20,7 @@
                         $scope.loginUsername = response.data;
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.checkLogin();
@@ -43,7 +43,7 @@
                     }
                     
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.getNewTempPhone();
@@ -101,7 +101,7 @@
                         alert('DeleteDate is too early!');
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
 

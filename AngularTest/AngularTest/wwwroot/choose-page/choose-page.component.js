@@ -4,7 +4,8 @@ component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
     controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
         $scope.notEmpty = false;
-
+        $scope.myDate = new Date();
+        $scope.myDate.toLocaleDateString();//获取当前日期
 
         $scope.checkLogin = function () {   // 需提取
             $http({
@@ -20,7 +21,7 @@ component('choosePage',{
                     $scope.loginUsername = response.data;
                 }
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.checkLogin();
@@ -36,7 +37,7 @@ component('choosePage',{
             }).then(function success(response) {
                 $scope.loginUsername = response.data;
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.GetLoginUsername();
@@ -52,7 +53,7 @@ component('choosePage',{
             }).then(function success(response) {
                 $location.url('/phone/registerPage');
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
 
@@ -67,7 +68,7 @@ component('choosePage',{
             }).then(function success(response) {
                 $location.url('/#!/phone');
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
 
@@ -88,18 +89,21 @@ component('choosePage',{
                 }
                 for (var i = 0; i < $scope.userPhoneAll.length; i++) {
                     if ($scope.userPhoneAll[i].state == 1) {
-                        $scope.userPhoneAll[i].stateString = 'using';
+                        $scope.userPhoneAll[i].stateString = 'in using';
+                        $scope.userPhoneAll[i].stateString2 = 'to abandon';
                     } else if($scope.userPhoneAll[i].state == 2) {
                         $scope.userPhoneAll[i].stateString = 'abandoned';
+                        $scope.userPhoneAll[i].stateString2 = 'to using';
                     } else if ($scope.userPhoneAll[i].state == 3) {
                         $scope.userPhoneAll[i].stateString = 'deleted';
+                        $scope.userPhoneAll[i].stateString2 = 'nothing';
                     }
                     if ($scope.userPhoneAll[i].deleteDate == "0001-01-01T00:00:00") {
                         $scope.userPhoneAll[i].deleteDate = "";
                     }
                 }
             }, function error(response) {
-                alert("error");
+                //alert("error");
             });
         }
         $scope.getUserPhoneAll();
@@ -112,7 +116,8 @@ component('choosePage',{
                     $http({
                         method: 'POST',
                         params: ({
-                            id: id
+                            id: id,
+                            abandonDate: new Date($scope.myDate)
                         }),
                         url: '/api/Phone/AbandonUserPhoneById',
                         headers: { 'Content-Type': 'application/json' }
@@ -120,7 +125,7 @@ component('choosePage',{
                         //$location.url('/phone/deletePage');
                         alert('Abandon Success!');
                     }, function error(response) {
-                        alert("error");
+                        //alert("error");
                     });
                 }
 
@@ -137,7 +142,7 @@ component('choosePage',{
                         //$location.url('/phone/deletePage');
                         alert('Using Success!');
                     }, function error(response) {
-                        alert("error");
+                        //alert("error");
                     });
                 }
             }
@@ -156,7 +161,7 @@ component('choosePage',{
                 }).then(function success(response) {
                     $location.url('/phone/deletePage');
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             } else {
                 alert('The phone is already delete!');
@@ -185,7 +190,7 @@ component('choosePage',{
                 }).then(function success(response) {
 
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
 
                 $http({
@@ -199,7 +204,7 @@ component('choosePage',{
                     //alert('/phone/replacePage');
                     $location.url('/phone/replacePage');
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             } else if (state == 2) {
                 alert('The phone is already abandon!')
@@ -225,6 +230,9 @@ component('choosePage',{
             $scope.startDate = phone.startDate;
             $scope.endDate = phone.endDate;
             $scope.abandonDate = phone.abandonDate;
+            if ($scope.abandonDate == '0001-01-01T00:00:00') {
+                $scope.abandonDate = '';
+            }
             $scope.deleteDate = phone.deleteDate;
             $scope.deleteReason = phone.deleteReason;
             $scope.stateString = phone.stateString;

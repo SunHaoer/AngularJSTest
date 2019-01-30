@@ -2,7 +2,9 @@ angular.
     module('registerPage').
     component('registerPage', {
         templateUrl: 'common/register-page.template.html',
-        controller: ['$scope', '$http','$location', function RegisterPageCtrl($scope, $http, $location) {
+        controller: ['$scope', '$http', '$location', function RegisterPageCtrl($scope, $http, $location) {
+
+            $scope.productNoReg = '[a-zA-Z0-9]*';;
             $scope.brandRegex = '\\d+';
             $scope.flag = false;
             $scope.isRegister = true;
@@ -18,6 +20,7 @@ angular.
                     params: ({
                     }),
                     url: '/api/Phone/CheckLogin',
+                    async: false,
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if (response.data['notLogin'] == 'true') {
@@ -26,7 +29,7 @@ angular.
                         $scope.loginUsername = response.data;
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.checkLogin();
@@ -38,6 +41,7 @@ angular.
                 $http({
                     method: 'Get',
                     url: '/api/TempPhone/GetNewTempPhone',
+                    async: false,
                 }).then(function successCallback(response) {
                     $scope.phone = response.data;
                     if ($scope.phone.startDate == "0001-01-01T00:00:00") {
@@ -45,8 +49,9 @@ angular.
                     }
                     $scope.phone.inputDate = new Date($scope.phone.startDate);
                     $scope.phone.phoneUser = $scope.loginUsername;
+                    //alert('1' + $scope.phone.phoneUser);
                 }, function errorCallback(response) {
-                    alert('error');
+                    //alert('error');
                 });
             }
 
@@ -57,12 +62,14 @@ angular.
 
                     }),
                     url: '/api/Phone/GetLoginUsername',
+                    async: false,
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     $scope.loginUsername = response.data;
                     //$scope.getNewTempPhone();
+                    //alert('2' + $scope.loginUsername);
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
 
@@ -73,6 +80,7 @@ angular.
                 $http({
                     method: 'GET',
                     url: '/api/BrandModel/GetBrandAll',
+                    async: false,
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     var list = response.data;
@@ -81,16 +89,22 @@ angular.
                         $scope.brandList.push(list[i]["brand"]);
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
-
+            
             $scope.init = function () {
                 $scope.GetLoginUsername();
                 $scope.getBrandAll();
                 $scope.getNewTempPhone();
             }
-            $scope.init();
+            //for (var i = 0; i < 5; i++) {
+                $scope.init();
+            //}
+
+            $scope.getphoneUser = function () {
+                $scope.phone.phoneUser = $scope.loginUsername;
+            }
 
             /**
              * 根据品牌获取型号
@@ -111,7 +125,7 @@ angular.
                         $scope.typeList.push(list[i]["type"]);
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
 
@@ -129,7 +143,7 @@ angular.
                     $scope.phone.brand = response.data.brand;
                     $scope.phone.type = response.data.type;
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 });
             }
 
@@ -145,9 +159,12 @@ angular.
                     headers: { 'Content-Type': 'application/json' },
                 }).then(function success(response) {
                     $scope.ProductNoIsLegal = response.data;
+                    if ($scope.ProductNoIsLegal) {
+                        $scope.getTypeByBrand();
+                    }
                     //alert(response.data);
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 });
             }
 
@@ -242,8 +259,15 @@ angular.
                         alert('StartDate is too earyl!');
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
+            }
+
+            $scope.backToIndex = function () {
+                //alert(1);
+                if (confirm('Back to index? Data will not be saved')) {
+                    $location.path('/phone/choosePage');     // ??????
+                }
             }
             
         }]

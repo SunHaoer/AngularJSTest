@@ -18,7 +18,7 @@
                         $scope.loginUsername = response.data;
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.checkLogin();
@@ -43,7 +43,7 @@
                     //$scope.checkPhone.deleteReason = response.data.abandonReason;
                     $scope.checkPhone.deleteDate = $scope.format();
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.getCheckPhone();
@@ -63,6 +63,13 @@
                     }, function error(response) {
                         $location.url('phone/errorPage');
                 });
+            }
+
+
+            $scope.backToIndex = function () {
+                if (confirm('Back to index? Data will not be saved')) {
+                    $location.path('/phone/choosePage');     
+                }
             }
 
         }]

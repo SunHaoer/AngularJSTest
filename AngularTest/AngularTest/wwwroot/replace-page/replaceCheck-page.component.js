@@ -23,7 +23,7 @@ angular.
                         $scope.loginUsername = response.data;
                     }
                 }, function error(response) {
-                    alert("error");
+                    //alert("error");
                 });
             }
             $scope.checkLogin();
@@ -35,7 +35,7 @@ angular.
                 $scope.phone = response.data;
                 state = $scope.phone.state;
             }, function errorCallback(response) {
-                alert('error');
+                //alert('error');
             });
 
             $http({
@@ -45,7 +45,7 @@ angular.
                 $scope.oldPhone = response.data;
                 state = $scope.oldPhone.state;
             }, function errorCallback(response) {
-                alert('error');
+                //alert('error');
             });
 
             if (state == 1) {
@@ -115,7 +115,7 @@ angular.
                     }).then(function successCallback(response) {
 
                     }, function errorCallback(response) {
-                        alert('error');
+                        //alert('error');
                     });
                     $location.url('/phone/successPage');
                 }, function errorCallback(response) {
@@ -126,6 +126,13 @@ angular.
             this.cancle = function () {
                 $location.url('/phone/replacePage');
             };
+
+            $scope.backToIndex = function () {
+                alert(1);
+                if (confirm('Back to index? Data will not be saved')) {
+                    $location.path('/phone/choosePage');     // ??????
+                }
+            }
 
         }]
     })

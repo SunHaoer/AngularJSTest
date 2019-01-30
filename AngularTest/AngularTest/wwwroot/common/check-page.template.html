@@ -4,55 +4,55 @@
             <h1>Check</h1>
         </div>
     </div>
+
     <div class="panel-body" style="float:left; width:50%">
+        <h1>New Phone</h1>
         <div class="row">
             <div class="col-md-12">
                 <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
                     <div class="form-group">
                         <label class="col-md-2" id="phoneUser">
-                            手机用户：{{phone.phoneUser}}
+                            userName：<font color="blue">{{phone.phoneUser}}</font>
                         </label>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2" id="brand">
-                            手机品牌：{{phone.brand}}
+                            phoneBrand：<font color="blue">{{phone.brand}}</font>
                         </label>
                     </div>
                     <div class="form-group" id="type">
                         <label class="col-md-2">
-                            手机型号：{{phone.type}}
+                            phoneType：<font color="blue">{{phone.type}}</font>
                         </label>
                     </div>
                     <div class="form-group" id="productNo">
                         <label class="col-md-2">
-                            产品编号：{{phone.productNo}}
+                            productNo：<font color="blue">{{phone.productNo}}</font>
                         </label>
                     </div>
                     <div class="form-group" id="startDate">
                         <label class="col-md-2">
-                            开机日期：{{phone.startDate | date:'yyyy-MM-dd'}}
+                            startDate：<font color="blue">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
                         </label>
                     </div>
                     <div class="form-group" id="endDate">
                         <label class="col-md-2">
-                            关机日期：{{phone.endDate | date:'yyyy-MM-dd'}}
+                            endDate：<font color="blue">{{phone.endDate | date:'yyyy-MM-dd'}}</font>
                         </label>
                     </div>
-                    <div class="form-group" id="abandonDate">
+                    <!--<div class="form-group" id="abandonDate">
                         <label class="col-md-2" ng-show="isReplace">
                             更换日期：{{phone.abandonDate | date:'yyyy-MM-dd'}}
                         </label>
-                    </div>
-                    <div class="form-group" id="state">
-                        <label class="col-md-2">
-                            状态：{{state}}
-                        </label>
-                    </div>
+                    </div>-->
+
                     <div class="form-group">
                         <div class="col-md-10">
-                            <input type="button" value="取消" ng-click="$ctrl.cancle()" />
-                            <input type="button" value="主页" ng-click="$ctrl.backIndex()" />
-                            <input type="submit" value="确定" />
+                            <input type="button" value="previous" ng-click="$ctrl.cancle()" />
+                            <input type="button" value="backToIndex" ng-click="backToIndex()" />
+
+                            <!--<input type="button" value="Index" ng-click="$ctrl.backIndex()" />-->
+                            <input type="submit" value="submit" />
                         </div>
                     </div>
                 </form>
@@ -61,53 +61,56 @@
     </div>
 
     <div class="panel-body" style="float:left; width:50%" ng-model="isCheck" ng-show="isReplace">
+        <h1>Old Phone</h1>
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
-
+                <form class="form-horizontal" role="form" name="checkForm">
                     <div class="form-group">
-                        <label class="col-md-2" id="brand">
-                            Brand：{{oldPhone.brand}}
+                        <label class="col-md-2" id="phoneUser" style="color:red">
+                            userName：{{oldPhone.phoneUser}}
                         </label>
                     </div>
-                    <div class="form-group" id="type">
-                        <label class="col-md-2">
-                            Type：{{oldPhone.type}}
+                    <div class="form-group">
+                        <label class="col-md-2" id="oldBrand" style="color:red">
+                            phoneBrand：{{oldPhone.brand}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="oldType">
+                        <label class="col-md-2" style="color:red">
+                            phoneType：{{oldPhone.type}}
                         </label>
                     </div>
                     <div class="form-group" id="productNo">
-                        <label class="col-md-2">
-                            Product Number：{{oldPhone.productNo}}
+                        <label class="col-md-2" style="color:red">
+                            productNo：{{oldPhone.productNo}}
                         </label>
                     </div>
                     <div class="form-group" id="startDate">
-                        <label class="col-md-2">
-                            Start Date：{{oldPhone.startDate | date:'yyyy-MM-dd'}}
+                        <label class="col-md-2" style="color:red">
+                            startDate：{{oldPhone.startDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
                     <div class="form-group" id="endDate">
-                        <label class="col-md-2">
-                            End Date：{{oldPhone.endDate | date:'yyyy-MM-dd'}}
+                        <label class="col-md-2" style="color:red">
+                            endDate：{{oldPhone.endDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
                     <div class="form-group" id="deleteDate">
-                        <label class="col-md-2" ng-show="isReplace">
-                            Abandon Date：{{phone.startDate | date:'yyyy-MM-dd'}}
+                        <label class="col-md-2" ng-show="isReplace" style="color:red">
+                            abandonDate：{{phone.startDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-
 
                 </form>
             </div>
         </div>
     </div>
 
-
-    <h1>{{$ctrl.test}}</h1>
+    <!--<h1>{{$ctrl.test}}</h1>
     <p>
         {{phone}}
     </p>
     <p>
         {{oldPhone}}
-    </p>
+    </p>-->
 </div>
