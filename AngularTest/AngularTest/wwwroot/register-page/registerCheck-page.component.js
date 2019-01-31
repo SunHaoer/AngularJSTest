@@ -16,10 +16,8 @@ component('registerCheckPage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 if (response.data['notLogin'] == 'true') {
-                    $location.url('/#!/phone');
-                } else {
-                    $scope.loginUsername = response.data;
-                }
+                    $location.url('/phone/errorPage');
+                } 
             }, function error(response) {
                 //alert("error");
             });
@@ -90,9 +88,8 @@ component('registerCheckPage', {
         };
 
         $scope.backToIndex = function () {
-            alert(1);
             if (confirm('Back to index? Data will not be saved')) {
-                $location.path('/phone/choosePage');     // ??????
+                $location.path('/phone/choosePage');    
             }
         }
 

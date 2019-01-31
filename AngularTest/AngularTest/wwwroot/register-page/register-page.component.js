@@ -24,9 +24,7 @@ angular.
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if (response.data['notLogin'] == 'true') {
-                        $location.url('/#!/phone');
-                    } else {
-                        $scope.loginUsername = response.data;
+                        $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
                     //alert("error");
@@ -148,6 +146,7 @@ angular.
             }
 
             $scope.validateProductNo = function () {
+                //alert(1);
                 $http({
                     method: 'GET',
                     params: ({
@@ -235,38 +234,45 @@ angular.
              */
             $scope.submitMsg = function () {
                 $scope.validateProductNo();
-                if ($scope.ProductNoIsLegal == false) {
-                    alert('ProductNo is not legal');
-                    return;
+                if ($scope.ProductNoIsLegal && $scope.inputDateIsLegal) {
+                    $http({
+                        method: 'POST',
+                        params: ({
+                            phoneUser: $scope.phone.phoneUser,
+                            brand: $scope.phone.brand,
+                            type: $scope.phone.type,
+                            productNo: $scope.phone.productNo,
+                            startDate: $scope.phone.startDate,
+                            endDate: $scope.phone.endDate
+                        }),
+                        url: '/api/TempPhone/SetNewTempPhone',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function success(response) {
+                        if ($scope.daysBetween($scope.phone.inputDate, $scope.myDate) == true) {
+                            $location.path("/phone/registerCheckPage");
+                        } else {
+                            alert('StartDate is too earyl!');
+                        }
+                    }, function error(response) {
+                        //alert("error");
+                    });
                 }
-                $http({
-                    method: 'POST',
-                    params: ({
-                        phoneUser: $scope.phone.phoneUser,
-                        brand: $scope.phone.brand,
-                        type: $scope.phone.type,
-                        productNo: $scope.phone.productNo,
-                        startDate: $scope.phone.startDate,
-                        endDate: $scope.phone.endDate
-                    }),
-                    url: '/api/TempPhone/SetNewTempPhone',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    if ($scope.daysBetween($scope.phone.inputDate, $scope.myDate) == true) {
-                        $location.path("/phone/registerCheckPage");
-                    }
-                    else {
-                        alert('StartDate is too earyl!');
-                    }
-                }, function error(response) {
-                    //alert("error");
-                });
             }
 
             $scope.backToIndex = function () {
                 //alert(1);
                 if (confirm('Back to index? Data will not be saved')) {
                     $location.path('/phone/choosePage');     // ??????
+                }
+            }
+
+            $scope.inputDateIsLegal = true;
+            $scope.validateInputDate = function () {
+                //alert(new Date(1900, 1, 1, 0, 0, 0, 0));
+                if (!$scope.daysBetween($scope.phone.inputDate, $scope.myDate) || $scope.phone.inputDate < new Date(1900, 1, 1, 0, 0, 0, 0) || $scope.phone.inputDate > new Date(2100, 1, 1, 0, 0, 0, 0)) {
+                    $scope.inputDateIsLegal = false;
+                } else {
+                    $scope.inputDateIsLegal = true;
                 }
             }
             

@@ -9,7 +9,7 @@
                 <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
-                            产品编号：
+                            productNo：
                         </label>
                         <div class="col-md-10">
                             <input type="text" ng-model="TempPhone.productNo" name="productNo" id="proNo" disabled />
@@ -17,7 +17,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            品牌：
+                            phoneBrand：
                         </label>
                         <div class="col-md-10">
                             <input type="text" ng-model="TempPhone.brand" name="brand" id="mbrand" disabled />
@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            类型：
+                            phoneType：
                         </label>
                         <div class="col-md-10">
                             <input type="text" ng-model="TempPhone.type" name="type" id="type" disabled />
@@ -33,29 +33,37 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
-                            原因：
+                            deleteReason：
                         </label>
-                        <div class="col-md-10">
+                        <div class="col-md-10" ng-mouseleave="otherReason()">
                             <select ng-model="TempPhone.deleteReason">
-                                <option value="">请选择原因</option>
-                                <option>lost</option>
-                                <option>buy new phone</option>
-                                <option>time end</option>
+                                <option value="">please select</option>
+                                <option value="lost">lost</option>
+                                <option value="buy new phone">buy new phone</option>
+                                <option value="time end">time end</option>
+                                <option value="other">other</option>
                             </select>
                             <!--<input type="text" ng-model="TempPhone.abandonReason"  id="reason" required />-->
                         </div>
+                        <div class="col-md-10" ng-model="isOther" ng-show="TempPhone.deleteReason == 'other'">
+                            <textarea rows="5" cols="25" ng-model="TempPhone.otherReason" placeholder="please input your reasons"></textarea>
+                        </div>
+                        <span ng-show="!deleteReasonNotEmpty">
+                            <font color="red">delete reason can't be empty</font>
+                        </span>
                     </div>
+
                     <div class="form-group">
                         <label class="col-md-2">
-                            日期：
+                            deleteDate：
                         </label>
                         <div class="col-md-10">
                             <input type="date" ng-model="TempPhone.deleteDate" required name="date" id="date" />
                         </div>
                     </div>
                 </form>
-                <a href="#!/phone/choosePage">back</a>
-                <button ng-click="setNewTempPhone()">submit</button>
+                <input class="btn btn-primary" type="button" value=" back to index" ng-click="backToIndex()" />
+                <button class="btn btn-primary" ng-click="setNewTempPhone()">next</button>
                 <!--{{TempPhone}}-->
             </div>
         </div>

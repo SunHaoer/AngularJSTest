@@ -18,9 +18,7 @@ component('successPage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 if (response.data['notLogin'] == 'true') {
-                    $location.url('/#!/phone');
-                } else {
-                    $scope.loginUsername = response.data;
+                    $location.url('/phone/errorPage');
                 }
             }, function error(response) {
                 alert("error");

@@ -20,9 +20,7 @@ component('replacePage', {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 if (response.data['notLogin'] == 'true') {
-                    $location.url('/#!/phone');
-                } else {
-                    $scope.loginUsername = response.data;
+                    $location.url('/phone/errorPage');
                 }
             }, function error(response) {
                 //alert("error");
@@ -60,6 +58,7 @@ component('replacePage', {
                 }
                 $scope.phone.inputDate = new Date($scope.phone.startDate);
                 $scope.phone.phoneUser = $scope.loginUsername;
+                //$scope.eqAbandonDate();
             }, function errorCallback(response) {
                 //alert('error');
             });
@@ -73,6 +72,12 @@ component('replacePage', {
             }).then(function successCallback(response) {
                 $scope.oldPhone = response.data;
                 $scope.oldPhone.startDate = new Date($scope.oldPhone.startDate);
+                if ($scope.oldPhone.abandonDate == "0001-01-01T00:00:00") {
+                    $scope.oldPhone.abandonDate = new Date($scope.myDate);
+                } else {
+                    $scope.oldPhone.abandonDate = new Date($scope.oldPhone.abandonDate);
+                }
+                //$scope.oldPhone.abandonDate = new Date($scope.myDate);
             }, function errorCallback(response) {
                 //alert('error');
             });
@@ -233,64 +238,81 @@ component('replacePage', {
         //  for test
         this.test = "你还没点击提交";
 
-        //时间大小比较
         $scope.daysBetween = function (DateOne, DateTwo) {
-            //alert(DateOne + '\n' + DateTwo);
             var oneYear = DateOne.getFullYear();
             var twoYear = DateTwo.getFullYear();
             var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
             var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
             var oneDate = ("0" + DateOne.getDate()).slice(-2);
-            var TwoDate = ("0" + DateTwo.getDate()).slice(-2);
-            if ((oneYear - twoYear) < 0) return false;
-            if ((oneMonth - twoMonth) < 0) return false;
-            if ((oneDate - TwoDate) < 0) return false;
-            return true;
+            var twoDate = ("0" + DateTwo.getDate()).slice(-2);
+            if (oneYear != twoYear) {
+                return oneYear >= twoYear;
+            } else if (oneMonth != twoMonth) {
+                return oneMonth >= twoMonth;
+            } else {
+                return oneDate >= twoDate;
+            }
+            //if ((oneYear - twoYear) < 0) return false;
+            //if ((oneMonth - twoMonth) < 0) return false;
+            //if ((oneDate - TwoDate) < 0) return false;
+            //return true;
         }
 
         // 点击确认
-        $scope.submitMsg = function() {
-            this.test = "你点击了提交";
+        $scope.submitMsg = function () {
+            $scope.abandonDateIsLegal($scope.phone.inputDate, $scope.oldPhone.abandonDate);
+            //this.test = "你点击了提交";
             //alert($scope.phone.abandonDate);
-            $scope.oldPhone.abandonDate = $scope.phone.startDate;
-            $http({
-                method: 'Post',
-                url: '/api/TempPhone/UpdateOldTempPhoneAbandonDate',
-                params: ({
-                    abandonDate: $scope.oldPhone.abandonDate,
-                })
-            }).then(function successCallback(response) {
+            if (!$scope.twoDateIsEqual) {
+                if (confirm('These 2 days not equal will turn to error page, and the data will be clear!')) {
+                    $location.url('/phone/errorPage');
+                } else {
+                    $scope.eqAbandonDate();
+                }
+            } else {
+                $scope.oldPhone.abandonDate = $scope.phone.startDate;
+                if ($scope.inputDateIsLegal) {
+                    $http({
+                        method: 'Post',
+                        url: '/api/TempPhone/UpdateOldTempPhoneAbandonDate',
+                        params: ({
+                            abandonDate: $scope.oldPhone.abandonDate,
+                        })
+                    }).then(function successCallback(response) {
 
-            }, function errorCallback(response) {
-                //alert('error1');
-            });
-            //alert(endDate);
-            // 更换的新手机存入newTempPhone
-            $http({
-                method: 'Post',
-                url: '/api/TempPhone/SetNewTempPhone',
-                params: ({
-                    id: $scope.phone.id,
-                    phoneUser: $scope.phone.phoneUser,
-                    brand: $scope.phone.brand,
-                    type: $scope.phone.type,
-                    productNo: $scope.phone.productNo,
-                    startDate: $scope.phone.startDate,
-                    endDate: $scope.phone.endDate,
-                    //abandonDate: $scope.phone.abandonDate,
-                    //abandonReson: $scope.phone.abandonReson,
-                    //state: $scope.phone.state
-                })
-            }).then(function successCallback(response) {
-                //if ($scope.daysBetween($scope.phone.inputDate, $scope.phone.abandonDate) == true) {
-                    $location.url('/phone/replaceCheckPage');
-                //} else {
-                //    alert('StartDate can not early then abandonDate!');
-                //}
-            }, function errorCallback(response) {
-                //alert('error2');
-            });
+                    }, function errorCallback(response) {
+                        //alert('error1');
+                    });
+                    //alert(endDate);
+                    // 更换的新手机存入newTempPhone
+                    $http({
+                        method: 'Post',
+                        url: '/api/TempPhone/SetNewTempPhone',
+                        params: ({
+                            id: $scope.phone.id,
+                            phoneUser: $scope.phone.phoneUser,
+                            brand: $scope.phone.brand,
+                            type: $scope.phone.type,
+                            productNo: $scope.phone.productNo,
+                            startDate: $scope.phone.startDate,
+                            endDate: $scope.phone.endDate,
+                            //abandonDate: $scope.phone.abandonDate,
+                            //abandonReson: $scope.phone.abandonReson,
+                            //state: $scope.phone.state
+                        })
+                    }).then(function successCallback(response) {
+                        $scope.phone.startDate = new Date($scope.phone.startDate);
+                        if ($scope.daysBetween($scope.phone.startDate, $scope.oldPhone.startDate)) {
+                            $location.url('/phone/replaceCheckPage');
+                        } else {
+                            alert('new phone StartDate can not early then old startDate!');
+                        }
 
+                    }, function errorCallback(response) {
+                        //alert('error2');
+                    });
+                }
+            }
         };
 
         $scope.cancle = function(phone) {
@@ -301,6 +323,31 @@ component('replacePage', {
             //alert(1);
             if (confirm('Back to index? Data will not be saved')) {
                 $location.path('/phone/choosePage');     
+            }
+        }
+
+        $scope.eqAbandonDate = function () {
+            //alert($scope.phone.inputDate);
+            $scope.oldPhone.abandonDate = $scope.phone.inputDate;
+        }
+
+        $scope.twoDateIsEqual = true;
+        $scope.abandonDateIsLegal = function (date1, date2) {
+            //alert(date1 + '\n' + date2);
+            if (date1.getFullYear() != date2.getFullYear() || date1.getMonth() != date2.getMonth() || date1.getDate() != date2.getDate()) {
+                $scope.twoDateIsEqual = false;
+            } else {
+                $scope.twoDateIsEqual = true;
+            }
+        }
+
+        $scope.inputDateIsLegal = true;
+        $scope.validateInputDate = function () {
+            //alert(new Date(1900, 1, 1, 0, 0, 0, 0));
+            if ($scope.phone.inputDate < new Date(1900, 1, 1, 0, 0, 0, 0) || $scope.phone.inputDate > new Date(2100, 1, 1, 0, 0, 0, 0)) {
+                $scope.inputDateIsLegal = false;
+            } else {
+                $scope.inputDateIsLegal = true;
             }
         }
     }]

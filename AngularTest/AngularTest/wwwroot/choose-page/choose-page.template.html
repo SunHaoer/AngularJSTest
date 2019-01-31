@@ -6,22 +6,17 @@
 </div>
 <div ng-show="notEmpty">
     <center>
-        <div style="text-align:right;width:75%">
-            <a href="" ng-click="getUserPhoneAll(pageIndex - 1)" ng-show="pageIndex > 1"><font size="6">previous</font></a>
-            <font size="6">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>
-            <a href="" ng-click="getUserPhoneAll(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="6">next</font></a>
-        </div>
         <table>
-            <tr bgcolor="#CCFF66">
+            <tr bgcolor="#337ab7">
                 <!--<th>PhoneUser</th>-->
-                <th>Brand</th>
-                <th>Type</th>
-                <th>Product Number</th>
-                <th>Status</th>
+                <th><font color="white">Brand</font></th>
+                <th><font color="white">Type</font></th>
+                <th><font color="white">Product Number</font></th>
+                <th><font color="white">Status</font></th>
                 <!--<th>Operate1</th>
-                <th>Operate2</th>
-                <th>Operate3</th>-->
-                <th>Details</th>
+            <th>Operate2</th>
+            <th>Operate3</th>-->
+                <th><font color="white">Details</font></th>
             </tr>
             <tr ng-repeat="phone in userPhoneAll">
                 <!--<td>{{phone.phoneUser}}</td>-->
@@ -31,11 +26,16 @@
                 <td>{{phone.stateString }}</td>
                 <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
                 <!--<td><a href="" ng-click="replace(phone.id, phone.state)">{{phone.operate1 }}</a></td>
-                <td><a href="" ng-click="abandon(phone.id, phone.state)">{{phone.operate2 }}</a></td>
-                <td><a href="" ng-click="delete(phone.id, phone.state)">{{phone.operate3 }}</a></td>-->
+            <td><a href="" ng-click="abandon(phone.id, phone.state)">{{phone.operate2 }}</a></td>
+            <td><a href="" ng-click="delete(phone.id, phone.state)">{{phone.operate3 }}</a></td>-->
                 <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="30px" height="30px"></a></td>
             </tr>
         </table>
+        <div style="text-align:right;width:75%">
+            <a href="" ng-click="getUserPhoneAll(pageIndex - 1)" ng-show="pageIndex > 1"><font size="4">previous</font></a>
+            <font size="4">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>
+            <a href="" ng-click="getUserPhoneAll(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="4">next</font></a>
+        </div>
     </center>
 
     <div class="panel-body" ng-show="showDetail">
@@ -62,27 +62,27 @@
                             productNo: {{productNo}}
                         </label>
                     </div>
-                    <div class="form-group" id="startDate" ng-show="startDate != null">
+                    <div class="form-group" id="startDate" ng-show="startDate != '' && startDate != null">
                         <label>
                             startDate: {{startDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="endDate" ng-show="endDate != ''">
+                    <div class="form-group" id="endDate" ng-show="endDate != '' && endDate != null">
                         <label>
                             endDate: {{endDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="abandonDate" ng-show="abandonDate != ''">
+                    <div class="form-group" id="abandonDate" ng-show="abandonDate != '' && abandonDate != null">
                         <label>
                             abandonDate: {{abandonDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="deleteDate" ng-show="deleteDate != ''">
+                    <div class="form-group" id="deleteDate" ng-show="deleteDate != '' && deleteDate != null">
                         <label>
                             deleteDate: {{deleteDate | date:'yyyy-MM-dd'}}
                         </label>
                     </div>
-                    <div class="form-group" id="deleteReason" ng-show="deleteReason != null">
+                    <div class="form-group" id="deleteReason" ng-show="deleteReason != '' && deleteReason != null">
                         <label>
                             deleteReson: {{deleteReason}}
                         </label>
@@ -93,9 +93,9 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <button ng-show="operate1 != 'nothing'" ng-click="replace(tempId, state)">{{operate1 }}</button>
-                        <button ng-show="operate2 != 'nothing'" ng-click="abandon(tempId, state)">{{operate2 }}</button>
-                        <button ng-show="operate3 != 'nothing'" ng-click="delete(tempId, state)">{{operate3 }}</button>
+                        <button class="btn btn-primary" ng-show="operate1 != 'nothing'" ng-click="replace(tempId, state)">{{operate1 }}</button>
+                        <button class="btn btn-primary" ng-show="operate2 != 'nothing'" ng-click="abandon(tempId, state)">{{operate2 }}</button>
+                        <button class="btn btn-primary" ng-show="operate3 != 'nothing'" ng-click="delete(tempId, state)">{{operate3 }}</button>
                     </div>
                 </div>
             </center>
@@ -104,5 +104,7 @@
 </div>
 
     <div ng-show="!notEmpty">
-        <h1>You should buy phones!</h1>
+        <center>
+            <h1>You should buy phones!</h1>
+        </center>
     </div>

@@ -13,9 +13,7 @@
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if (response.data['notLogin'] == 'true') {
-                        $location.url('/#!/phone');
-                    } else {
-                        $scope.loginUsername = response.data;
+                        $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
                     //alert("error");
@@ -67,9 +65,12 @@
 
 
             $scope.backToIndex = function () {
-                if (confirm('Back to index? Data will not be saved')) {
+                if (confirm('Back to index?')) {
                     $location.path('/phone/choosePage');     
                 }
+            }
+            $scope.previous = function () {
+                $location.path('/phone/deletePage');
             }
 
         }]

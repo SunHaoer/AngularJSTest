@@ -16,10 +16,9 @@ component('choosePage',{
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
                 if (response.data['notLogin'] == 'true') {
-                    $location.url('/#!/phone');
-                } else {
-                    $scope.loginUsername = response.data;
-                }
+                    $location.url('/phone/errorPage');
+                    //alert('Not logged in will back to the home page');
+                } 
             }, function error(response) {
                 //alert("error");
             });
@@ -42,7 +41,40 @@ component('choosePage',{
         }
         $scope.GetLoginUsername();
 
+        $scope.getPageIndex = function () {
+            $http({
+                method: 'GET',
+                params: ({
+
+                }),
+                url: '/api/TempPhone/GetTempPageIndex',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $scope.pageIndex = response.data;
+                //alert('=' + $scope.pageIndex);
+            }, function error(response) {
+                //alert("error");
+            });
+        }
+        //$scope.getPageIndex();
+
+        $scope.setPageIndex = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                    pageIndex: $scope.pageIndex
+                }),
+                url: '/api/TempPhone/SetTempPageIndex',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $scope.pageIndex = response.data;
+            }, function error(response) {
+                //alert("error");
+            });
+        }
+
         $scope.register = function () {
+            $scope.setPageIndex();
             $http({
                 method: 'POST',
                 params: ({
@@ -58,18 +90,20 @@ component('choosePage',{
         }
 
         $scope.logout = function () {
-            $http({
-                method: 'GET',
-                params: ({
+            if (confirm('logout?')) {
+                $http({
+                    method: 'GET',
+                    params: ({
 
-                }),
-                url: '/api/Login/Logout',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                $location.url('/#!/phone');
-            }, function error(response) {
-                //alert("error");
-            });
+                    }),
+                    url: '/api/Login/Logout',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/#!/phone');
+                }, function error(response) {
+                    //alert("error");
+                });
+            }
         }
 
         $scope.getUserPhoneAll = function (pageIndex) {
@@ -148,7 +182,8 @@ component('choosePage',{
                     $http({
                         method: 'POST',
                         params: ({
-                            id: id
+                            id: id,
+                            startDate: new Date($scope.myDate)
                         }),
                         url: '/api/Phone/UsingPhoneById',
                         headers: { 'Content-Type': 'application/json' }
@@ -164,6 +199,7 @@ component('choosePage',{
         }
         
         $scope.delete = function (id, state) {
+            $scope.setPageIndex();
             if (state != 3) {
                 $http({
                     method: 'POST',
@@ -193,6 +229,7 @@ component('choosePage',{
         } 
         */
         $scope.replace = function (id, state) {
+            $scope.setPageIndex();
             if (state == 1) {
                 $http({
                     method: 'POST',

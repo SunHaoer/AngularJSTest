@@ -21,7 +21,7 @@ component('errorPage', {
                 alert("error");
             });
         }
-        $scope.checkLogin();
+        //$scope.checkLogin();
     }]
 
 })

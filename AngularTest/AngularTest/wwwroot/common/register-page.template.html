@@ -20,13 +20,17 @@
                         <label class="col-md-2">
                             productNo:
                         </label>
-                        <div class="col-md-10" ng-mouseleave="GetBrandTypeByProductNo();getTypeByBrand()">
-                            <input style="ime-mode:disabled" type="text" ng-model="phone.productNo" id="productNo" name="productNo"onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');"
-                                   ng-mouseleave="GetBrandTypeByProductNo()" required="required"  />
+                        <div class="col-md-10" ng-click="getTypeByBrand()" ng-mouseleave="getTypeByBrand()">
+                            <input style="ime-mode:disabled" type="text" ng-model="phone.productNo" id="productNo" name="productNo" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');"
+                                    required="required" />
+                                <div ng-click="GetBrandTypeByProductNo()" ng-mouseleave="getTypeByBrand();validateProductNo()">
+                                    GetBrandTypeByProductNo
+                                </div>
                             <span ng-show="myForm.productNo.$dirty && myForm.productNo.$error.required">
                                 <font color="red">*productNo can not be empty</font>
                             </span>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">
@@ -50,7 +54,7 @@
                             </select>
                             <div ng-show="myForm.productNo.$dirty && !ProductNoIsLegal">
                                 <span>
-                                    <font color="red">productNo is unfind</font>
+                                    <font color="red">productNo is mismatch</font>
                                 </span>
                             </div>
                         </div>
@@ -62,7 +66,12 @@
                             startDate:
                         </label>
                         <div class="col-md-10">
-                            <input type="date" ng-model="phone.inputDate" name="inputDate" id="inputDate" ng-blur="formatDate()" required />
+                            <input type="date" ng-model="phone.inputDate" name="inputDate" id="inputDate" ng-blur="formatDate();validateInputDate();abandonDateIsLegal(phone.inputDate, oldPhone.abandonDate)" required />
+                        </div>
+                        <div ng-show="myForm.inputDate.$dirty && !inputDateIsLegal">
+                            <span>
+                                <font color="red">The date is not legal</font>
+                            </span>
                         </div>
                     </div>
                     <!-- 测试使用，最后需要删除 -->
@@ -71,9 +80,9 @@
                         <div class="col-md-offset-2 col-md-10" style="padding:30px">
                             <!--<span>{{flag}}</span>-->
                             <!--<a href="#!/phone/choosePage">-->
-                            <input type="button" value=" back to index" style="color:black" ng-click="backToIndex()" />
+                            <input class="btn btn-primary" type="button" value=" back to index"  ng-click="backToIndex()" />
                             <!--</a>-->
-                            <input type="submit" value="next" ng-mousemove="GetBrandTypeByProductNo();getTypeByBrand();validateProductNo();getYearByType();formatDate();" />
+                            <input class="btn btn-primary" type="submit" value="next" ng-mousemove="getTypeByBrand();validateProductNo();getYearByType();formatDate();" />
                         </div>
                     </div>
                 </form>
@@ -99,7 +108,7 @@
                                 productNo:
                             </label>
                             <div class="col-md-10">
-                                <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" ng-blur="GetBrandTypeByProductNo()" disabled />
+                                <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" disabled />
 
                             </div>
                         </div>
@@ -133,8 +142,11 @@
                                 abandonDate：
                             </label>
                             <div class="col-md-10">
-                                <input type="date" ng-model="phone.inputDate" name="abandonDate" id="abandonDate" required />
+                                <input type="date" ng-model="oldPhone.abandonDate" name="abandonDate" id="abandonDate" ng-blur="abandonDateIsLegal(phone.inputDate, oldPhone.abandonDate)"  />
                             </div>
+                            <span ng-show="!twoDateIsEqual">
+                                <font color="red">start date and abandon date should be equals</font>
+                            </span>
                         </div>
 
                         <!--<span>{{phone}}</span>-->

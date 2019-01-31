@@ -11,7 +11,7 @@ namespace AngularTest.Controllers
     public class TempPhoneController : ControllerBase
     {
         private readonly PhoneContext _context;
-        private long userId;    
+        private long userId;
 
         public TempPhoneController(PhoneContext context)
         {
@@ -22,6 +22,7 @@ namespace AngularTest.Controllers
         static Phone newTempPhone = new Phone();
         static Phone oldTempPhone = new Phone();
         static long oldId = -1;
+        static int tempPageIndex = 1;
 
         /// <summary>
         /// 存入newNempPhone
@@ -152,6 +153,30 @@ namespace AngularTest.Controllers
         public ActionResult<long> GetOldId()
         {
             return oldId;
+        }
+
+        /// <summary>
+        /// 保存当前页面
+        /// url: '/api/TempPhone/SetTempPageIndex'
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<bool> SetTempPageIndex(int pageIndex)
+        {
+            tempPageIndex = pageIndex;
+            return true;
+        }
+
+        /// <summary>
+        /// 获取当前页码
+        /// url: '/api/TempPhone/GetTempPageIndex'
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet] 
+        public ActionResult<int> GetTempPageIndex()
+        {
+            return tempPageIndex;
         }
     }
 }
