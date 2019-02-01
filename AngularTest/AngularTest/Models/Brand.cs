@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace AngularTest.Models
 {
-    public class BrandModel
+    public class Brand
     {
-        public long Id { get; set; }
-        public string Brand { get; set; }
+        public long Id { set; get; }
+        public string BrandName { set; get; }
     }
 }

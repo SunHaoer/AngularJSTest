@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AngularTest.Data
 {
-    public class BrandModelContext : DbContext
+    public class BrandContext : DbContext
     {
-        public BrandModelContext(DbContextOptions<BrandModelContext> options)
+        public BrandContext(DbContextOptions<BrandContext> options)
     : base(options)
         {
         }
 
-        public DbSet<BrandModel> BrandModels { get; set; }
+        public DbSet<Brand> Brand { get; set; }
     }
 }

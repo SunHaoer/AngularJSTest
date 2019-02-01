@@ -1,0 +1,157 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="panel-title" ng-model="isReplace" ng-show="isReplace">Replace</div>
+        <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
+    </div>
+    <div class="panel-body" style="width:50%;float:left" ng-mouseenter="getphoneUser()">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>New Phone</h1>
+                <form class="form-horizontal" role="form" name="myForm" novalidate ng-submit="submitMsg()">
+                    <!--<div class="form-group">
+                        <label class="col-md-2">
+                            username:
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" ng-model="phone.phoneUser" name="phoneUser" id="phoneUser" disabled />
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            productNo:
+                        </label>
+                        <div class="col-md-10" ng-click="getTypeByBrand()" ng-mouseleave="getTypeByBrand()">
+                            <input style="ime-mode:disabled" type="text" ng-model="phone.productNo" id="productNo" name="productNo" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');"
+                                    required="required" />
+                                <div ng-click="GetBrandTypeByProductNo()" ng-mouseleave="getTypeByBrand();validateProductNo()">
+                                    <input type="button" value="GetBrandTypeByProductNo"> 
+                                </div>
+                            <span ng-show="myForm.productNo.$dirty && myForm.productNo.$error.required">
+                                <font color="red">*productNo can not be empty</font>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            phoneBrand：
+                        </label>
+                        <div class="col-md-10">
+                            <select ng-model="phone.brand" name="brand" id="brand" required ng-click="getTypeByBrand()">
+                                <option value="">select the brand</option>
+                                <option ng-repeat="x in brandList">{{x}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            phoneType：
+                        </label>
+                        <div class="col-md-10">
+                            <select ng-model="phone.type" name="type" id="type" ng-blur="validateProductNo();getYearByType()" required>
+                                <option value="">select the type</option>
+                                <option ng-repeat="x in typeList">{{x}}</option>
+                            </select>
+                            <div ng-show="myForm.productNo.$dirty && !ProductNoIsLegal">
+                                <span>
+                                    <font color="red">productNo is mismatch</font>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入日期 -->
+                    <div class="form-group">
+                        <label class="col-md-2">
+                            startDate:
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" ng-model="phone.inputDate" name="inputDate" id="inputDate" ng-blur="formatDate();validateInputDate();abandonDateIsLegal(phone.inputDate, oldPhone.abandonDate)" required />
+                        </div>
+                        <div ng-show="myForm.inputDate.$dirty && !inputDateIsLegal">
+                            <span>
+                                <font color="red">The date is not legal</font>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- 测试使用，最后需要删除 -->
+                    <!--<span>{{phone}}</span>-->
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10" style="padding:30px">
+                            <!--<span>{{flag}}</span>-->
+                            <!--<a href="#!/phone/choosePage">-->
+                            <input class="btn btn-primary" type="button" value=" back to index"  ng-click="backToIndex()" />
+                            <!--</a>-->
+                            <input class="btn btn-primary" type="submit" value="next" ng-mousemove="getTypeByBrand();validateProductNo();getYearByType();formatDate();" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="width:50%;float:left" ng-show="isReplace">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Old Phone</h1>
+                    <div class="form-horizontal">
+                        <!--<div class="form-group">
+                            <label class="col-md-2">
+                                userName:
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.phoneUser" name="phoneUser" id="phoneUser" disabled />
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                productNo:
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.productNo" id="productNo" name="productNo" disabled />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                phoneBrand：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.brand" id="brand" name="brand" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">
+                                phoneType：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" ng-model="oldPhone.type" id="type" name="type" disabled />
+
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="isReplace">
+                            <label class="col-md-2">
+                                startDate：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="date" ng-model="oldPhone.startDate" name="startDate" id="startDate" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="isReplace">
+                            <label class="col-md-2">
+                                abandonDate：
+                            </label>
+                            <div class="col-md-10">
+                                <input type="date" ng-model="oldPhone.abandonDate" name="abandonDate" id="abandonDate" ng-blur="abandonDateIsLegal(phone.inputDate, oldPhone.abandonDate)"  />
+                            </div>
+                            <span ng-show="!twoDateIsEqual">
+                                <font color="red">start date and abandon date should be equals</font>
+                            </span>
+                        </div>
+
+                        <!--<span>{{phone}}</span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
