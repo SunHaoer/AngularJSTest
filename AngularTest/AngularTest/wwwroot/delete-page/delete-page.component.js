@@ -141,22 +141,6 @@
                     $location.path('/phone/choosePage');     // ??????
                 }
             }
-            $scope.GetdeleteReason = function () {
-                $http({
-                    method: 'Get',
-                    params: ({
-
-                    }),
-                    url: '/api/DeleteReasonModel/InitDeleteReasonDB',
-
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-
-                }, function error(response) {
-                    alert('error');
-                })
-            }
-            $scope.GetdeleteReason();
             $scope.getListAboutdeleteReason = function () {
                 $http({
                     method: 'Get',
@@ -175,6 +159,7 @@
 
                 });
             }
+            $scope.getListAboutdeleteReason();
 
         }]
 

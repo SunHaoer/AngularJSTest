@@ -35,8 +35,8 @@
                         <label class="col-md-2">
                             deleteReason：
                         </label>
-                        <div class="col-md-10" ng-mouseleave="otherReason()" >
-                            <select ng-model="TempPhone.deleteReason"  name="deleteReason"  id="deleteReason"  required ng-click="getListAboutdeleteReason()">
+                        <div class="col-md-10" ng-mouseleave="otherReason()">
+                            <select ng-model="TempPhone.deleteReason"  name="deleteReason"  id="deleteReason"  required  >
                                 <option value="">please select</option>
                                 <option ng-repeat="x in deleteReasonList">{{x}}</option>
                             </select>
