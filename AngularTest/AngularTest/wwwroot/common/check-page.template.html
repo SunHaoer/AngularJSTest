@@ -9,12 +9,7 @@
         <h1>New Phone</h1>
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
-                    <!--<div class="form-group">
-                        <label class="col-md-2" id="phoneUser">
-                            userName：<font color="blue">{{phone.phoneUser}}</font>
-                        </label>
-                    </div>-->
+                <form class="form-horizontal" role="form" name="checkForm">
                     <div class="form-group">
                         <label class="col-md-2" id="brand">
                             phoneBrand：<font color="blue">{{phone.brand}}</font>
@@ -40,21 +35,15 @@
                             endDate：<font color="blue">{{phone.endDate | date:'yyyy-MM-dd'}}</font>
                         </label>
                     </div>
-                    <!--<div class="form-group" id="abandonDate">
-                        <label class="col-md-2" ng-show="isReplace">
-                            更换日期：{{phone.abandonDate | date:'yyyy-MM-dd'}}
-                        </label>
-                    </div>-->
 
                     <div class="form-group">
                         <div class="col-md-10">
-                            <input type="button" value="previous" ng-click="$ctrl.cancle()" />
+                            <input type="button" value="previous" ng-click="cancle()" />
                             <input type="button" value="backToIndex" ng-click="backToIndex()" />
-
-                            <!--<input type="button" value="Index" ng-click="$ctrl.backIndex()" />-->
-                            <input type="submit" value="submit" />
+                            <input type="submit" value="submit" ng-click="submitMsg()"/>
                         </div>
                     </div>
+                    {{phone}}
                 </form>
             </div>
         </div>
@@ -64,12 +53,7 @@
         <h1>Old Phone</h1>
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm">
-                    <!--<div class="form-group">
-                        <label class="col-md-2" id="phoneUser" style="color:red">
-                            userName：{{oldPhone.phoneUser}}
-                        </label>
-                    </div>-->
+                <div class="form-horizontal" role="form" name="checkForm">
                     <div class="form-group">
                         <label class="col-md-2" id="oldBrand">
                             phoneBrand：<font color="red">{{oldPhone.brand}}</font>
@@ -100,16 +84,8 @@
                             abandonDate：<font color="red">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
                         </label>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <!--<h1>{{$ctrl.test}}</h1>
-    <p>
-        {{phone}}
-    </p>
-    <p>
-        {{oldPhone}}
-    </p>-->
 </div>

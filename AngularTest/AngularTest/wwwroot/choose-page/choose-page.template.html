@@ -1,6 +1,6 @@
 
 <div style="text-align:center;width:40%">
-    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="register()">Add New Phone</button> </front>
+    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="AddNewPhone()">Add New Phone</button> </front>
     
     <!--<button ng-click="logout()">Logout</button>-->
 </div>
@@ -42,11 +42,11 @@
         <div class="row">
             <center>
                 <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:75%">
-                    <!--<div class="form-group">
+                    <div class="form-group">
                         <label class="col-md-2" id="phoneUser">
-                            phoneUser: {{phoneUser}}
+                            phoneUser: {{tempId}}
                         </label>
-                    </div>-->
+                    </div>
                     <div class="form-group">
                         <label>
                             brand: {{brand}}

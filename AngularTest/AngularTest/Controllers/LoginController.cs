@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using AngularTest.Data;
 using AngularTest.Models;
 using AngularTest.Service;
 using AngularTest.VeiwModels;
@@ -15,17 +14,29 @@ namespace AngularTest.Controllers
     {
         private UserContext _userContext;
         private PhoneContext _phoneContext;
+        private BrandContext _brandContext;
+        private BrandTypeContext _brandTypeContext;
+        private BrandTypeProductNoContext _brandTypeProductNoContext;
         private IQueryable<User> userIQ;
         private IQueryable<Phone> phoneIQ;
+        private IQueryable<Brand> brandIQ;
+        private IQueryable<BrandType> brandTypeIQ;
+        private IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
         private readonly LoginService loginService;
 
-        public LoginController(UserContext userContext, PhoneContext phoneContext)
+        public LoginController(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext)
         {
             _userContext = userContext;
             _phoneContext = phoneContext;
+            _brandContext = brandContext;
+            _brandTypeContext = brandTypeContext;
+            _brandTypeProductNoContext = brandTypeProductNoContext;
             userIQ = _userContext.Users;
             phoneIQ = _phoneContext.Phones;
-            loginService = new LoginService(_userContext, _phoneContext, userIQ, phoneIQ);
+            brandIQ = _brandContext.Brands;
+            brandTypeIQ = _brandTypeContext.BrandTypes;
+            brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
+            loginService = new LoginService(_userContext, _phoneContext, _brandContext, _brandTypeContext, _brandTypeProductNoContext, userIQ, phoneIQ, brandIQ, brandTypeIQ, brandTypeProductNoIQ);
         }
 
         /// <summary>
@@ -51,7 +62,7 @@ namespace AngularTest.Controllers
                     HttpContext.Session.SetString("loginUser", user.ToSessionString());
                     model.IsLegal = true;
                 }
-                loginService.SetInitDataBase();
+                loginService.SetInitDataBase(user.Id);
             }
             return model;
         }

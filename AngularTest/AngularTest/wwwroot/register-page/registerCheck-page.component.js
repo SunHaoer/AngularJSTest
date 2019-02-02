@@ -3,87 +3,53 @@ module('registerPage').
 component('registerCheckPage', {
     templateUrl: 'common/check-page.template.html',
     controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
-        var state = 1;
-
         $scope.isReplace = false;
 
-        $scope.checkLogin = function () {   // 需提取
+        /*
+         * get 'AddPhonePageViewModel'
+         */
+        $scope.getAddPhonePageViewModel = function () {
             $http({
                 method: 'GET',
                 params: ({
                 }),
-                url: '/api/Phone/CheckLogin',
+                url: '/api/AddPhoneCheck/GetAddPhoneCheckPageViewModel',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                if (response.data['notLogin'] == 'true') {
-                    $location.url('/phone/errorPage');
-                } 
+                $scope.addPhonePageViewModel = response.data;
+                var model = $scope.addPhonePageViewModel;
+                if (model.isLogin) {
+                    $scope.phone = model.tempNewPhone;
+                } else {
+                    $location.url('phone/errorPage');
+                }
             }, function error(response) {
-                //alert("error");
             });
         }
-        $scope.checkLogin();
+        $scope.getAddPhonePageViewModel();
 
-        $http({
-            method: 'Get',
-            url: '/api/TempPhone/GetNewTempPhone',
-        }).then(function successCallback(response) {
-            $scope.phone = response.data;
-            state = $scope.phone.state;
-            dateString = $scope.phone.startDate
-        }, function errorCallback(response) {
-            //alert('error');
-        });
-        if (state == 1) {
-            $scope.state = 'using';
-        } else if(state == 2) {
-            $scope.state = 'abandoned';
-        }
-        //console.log(dateString);
-
-        /*
-         * 
-        $scope.formatDate = function () {
-            var inputDate = $scope.phone.inputDate;
-            var year = inputDate.getFullYear();
-            var month = inputDate.getMonth() + 1;
-            if (month < 10) month = '0' + month;
-            var date = inputDate.getDate();
-            if (date < 10) date = '0' + date;
-            var startDate = year + '' + month + '' + date;
-            var endDate = (year + $scope.phone.life) + '' + month + '' + date;
-            $scope.phone.startDate = startDate;
-            $scope.phone.endDate = endDate;
-
-        }
-        *
-        */
-        
-        this.submitMsg = function () {
-            // 更换的新手机存入数据库
+        $scope.submitMsg = function () {
             $http({
-                method: 'Post',
-                url: 'api/Phone/SaveUserPhone',
+                method: 'GET',
+                url: '/api/AddPhoneCheck/SubmitMsg',
                 params: ({
-                    id: $scope.phone.id,
-                    phoneUser: $scope.phone.phoneUser,
-                    brand: $scope.phone.brand,
-                    type: $scope.phone.type,
-                    productNo: $scope.phone.productNo,
-                    startDate: $scope.phone.startDate,
-                    endDate: $scope.phone.endDate,
-                    deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.abandonReson,
-                    state: $scope.phone.state
-                })
+                }),
+                headers: { 'Content-Type': 'application/json' }
             }).then(function successCallback(response) {
-                $location.url('/phone/successPage');
+                $scope.FormFeedbackViewModel = response.data;
+                var model = $scope.FormFeedbackViewModel;
+                if (model.isSuccess) {
+                    alert('success');
+                    $location.url('phone/choosePage');
+                } else {
+                    alert('not legal');
+                }
             }, function errorCallback(response) {
                 $location.url('phone/errorPage');
             });
         };
 
-        this.cancle = function() {
+        $scope.cancle = function() {
             $location.url('/phone/registerPage');
         };
 

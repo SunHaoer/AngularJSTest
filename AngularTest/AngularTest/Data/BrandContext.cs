@@ -14,6 +14,6 @@ namespace AngularTest.Data
         {
         }
 
-        public DbSet<Brand> Brand { get; set; }
+        public DbSet<Brand> Brands { get; set; }
     }
 }

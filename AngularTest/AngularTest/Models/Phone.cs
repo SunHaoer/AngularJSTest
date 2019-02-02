@@ -24,7 +24,22 @@ namespace AngularTest.Models
         {
         }
 
-        public Phone(long id, string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime abandonDate, DateTime deleteDate, string deleteReason, int state)
+        /// <summary>
+        /// all paramters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="phoneUser"></param>
+        /// <param name="userId"></param>
+        /// <param name="brand"></param>
+        /// <param name="type"></param>
+        /// <param name="productNo"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="abandonDate"></param>
+        /// <param name="deleteDate"></param>
+        /// <param name="deleteReason"></param>
+        /// <param name="state"></param>
+        public Phone(long id, string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate, int state)
         {
             Id = id;
             PhoneUser = phoneUser;
@@ -34,13 +49,10 @@ namespace AngularTest.Models
             ProductNo = productNo;
             StartDate = startDate;
             EndDate = endDate;
-            AbandonDate = abandonDate;
-            DeleteDate = deleteDate;
-            DeleteReason = deleteReason;
             State = state;
         }
 
-        public Phone(string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate, DateTime abandon, DateTime deleteDate, string deleteReason, int state)
+        public Phone(string phoneUser, long userId, string brand, string type, string productNo, DateTime startDate, DateTime endDate)
         {
             PhoneUser = phoneUser;
             UserId = userId;
@@ -49,10 +61,6 @@ namespace AngularTest.Models
             ProductNo = productNo;
             StartDate = startDate;
             EndDate = endDate;
-            AbandonDate = abandon;
-            DeleteDate = deleteDate;
-            DeleteReason = deleteReason;
-            State = state;
         }
 
     }
