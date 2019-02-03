@@ -1,4 +1,5 @@
-﻿using AngularTest.Models;
+﻿using AngularTest.Cache;
+using AngularTest.Models;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
 using AngularTest.Utils;
@@ -64,7 +65,7 @@ namespace AngularTest.Controllers
             {
                 model.IsLogin = true;
                 long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-                if(choosePageService.ValidateId(id, loginUserId) && Validation.IsDateLegal(abandonDate))
+                if(choosePageService.ValidateIdInAbandon(id, loginUserId) && Validation.IsDateLegal(abandonDate))
                 {
                     model.IsParameterNotEmpty = true;
                     model.IsParameterLegal = true;
@@ -92,13 +93,65 @@ namespace AngularTest.Controllers
             {
                 model.IsLogin = true;
                 long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-                if (choosePageService.ValidateId(id, loginUserId) && Validation.IsDateLegal(startDate))
+                if (choosePageService.ValidateIdInAbandon(id, loginUserId) && Validation.IsDateLegal(startDate))
                 {
                     model.IsParameterNotEmpty = true;
                     model.IsParameterLegal = true;
                     Phone phone = choosePageService.GetPhoneById(id);
                     phone = choosePageService.UpdatePhoneState(phone, startDate, 1);
                     choosePageService.UpdatePhoneStateInDB(phone);
+                    model.IsSuccess = true;
+                }
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// url: "/api/ChoosePage/SetTempOldPhoneById"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public FormFeedbackViewModel SetTempOldPhoneById(long id)
+        {
+            FormFeedbackViewModel model = new FormFeedbackViewModel();
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            if(!string.IsNullOrEmpty(loginUserInfo))
+            {
+                model.IsLogin = true;
+                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                if (choosePageService.ValidateIdInReplace(id, loginUserId))
+                {
+                    model.IsParameterNotEmpty = true;
+                    model.IsParameterLegal = true;
+                    Phone phone = choosePageService.GetPhoneById(id);
+                    TempPhone.SetTempOldPhoneByUserId(loginUserId, phone);
+                    model.IsSuccess = true;
+                }
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// url: "/api/ChoosePage/SetTempNewPhoneById"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public FormFeedbackViewModel SetTempNewPhoneById(long id)
+        {
+            FormFeedbackViewModel model = new FormFeedbackViewModel();
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            if (!string.IsNullOrEmpty(loginUserInfo))
+            {
+                model.IsLogin = true;
+                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                if (choosePageService.ValidateIdInReplace(id, loginUserId))
+                {
+                    model.IsParameterNotEmpty = true;
+                    model.IsParameterLegal = true;
+                    Phone phone = choosePageService.GetPhoneById(id);
+                    TempPhone.SetTempNewPhoneByUserId(loginUserId, phone);
                     model.IsSuccess = true;
                 }
             }

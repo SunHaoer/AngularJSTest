@@ -28,9 +28,14 @@ namespace AngularTest.Service
             TempPhone.SetTempOldPhoneByUserId(userId, new Phone()); 
         }
 
-        public bool ValidateId(long id, long loginUserId)
+        public bool ValidateIdInAbandon(long id, long loginUserId)
         {
             return phoneIQ.Any(item => item.Id == id && item.UserId == loginUserId && item.State != 3);
+        }
+
+        public bool ValidateIdInReplace(long id, long loginUserId)
+        {
+            return phoneIQ.Any(item => item.Id == id && item.UserId == loginUserId && item.State == 1);
         }
 
         public Phone GetPhoneById(long id)
@@ -38,10 +43,18 @@ namespace AngularTest.Service
             return phoneIQ.FirstOrDefault(item => item.Id == id);
         }
 
-        public Phone UpdatePhoneState(Phone phone, DateTime abandonDate, int newState)
+        public Phone UpdatePhoneState(Phone phone, DateTime date, int newState)
         {
             phone.State = newState;
-            phone.AbandonDate = abandonDate;
+            if(newState == 2)
+            {
+                phone.AbandonDate = date;
+            }
+            else
+            {
+                phone.StartDate = date;
+                phone.AbandonDate = new DateTime();
+            }
             return phone;
         }
 

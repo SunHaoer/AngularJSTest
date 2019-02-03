@@ -61,8 +61,9 @@ namespace AngularTest.Controllers
                 {
                     HttpContext.Session.SetString("loginUser", user.ToSessionString());
                     model.IsLegal = true;
+                    loginService.SetInitDataBase(user.Id);
+                    model.IsLogin = true;
                 }
-                loginService.SetInitDataBase(user.Id);
             }
             return model;
         }

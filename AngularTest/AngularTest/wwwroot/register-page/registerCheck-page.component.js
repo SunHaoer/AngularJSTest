@@ -28,6 +28,9 @@ component('registerCheckPage', {
         }
         $scope.getAddPhonePageViewModel();
 
+        /*
+         * submit
+         */
         $scope.submitMsg = function () {
             $http({
                 method: 'GET',
@@ -39,8 +42,8 @@ component('registerCheckPage', {
                 $scope.FormFeedbackViewModel = response.data;
                 var model = $scope.FormFeedbackViewModel;
                 if (model.isSuccess) {
-                    alert('success');
-                    $location.url('phone/choosePage');
+                    //alert('success');
+                    $location.url('phone/successPage');
                 } else {
                     alert('not legal');
                 }

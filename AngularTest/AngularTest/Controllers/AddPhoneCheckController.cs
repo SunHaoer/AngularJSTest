@@ -62,7 +62,7 @@ namespace AngularTest.Controllers
                 if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId))
                 {
                     model.IsParameterLegal = true;
-                    addPhoneService.SetTempNewPhoneToDB(loginUserId);
+                    addPhoneService.SetTempNewPhoneToDBByUserId(loginUserId);
                     model.IsSuccess = true;
                 }              
             }

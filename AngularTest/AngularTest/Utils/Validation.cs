@@ -59,5 +59,10 @@ namespace AngularTest.Utils
                 return false;
             }
         }
+
+        public static bool IsTwoDaysEquals(DateTime date1, DateTime date2)
+        {
+            return (date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day);
+        }
     }
 }

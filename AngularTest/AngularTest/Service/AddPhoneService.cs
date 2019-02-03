@@ -14,7 +14,6 @@ namespace AngularTest.Service
 
         public AddPhoneService()
         {
-
         }
 
         public AddPhoneService(PhoneContext phoneContext)
@@ -28,7 +27,7 @@ namespace AngularTest.Service
             TempPhone.SetTempNewPhoneByUserId(userId, phone);
         }
 
-        public void SetTempNewPhoneToDB(long userId)
+        public void SetTempNewPhoneToDBByUserId(long userId)
         {
             Phone phone = TempPhone.GetTempNewPhoneByUserId(userId);
             phone.State = 1;

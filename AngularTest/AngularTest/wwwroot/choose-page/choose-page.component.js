@@ -142,7 +142,7 @@ component('choosePage',{
                 }).then(function success(response) {
                     alert('Using Success!');
                 }, function error(response) {
-                        alert('error');
+                    alert('error');
                 });
             }
         }
@@ -161,18 +161,43 @@ component('choosePage',{
             location.reload();
         }
 
-        $scope.setPageIndex = function () {
-            $http({
-                method: 'GET',
-                params: ({
-                    pageIndex: $scope.pageIndex
-                }),
-                url: '/api/TempPhone/SetTempPageIndex',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                $scope.pageIndex = response.data;
-            }, function error(response) {
-            });
+        $scope.replace = function (id, state) {
+            if (state == 1) {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/ChoosePage/SetTempOldPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/replacePage');
+                }, function error(response) {
+                });
+            } else if (state == 2) {
+                alert('The phone is already abandon!')
+            } else {
+                alert('The phone is already delete!');
+            }
+        }
+
+        $scope.delete = function (id, state) {
+            if (state != 3) {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/ChoosePage/SetTempNewPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/deletePage');
+                }, function error(response) {
+                    //alert("error");
+                });
+            } else {
+                alert('The phone is already delete!');
+            }
         }
 
         /*
@@ -190,28 +215,24 @@ component('choosePage',{
             });
         }
         */
-
+        /*
+        $scope.setPageIndex = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                    pageIndex: $scope.pageIndex
+                }),
+                url: '/api/TempPhone/SetTempPageIndex',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $scope.pageIndex = response.data;
+            }, function error(response) {
+            });
+        }
+        */
 
         
-        $scope.delete = function (id, state) {
-            $scope.setPageIndex();
-            if (state != 3) {
-                $http({
-                    method: 'POST',
-                    params: ({
-                        id: id
-                    }),
-                    url: '/api/TempPhone/SetNewTempPhoneById',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    $location.url('/phone/deletePage');
-                }, function error(response) {
-                    //alert("error");
-                });
-            } else {
-                alert('The phone is already delete!');
-            }
-        }
+
         /*
         $scope.stateFilter = function (phoneState) {
             if (phoneState == 1) {
@@ -223,41 +244,7 @@ component('choosePage',{
             }
         } 
         */
-        $scope.replace = function (id, state) {
-            $scope.setPageIndex();
-            if (state == 1) {
-                $http({
-                    method: 'POST',
-                    params: ({
 
-                    }),
-                    url: '/api/TempPhone/SetNewTempPhone',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-
-                }, function error(response) {
-                    //alert("error");
-                });
-
-                $http({
-                    method: 'POST',
-                    params: ({
-                        id: id
-                    }),
-                    url: '/api/TempPhone/SetOldTempPhoneById',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    //alert('/phone/replacePage');
-                    $location.url('/phone/replacePage');
-                }, function error(response) {
-                    //alert("error");
-                });
-            } else if (state == 2) {
-                alert('The phone is already abandon!')
-            } else {
-                alert('The phone is already delete!');
-            }
-        }
 
 
     }]

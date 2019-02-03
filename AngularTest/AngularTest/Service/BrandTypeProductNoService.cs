@@ -11,10 +11,10 @@ namespace AngularTest.Service
         private readonly BrandTypeProductNoContext _brandTypeProductNoContext;
         private readonly IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
 
-        public BrandTypeProductNoService(BrandTypeProductNoContext brandTypeProductNoContext, IQueryable<BrandTypeProductNo> brandTypeProductNoIQ)
+        public BrandTypeProductNoService(BrandTypeProductNoContext brandTypeProductNoContext)
         {
             _brandTypeProductNoContext = brandTypeProductNoContext;
-            this.brandTypeProductNoIQ = brandTypeProductNoIQ;
+            this.brandTypeProductNoIQ = brandTypeProductNoContext.BrandTypeProductNos;
         }
 
         public bool ValidateBrandTypeProductNo(string brand, string type, string productNo)

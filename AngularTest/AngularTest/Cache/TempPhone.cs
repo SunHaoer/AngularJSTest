@@ -35,5 +35,17 @@ namespace AngularTest.Cache
         {
             return !string.IsNullOrEmpty(tempNewPhone.GetValueOrDefault(userId).ProductNo);
         }
+
+        public static bool IsTempOldPhoneNotEmpty(long userId)
+        {
+            return !string.IsNullOrEmpty(tempOldPhone.GetValueOrDefault(userId).ProductNo);
+        }
+
+        public static void SetTempOldPhoneAbandonDateByUserId(long userId, DateTime abandonDate)
+        {
+            Phone phone = GetTempOldPhoneByUserId(userId);
+            phone.AbandonDate = abandonDate;
+            SetTempOldPhoneByUserId(userId, phone);
+        }
     }
 }

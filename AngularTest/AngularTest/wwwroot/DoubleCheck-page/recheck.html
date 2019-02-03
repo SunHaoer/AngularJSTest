@@ -12,7 +12,7 @@
                             productNo：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="checkPhone.productNo" name="productNo" id="proNo" disabled />
+                            <input type="text" ng-model="phone.productNo" name="productNo" id="proNo" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -20,7 +20,7 @@
                             phoneBrand：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="checkPhone.brand" name="brand" id="brand" disabled />
+                            <input type="text" ng-model="phone.brand" name="brand" id="brand" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +28,7 @@
                             phoneType：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="checkPhone.type" name="type" id="type" disabled />
+                            <input type="text" ng-model="phone.type" name="type" id="type" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
                             deleteReason：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="checkPhone.deleteReason" name="reason" id="reason" disabled />
+                            <input type="text" ng-model="phone.deleteReason" name="reason" id="reason" disabled />
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,7 +44,7 @@
                             deleteDate：
                         </label>
                         <div class="col-md-10">
-                            <input type="text" ng-model="checkPhone.deleteDate" disabled name="date" id="date" />
+                            <input type="text" ng-model="phone.deleteDate" disabled name="date" id="date" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,9 +54,9 @@
                 </form>
                 <input class="btn btn-primary" type="button" value="previous" ng-click="previous()" />
                 <input class="btn btn-primary" type="button" value="backToIndex" ng-click="backToIndex()" />
-                <input class="btn btn-primary" type="button" value="sumbmit" ng-click="changeStatus()" />
+                <input class="btn btn-primary" type="button" value="sumbmit" ng-click="submitMsg()" />
                 <!--<a href="#!/phone/choosePage">backToIndex</a>-->
-                <!--{{checkPhone}}-->
+                {{phone}}
             </div>
         </div>
     </div>

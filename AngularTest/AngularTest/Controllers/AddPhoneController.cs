@@ -37,9 +37,9 @@ namespace AngularTest.Controllers
             brandIQ = _brandContext.Brands;
             brandTypeIQ = _brandtypeContext.BrandTypes;
             brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
-            brandService = new BrandService(_brandContext, brandIQ);
-            brandTypeService = new BrandTypeService(_brandtypeContext, brandTypeIQ);
-            brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext, brandTypeProductNoIQ);
+            brandService = new BrandService(_brandContext);
+            brandTypeService = new BrandTypeService(_brandtypeContext);
+            brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext);
             addPhoneService = new AddPhoneService();
         }
 

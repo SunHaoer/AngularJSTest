@@ -3,25 +3,31 @@ module('common').
 component('errorPage', {
 
     templateUrl: 'common/error-page.template.html',
-    controller: ['$scope', function ChoosePageCtrl($scope) {
-        $scope.checkLogin = function () {   // –ËÃ·»°
+    controller: ['$scope', '$http', function ChoosePageCtrl($scope, $http) {
+
+        /*
+         * get 'ErrorPageViewModel'
+         */
+        $scope.getErrorPageViewModel = function () {
             $http({
                 method: 'GET',
                 params: ({
                 }),
-                url: '/api/Phone/CheckLogin',
+                url: '/api/ErrorPage/GetErrorPageViewModel',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                if (response.data['notLogin'] == 'true') {
-                    $location.url('/#!/phone');
+                $scope.errorPageViewModel = response.data;
+                var model = $scope.errorPageViewModel;
+                if (model.isLogin) {
+                    $scope.isLogin = true;
                 } else {
-                    $scope.loginUsername = response.data;
+                    $scope.isLogin = false;
                 }
             }, function error(response) {
-                alert("error");
             });
         }
-        //$scope.checkLogin();
+        $scope.getErrorPageViewModel();    
+
     }]
 
 })

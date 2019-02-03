@@ -10,10 +10,10 @@ namespace AngularTest.Service
         private readonly BrandContext _brandContext;
         private readonly IQueryable<Brand> brandIQ;
 
-        public BrandService(BrandContext brandContext, IQueryable<Brand> brandIQ)
+        public BrandService(BrandContext brandContext)
         {
             _brandContext = brandContext;
-            this.brandIQ = brandIQ;
+            this.brandIQ = brandContext.Brands;
         }
 
         public List<Brand> GetBrandList()

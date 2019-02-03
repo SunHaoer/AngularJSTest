@@ -60,11 +60,6 @@ angular.
                         } else {
                             alert('not legal');
                         }
-                        //if ($scope.daysBetween($scope.phone.inputDate, $scope.myDate) == true) {
-                        //    $location.path("/phone/registerCheckPage");
-                        //} else {
-                        //    alert('StartDate is too earyl!');
-                        //}
                     }, function error(response) {
                     });
                 }
