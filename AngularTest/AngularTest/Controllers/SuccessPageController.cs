@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
 using Microsoft.AspNetCore.Http;
@@ -27,12 +28,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public SuccessPageViewModel GetSuccessPageViewModel()
         {
-            SuccessPageViewModel model = new SuccessPageViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            SuccessPageViewModel model = new SuccessPageViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.successPage])
+            {
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.successPage;
                 successErrorPageService.SetTempPhoneEmpty(loginUserId);
             }
             return model;

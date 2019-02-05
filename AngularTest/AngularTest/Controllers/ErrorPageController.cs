@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
 using Microsoft.AspNetCore.Http;
@@ -29,12 +26,14 @@ namespace AngularTest.Controllers
         {
             ErrorPageViewModel model = new ErrorPageViewModel();
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
-            {
+            //if (!string.IsNullOrEmpty(loginUserInfo))
+            //{
                 model.IsLogin = true;
                 long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.errorPage;
                 successErrorPageService.SetTempPhoneEmpty(loginUserId);
-            }
+            //}
             return model;
         }
     }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AngularTest.Cache;
 using AngularTest.Data;
 using AngularTest.Models;
@@ -18,29 +15,27 @@ namespace AngularTest.Controllers
     [ApiController]
     public class AddPhoneController : ControllerBase
     {
-        private BrandContext _brandContext;
-        private BrandTypeContext _brandtypeContext;
-        private BrandTypeProductNoContext _brandTypeProductNoContext;
-        private IQueryable<Brand> brandIQ;
-        private IQueryable<BrandType> brandTypeIQ;
-        private IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
+        private readonly BrandContext _brandContext;
+        private readonly BrandTypeContext _brandtypeContext;
+        private readonly BrandTypeProductNoContext _brandTypeProductNoContext;
+        private readonly TypeYearContext _typeYearContext;
         private BrandService brandService;
         private BrandTypeService brandTypeService;
         private BrandTypeProductNoService brandTypeProductNoService;
         private AddPhoneService addPhoneService;
+        private TypeYearService typeYearService;
         
-        public AddPhoneController(BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext)
+        public AddPhoneController(BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext)
         {
             _brandContext = brandContext;
             _brandtypeContext = brandTypeContext;
             _brandTypeProductNoContext = brandTypeProductNoContext;
-            brandIQ = _brandContext.Brands;
-            brandTypeIQ = _brandtypeContext.BrandTypes;
-            brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
+            _typeYearContext = typeYearContext;
             brandService = new BrandService(_brandContext);
             brandTypeService = new BrandTypeService(_brandtypeContext);
             brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext);
             addPhoneService = new AddPhoneService();
+            typeYearService = new TypeYearService(typeYearContext);
         }
 
         /// <summary>
@@ -52,13 +47,14 @@ namespace AngularTest.Controllers
         {
             AddPhonePageViewModel model = new AddPhonePageViewModel
             {
-                IsLogin = false
+                IsLogin = true
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhone] )
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.addPhone;
                 Phone phone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
                 model.TempNewPhone = phone;
                 model.BrandList = brandService.GetBrandList();
@@ -79,20 +75,21 @@ namespace AngularTest.Controllers
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                IsLogin = false,
-                IsParameterNotEmpty = false
+                IsLogin = true
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            long userId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(userId)[Step.nowNode, Step.addPhone]) 
             {
-                model.IsLogin = true;
+                model.IsVisitLegal = true;
                 if(!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(productNo) )
                 {
                     model.IsParameterNotEmpty = true;
+                    model.IsParameterLegal = true;
                     brand = brand.Trim();
                     type = type.Trim();
                     productNo = productNo.Trim();
-                    model.IsParameterLegal = brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo);
+                    model.IsSuccess = brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo);
                 }
             }
             return model;
@@ -109,11 +106,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SubmitMsg(string productNo, string brand, string type, DateTime startDate)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhoneSubmit]) 
+            {
+                model.IsVisitLegal = true;
                 if(!string.IsNullOrEmpty(productNo) && !string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && startDate != null)
                 {
                     model.IsParameterNotEmpty = true;
@@ -121,8 +122,8 @@ namespace AngularTest.Controllers
                     {
                         model.IsParameterLegal = true;
                         string loginUsername = loginUserInfo.Split(",")[1];
-                        long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-                        DateTime endDate = new DateTime(2019, 02, 02);
+                        int phoneLife = typeYearService.GetYearByType(type);
+                        DateTime endDate = addPhoneService.GetPhoneEndDate(startDate, phoneLife);
                         Phone phone = new Phone(loginUsername, loginUserId, brand, type, productNo, startDate, endDate);
                         addPhoneService.SetTempNewPhoneByUserId(loginUserId, phone);
                         model.IsSuccess = true;

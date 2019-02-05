@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AngularTest.Cache;
+﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
@@ -16,14 +12,12 @@ namespace AngularTest.Controllers
     [ApiController]
     public class ReplacePhoneCheckController : ControllerBase
     {
-        private PhoneContext _phoneContext;
-        private IQueryable<Phone> phoneIQ;
+        private readonly PhoneContext _phoneContext;
         private readonly ReplacePhoneService replacePhoneService;
 
         public ReplacePhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            phoneIQ = _phoneContext.Phones;
             replacePhoneService = new ReplacePhoneService(_phoneContext);
         }
 
@@ -31,14 +25,19 @@ namespace AngularTest.Controllers
         /// url: "/api/ReplacePhoneCheck/GetReplacePhoneCheckPageViewModel"
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ReplacePhoneCheckPageViewModel GetReplacePhoneCheckPageViewModel()
         {
-            ReplacePhoneCheckPageViewModel model = new ReplacePhoneCheckPageViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            ReplacePhoneCheckPageViewModel model = new ReplacePhoneCheckPageViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneCheck])
+            {
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.replacePhoneCheck;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
                 model.TempOldPhone = TempPhone.GetTempOldPhoneByUserId(loginUserId);
             }
@@ -52,13 +51,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SubmitMsg()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneCheckSubmit])
+            {
+                model.IsVisitLegal = true;
                 model.IsParameterNotEmpty = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
                 if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId) && TempPhone.IsTempOldPhoneNotEmpty(loginUserId))
                 {
                     model.IsParameterLegal = true;

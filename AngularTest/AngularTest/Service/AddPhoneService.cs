@@ -1,9 +1,7 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AngularTest.Service
 {
@@ -20,6 +18,12 @@ namespace AngularTest.Service
         {
             _phoneContext = phoneContext;
             phoneIQ = _phoneContext.Phones;
+        }
+
+        public DateTime GetPhoneEndDate(DateTime startDate, int phoneLife)
+        {
+            DateTime endDate = new DateTime(startDate.Year + phoneLife, startDate.Month, startDate.Day);
+            return endDate;
         }
 
         public void SetTempNewPhoneByUserId(long userId, Phone phone)

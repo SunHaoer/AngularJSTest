@@ -13,7 +13,7 @@ namespace AngularTest.Service
         public BrandService(BrandContext brandContext)
         {
             _brandContext = brandContext;
-            this.brandIQ = brandContext.Brands;
+            brandIQ = _brandContext.Brands;
         }
 
         public List<Brand> GetBrandList()

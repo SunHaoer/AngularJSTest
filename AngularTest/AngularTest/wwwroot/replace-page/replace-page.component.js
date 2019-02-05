@@ -8,7 +8,7 @@ component('replacePage', {
         $scope.isRegister = false;
         $scope.isReplace = true;
         $scope.myDate = new Date();
-        $scope.myDate.toLocaleDateString();//获取当前日期
+        $scope.myDate.toLocaleDateString();
 
         /*
          * get 'ReplacePhoneModel'
@@ -33,6 +33,7 @@ component('replacePage', {
                     $scope.oldPhone.abandonDate = new Date(model.tempOldPhone.abandonDate);
                 } else {
                     alert('not login');
+                    $location.url('phone/errorPage');
                 }
             }, function error(response) {
             });

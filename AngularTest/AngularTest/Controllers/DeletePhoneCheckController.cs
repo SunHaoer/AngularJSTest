@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
@@ -16,8 +13,8 @@ namespace AngularTest.Controllers
     [ApiController]
     public class DeletePhoneCheckController : ControllerBase
     {
-        private PhoneContext _phoneContext;
-        private IQueryable<Phone> phoneIQ;
+        private readonly PhoneContext _phoneContext;
+        private readonly IQueryable<Phone> phoneIQ;
         private readonly DeletePhoneService deletePhoneService;
 
         public DeletePhoneCheckController(PhoneContext phoneContext)
@@ -34,12 +31,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public DeletePhoneCheckPageViewModel GetDeletePhoneCheckPageViewModel()
         {
-            DeletePhoneCheckPageViewModel model = new DeletePhoneCheckPageViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            DeletePhoneCheckPageViewModel model = new DeletePhoneCheckPageViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhoneCheck])
+            {
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.deletePhoneCheck;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
             }
             return model;
@@ -54,11 +55,11 @@ namespace AngularTest.Controllers
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel();
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhoneCheckSubmit])
             {
-                model.IsLogin = true;
+                model.IsVisitLegal = true;
                 model.IsParameterNotEmpty = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
                 if (TempPhone.IsTempNewPhoneNotEmpty(loginUserId))
                 {
                     model.IsParameterLegal = true;

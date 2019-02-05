@@ -47,6 +47,7 @@ component('choosePage',{
                 $scope.choosePageViewModel = response.data;
                 var model = $scope.choosePageViewModel;
                 if (!model.isLogin) {
+                    alert('not login');
                     $location.url('/phone/errorPage');
                 } else {
                     $scope.loginUsername = model.loginUsername;
@@ -193,59 +194,10 @@ component('choosePage',{
                 }).then(function success(response) {
                     $location.url('/phone/deletePage');
                 }, function error(response) {
-                    //alert("error");
                 });
             } else {
                 alert('The phone is already delete!');
             }
         }
-
-        /*
-        $scope.register = function () {
-            $scope.setPageIndex();
-            $http({
-                method: 'POST',
-                params: ({
-                }),
-                url: '/api/TempPhone/SetNewTempPhone',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                $location.url('/phone/registerPage');
-            }, function error(response) {
-            });
-        }
-        */
-        /*
-        $scope.setPageIndex = function () {
-            $http({
-                method: 'GET',
-                params: ({
-                    pageIndex: $scope.pageIndex
-                }),
-                url: '/api/TempPhone/SetTempPageIndex',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function success(response) {
-                $scope.pageIndex = response.data;
-            }, function error(response) {
-            });
-        }
-        */
-
-        
-
-        /*
-        $scope.stateFilter = function (phoneState) {
-            if (phoneState == 1) {
-                $scope.state = 'using';
-            } else if (phoneState == 2) {
-                $scope.state = 'abandon';
-            } else if (phoneState == 3) {
-                $scope.state = 'delelte';
-            }
-        } 
-        */
-
-
-
     }]
 });

@@ -22,6 +22,7 @@
                         $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
                     } else {
+                        alert('not login');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {

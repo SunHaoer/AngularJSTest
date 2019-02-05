@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AngularTest.Cache;
-using AngularTest.Models;
+using AngularTest.Data;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
 using AngularTest.Utils;
@@ -17,11 +14,15 @@ namespace AngularTest.Controllers
     [ApiController]
     public class DeletePhoneController : ControllerBase
     {
+        DeleteReasonContext _deleteReasonContext;
         DeletePhoneService deletePhoneService;
+        DeleteReasonService deleteReasonService;
 
-        public DeletePhoneController()
+        public DeletePhoneController(DeleteReasonContext deleteReasonContext)
         {
             deletePhoneService = new DeletePhoneService();
+            _deleteReasonContext = deleteReasonContext;
+            deleteReasonService = new DeleteReasonService(_deleteReasonContext);
         }
 
         /// <summary>
@@ -30,15 +31,20 @@ namespace AngularTest.Controllers
         /// <returns></returns>
         public DeletePhonePageViewModel GetDeletePhonePageViewModel()
         {
-            DeletePhonePageViewModel model = new DeletePhonePageViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            DeletePhonePageViewModel model = new DeletePhonePageViewModel()
             {
-                if (!string.IsNullOrEmpty(loginUserInfo))
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhone])
+            {
+            if (!string.IsNullOrEmpty(loginUserInfo))
                 {
-                    model.IsLogin = true;
-                    long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                    model.IsVisitLegal = true;
+                    Step.nowNode = Step.deletePhone;
                     model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
+                    model.DeleteReasonList = deleteReasonService.GetDeleteReason(); 
                 }
             }
             return model;
@@ -52,11 +58,15 @@ namespace AngularTest.Controllers
         /// <returns></returns>
         public FormFeedbackViewModel SubmitMsg(string deleteReason, DateTime deleteDate)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhoneSubmit])
+            {
+                model.IsVisitLegal = true;
                 if (!string.IsNullOrEmpty(deleteReason))
                 {
                     model.IsParameterNotEmpty = true;
@@ -64,7 +74,6 @@ namespace AngularTest.Controllers
                     {
                         model.IsParameterLegal = true;
                         string loginUsername = loginUserInfo.Split(",")[1];
-                        long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
                         deleteReason = deleteReason.Trim();
                         deletePhoneService.SetTempNewPhoneDeleteByUserId(loginUserId, deleteReason, deleteDate);
                         model.IsSuccess = true;

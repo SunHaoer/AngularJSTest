@@ -8,10 +8,12 @@ namespace AngularTest.PageVeiwModels
     public class BasePageViewModel
     {
         public bool IsLogin { set; get; }
+        public bool IsVisitLegal { set; get; }
 
         public BasePageViewModel()
         {
             IsLogin = false;
+            IsVisitLegal = false;
         }
     }
 }

@@ -8,17 +8,23 @@ namespace AngularTest.Service
 {
     public class ChoosePageService
     {
-        private readonly PhoneContext _context;
+        private readonly PhoneContext _phoneContext;
         private readonly IQueryable<Phone> phoneIQ;
 
-        public ChoosePageService(PhoneContext context, IQueryable<Phone> phoneIQ)
+        public ChoosePageService(PhoneContext context)
         {
-            _context = context;
-            this.phoneIQ = phoneIQ;
+            _phoneContext = context;
+            phoneIQ = _phoneContext.Phones;
         }
 
-        public PaginatedList<Phone> GetPhoneList(IQueryable<Phone> phoneIQ, int pageIndex, int pageSize)
+        public IQueryable<Phone> GetPhoneIQByUserId(long userId)
         {
+            return phoneIQ.Where(item => item.UserId == userId);
+        }
+
+        public PaginatedList<Phone> GetPhoneList(long userId, int pageIndex, int pageSize)
+        {
+            IQueryable<Phone> phoneIQ = GetPhoneIQByUserId(userId);
             return PaginatedList<Phone>.Create(phoneIQ, pageIndex, pageSize);
         }
 
@@ -36,6 +42,11 @@ namespace AngularTest.Service
         public bool ValidateIdInReplace(long id, long loginUserId)
         {
             return phoneIQ.Any(item => item.Id == id && item.UserId == loginUserId && item.State == 1);
+        }
+
+        public bool ValidateIdInDelete(long id, long loginUserId)
+        {
+            return phoneIQ.Any(item => item.Id == id && item.UserId == loginUserId && item.State != 3);
         }
 
         public Phone GetPhoneById(long id)
@@ -60,8 +71,8 @@ namespace AngularTest.Service
 
         public void UpdatePhoneStateInDB(Phone phone)
         {
-            _context.Update(phone);
-            _context.SaveChanges();
+            _phoneContext.Update(phone);
+            _phoneContext.SaveChanges();
         }
 
     }

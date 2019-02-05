@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using AngularTest.Cache;
 using AngularTest.Data;
 using AngularTest.Models;
+using AngularTest.PageVeiwModels;
 using AngularTest.Service;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
@@ -12,31 +14,25 @@ namespace AngularTest.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private UserContext _userContext;
-        private PhoneContext _phoneContext;
-        private BrandContext _brandContext;
-        private BrandTypeContext _brandTypeContext;
-        private BrandTypeProductNoContext _brandTypeProductNoContext;
-        private IQueryable<User> userIQ;
-        private IQueryable<Phone> phoneIQ;
-        private IQueryable<Brand> brandIQ;
-        private IQueryable<BrandType> brandTypeIQ;
-        private IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
+        private readonly UserContext _userContext;
+        private readonly PhoneContext _phoneContext;
+        private readonly BrandContext _brandContext;
+        private readonly BrandTypeContext _brandTypeContext;
+        private readonly BrandTypeProductNoContext _brandTypeProductNoContext;
+        private readonly TypeYearContext _typeYearContext;
+        private readonly DeleteReasonContext _deleteReasonContext;
         private readonly LoginService loginService;
 
-        public LoginController(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext)
+        public LoginController(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext, DeleteReasonContext deleteReasonContext)
         {
             _userContext = userContext;
             _phoneContext = phoneContext;
             _brandContext = brandContext;
             _brandTypeContext = brandTypeContext;
             _brandTypeProductNoContext = brandTypeProductNoContext;
-            userIQ = _userContext.Users;
-            phoneIQ = _phoneContext.Phones;
-            brandIQ = _brandContext.Brands;
-            brandTypeIQ = _brandTypeContext.BrandTypes;
-            brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
-            loginService = new LoginService(_userContext, _phoneContext, _brandContext, _brandTypeContext, _brandTypeProductNoContext, userIQ, phoneIQ, brandIQ, brandTypeIQ, brandTypeProductNoIQ);
+            _typeYearContext = typeYearContext;
+            _deleteReasonContext = deleteReasonContext;
+            loginService = new LoginService(_userContext, _phoneContext, _brandContext, _brandTypeContext, _brandTypeProductNoContext, _typeYearContext, _deleteReasonContext);
         }
 
         /// <summary>
@@ -50,10 +46,10 @@ namespace AngularTest.Controllers
         public LoginPageViewModel Login(string username, string password)
         {
             loginService.SetInitData();
-            LoginPageViewModel model = new LoginPageViewModel
-            {
-                IsLegal = false
-            };
+            Step.nowNode = Step.loginPage;
+            LoginPageViewModel model = new LoginPageViewModel();
+            model.IsVisitLegal = true;
+            Step.nowNode = Step.loginPage;
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password) )
             {
                 User user = loginService.GetLoginUser(username.Trim(), password.Trim());
@@ -79,5 +75,15 @@ namespace AngularTest.Controllers
             HttpContext.Session.Remove("loginUser");
         }
 
+        /// <summary>
+        /// url: "/api/Login/NotLogin"
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public BasePageViewModel NotLogin()
+        {
+            BasePageViewModel model = new BasePageViewModel();
+            return model;
+        }
     }
 }

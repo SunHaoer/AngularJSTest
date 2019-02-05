@@ -22,6 +22,7 @@ angular.
                         $scope.phone = model.tempNewPhone;
                         $scope.oldPhone = model.tempOldPhone;
                     } else {
+                        alert('not login');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {

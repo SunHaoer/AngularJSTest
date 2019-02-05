@@ -21,6 +21,7 @@ component('registerCheckPage', {
                 if (model.isLogin) {
                     $scope.phone = model.tempNewPhone;
                 } else {
+                    alert('not login');
                     $location.url('phone/errorPage');
                 }
             }, function error(response) {

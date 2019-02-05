@@ -14,24 +14,32 @@ namespace AngularTest.Service
         private readonly BrandContext _brandContext;
         private readonly BrandTypeContext _brandTypeContext;
         private readonly BrandTypeProductNoContext _brandTypeProductNoContext;
+        private readonly TypeYearContext _typeYearContext;
+        private readonly DeleteReasonContext _deleteReasonContext;
         private readonly IQueryable<User> userIQ;
         private readonly IQueryable<Phone> phoneIQ;
         private readonly IQueryable<Brand> brandIQ;
         private readonly IQueryable<BrandType> brandTypeIQ;
         private readonly IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
+        private readonly IQueryable<TypeYear> typeYearIQ;
+        private readonly IQueryable<DeleteReason> deleteReasonIQ;
 
-        public LoginService(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext,IQueryable<User> userIQ, IQueryable<Phone> phoneIQ, IQueryable<Brand> brandIQ, IQueryable<BrandType> brandTypeIQ, IQueryable<BrandTypeProductNo> brandTypeProductNoIQ)
+        public LoginService(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext, DeleteReasonContext deleteReasonContext)
         {
             _userContext = userContext;
             _phoneContext = phoneContext;
             _brandContext = brandContext;
             _brandTypeContext = brandTypeContext;
             _brandTypeProductNoContext = brandTypeProductNoContext;
-            this.userIQ = userIQ;
-            this.phoneIQ = phoneIQ;
-            this.brandIQ = brandIQ;
-            this.brandTypeIQ = brandTypeIQ;
-            this.brandTypeProductNoIQ = brandTypeProductNoIQ;
+            _typeYearContext = typeYearContext;
+            _deleteReasonContext = deleteReasonContext;
+            userIQ = _userContext.Users;
+            phoneIQ = _phoneContext.Phones;
+            brandIQ = _brandContext.Brands;
+            brandTypeIQ = _brandTypeContext.BrandTypes;
+            brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
+            typeYearIQ = _typeYearContext.TypeYears;
+            deleteReasonIQ = _deleteReasonContext.DeleteReasons;
         }
 
         public void SetInitData()
@@ -55,7 +63,10 @@ namespace AngularTest.Service
             InitBrandDataBase();
             InitBrandTypeDataBase();
             InitBrandTypeProductNoDataBase();
+            InitTypeYearDataBase();
+            InitDeleteReasonDataBase();
             InitUserTempPhone(userId);
+            InitUserStepTable(userId);
         }
 
         private void InitPhoneDataBase()
@@ -65,7 +76,7 @@ namespace AngularTest.Service
                 _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "IPHONEX1", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 3 });
                 _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "MateRS", ProductNo = "HUAWEIMateRS1", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
-                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 2, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _phoneContext.SaveChanges();
             }
         }
@@ -150,11 +161,54 @@ namespace AngularTest.Service
             }
         }
 
+        private void InitTypeYearDataBase()
+        {
+            if (_typeYearContext.TypeYears.Count() == 0)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@".\phones\phonesDetail.xml");
+                XmlNode root = doc.SelectSingleNode("Detail");
+                XmlNodeList brands = root.ChildNodes;
+                foreach (XmlNode brand in brands)
+                {
+                    XmlNodeList types = brand.ChildNodes;
+                    foreach (XmlNode type in types)
+                    {
+                        string typeName = type.Name;
+                        int year = int.Parse(type.InnerText);
+                        _typeYearContext.Add(new TypeYear { Type = typeName, Year = year });
+                    }
+                }
+                _typeYearContext.SaveChanges();
+            }
+        }
+
+        private void InitDeleteReasonDataBase()
+        {
+            if(_deleteReasonContext.DeleteReasons.Count() == 0)
+            {
+                _deleteReasonContext.Add(new DeleteReason("lost"));
+                _deleteReasonContext.Add(new DeleteReason("buy new phone"));
+                _deleteReasonContext.Add(new DeleteReason("time end"));
+                _deleteReasonContext.Add(new DeleteReason("not interested"));
+                _deleteReasonContext.Add(new DeleteReason("other"));
+                _deleteReasonContext.SaveChanges();
+            }
+        }
+
         private void InitUserTempPhone(long userId)
         {
             if(TempPhone.GetTempNewPhoneByUserId(userId) == null)
             {
                 TempPhone.tempNewPhone.Add(userId, new Phone());
+            }
+        }
+
+        private void InitUserStepTable(long userId)
+        {
+            if (Step.GetStepTableByUserId(userId) == null)
+            {
+                Step.InitStepTableByUserId(userId);
             }
         }
     }

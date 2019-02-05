@@ -5,7 +5,6 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-
                 <form class="form-horizontal" role="form" name="myForm">
                     <div class="form-group">
                         <label class="col-md-2">
@@ -38,10 +37,7 @@
                         <div class="col-md-10" ng-mouseleave="otherReason()">
                             <select ng-model="phone.deleteReason">
                                 <option value="">please select</option>
-                                <option value="lost">lost</option>
-                                <option value="buy new phone">buy new phone</option>
-                                <option value="time end">time end</option>
-                                <option value="other">other</option>
+                                <option ng-repeat="x in deleteReasonList">{{x.deleteReasonName}}</option>
                             </select>
                             <!--<input type="text" ng-model="phone.abandonReason"  id="reason" required />-->
                         </div>

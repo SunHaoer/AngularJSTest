@@ -7,7 +7,6 @@ using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 
 namespace AngularTest.Controllers
 {
@@ -15,15 +14,13 @@ namespace AngularTest.Controllers
     [ApiController]
     public class ChoosePageController : ControllerBase
     {
-        private PhoneContext _context;
-        private IQueryable<Phone> phoneIQ;
+        private readonly PhoneContext _phoneContext;
         private readonly ChoosePageService choosePageService;
 
         public ChoosePageController(PhoneContext context)
         {
-            _context = context;
-            phoneIQ = _context.Phones;
-            choosePageService = new ChoosePageService(_context, phoneIQ);
+            _phoneContext = context;
+            choosePageService = new ChoosePageService(_phoneContext);
         }
 
         /// <summary>
@@ -31,21 +28,21 @@ namespace AngularTest.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ChoosePageViewModel GetChoosePageViewModel(int pageIndex = 1, int pageSize = 2)
+        public ChoosePageViewModel GetChoosePageViewModel(int pageIndex = 1, int pageSize = 4)
         {
             ChoosePageViewModel model = new ChoosePageViewModel
             {
-                IsLogin = false
+                IsLogin = true
             };
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("loginUser")))
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            model.LoginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(model.LoginUserId)[Step.nowNode,Step.choosePage])
             {
-                model.IsLogin = true;
-                string loginUserInfo = HttpContext.Session.GetString("loginUser");
-                model.LoginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                Step.nowNode = Step.choosePage;
+                model.IsVisitLegal = true;
                 model.LoginUsername = loginUserInfo.Split(",")[1];
                 choosePageService.SetTempPhoneEmpty(model.LoginUserId);
-                phoneIQ = phoneIQ.Where(item => item.UserId == model.LoginUserId);
-                model.PhoneList = choosePageService.GetPhoneList(phoneIQ, pageIndex, pageSize);
+                model.PhoneList = choosePageService.GetPhoneList(model.LoginUserId, pageIndex, pageSize);
             }
             return model;
         }
@@ -59,12 +56,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetUsingToAbandonById(long id, DateTime abandonDate)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.choosePageSubmit])
+            {
+                model.IsVisitLegal = true;
                 if(choosePageService.ValidateIdInAbandon(id, loginUserId) && Validation.IsDateLegal(abandonDate))
                 {
                     model.IsParameterNotEmpty = true;
@@ -87,12 +87,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetAbanddonToUsingById(long id, DateTime startDate)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.choosePageSubmit])
+            {
+                model.IsVisitLegal = true;
                 if (choosePageService.ValidateIdInAbandon(id, loginUserId) && Validation.IsDateLegal(startDate))
                 {
                     model.IsParameterNotEmpty = true;
@@ -114,12 +117,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetTempOldPhoneById(long id)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.choosePageSubmit])
+            {
+                model.IsVisitLegal = true;
                 if (choosePageService.ValidateIdInReplace(id, loginUserId))
                 {
                     model.IsParameterNotEmpty = true;
@@ -140,13 +146,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetTempNewPhoneById(long id)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if (!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-                if (choosePageService.ValidateIdInReplace(id, loginUserId))
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.choosePageSubmit])
+            {
+                model.IsVisitLegal = true;
+                if (choosePageService.ValidateIdInDelete(id, loginUserId))
                 {
                     model.IsParameterNotEmpty = true;
                     model.IsParameterLegal = true;

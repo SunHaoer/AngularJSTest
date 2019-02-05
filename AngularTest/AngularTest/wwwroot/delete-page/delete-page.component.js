@@ -20,6 +20,7 @@
                     $scope.deletePhonePageViewModel = response.data;
                     var model = $scope.deletePhonePageViewModel;
                     if (model.isLogin) {
+                        $scope.deleteReasonList = model.deleteReasonList;
                         $scope.phone = model.tempNewPhone;
                         $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         $scope.phone.abandonDate = new Date(model.tempNewPhone.abandonDate);
@@ -27,6 +28,7 @@
                         $scope.phone.deleteReason = model.tempNewPhone.deleteReason;
                     } else {
                         alert('not login');
+                        $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
                 });

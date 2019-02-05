@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AngularTest.Cache;
+﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
@@ -16,14 +12,12 @@ namespace AngularTest.Controllers
     [ApiController]
     public class AddPhoneCheckController : ControllerBase
     {
-        private PhoneContext _phoneContext;
-        private IQueryable<Phone> phoneIQ;
+        private readonly PhoneContext _phoneContext;
         private readonly AddPhoneService addPhoneService;
 
         public AddPhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            phoneIQ = _phoneContext.Phones;
             addPhoneService = new AddPhoneService(_phoneContext);
         }
 
@@ -34,12 +28,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public AddPhoneCheckPageViewModel GetAddPhoneCheckPageViewModel()
         {
-            AddPhoneCheckPageViewModel model = new AddPhoneCheckPageViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            AddPhoneCheckPageViewModel model = new AddPhoneCheckPageViewModel
             {
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhoneCheck])
+            {
+                model.IsVisitLegal = true;
+                Step.nowNode = Step.addPhoneCheck;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
             }
             return model;
@@ -52,13 +50,16 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SubmitMsg()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel();
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            if(!string.IsNullOrEmpty(loginUserInfo))
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
-                model.IsLogin = true;
+                IsLogin = true
+            };
+            string loginUserInfo = HttpContext.Session.GetString("loginUser");
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhoneCheckSubmit])
+            {
+                model.IsVisitLegal = true;
                 model.IsParameterNotEmpty = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
                 if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId))
                 {
                     model.IsParameterLegal = true;

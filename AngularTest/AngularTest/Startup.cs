@@ -35,6 +35,8 @@ namespace AngularTest
                          opt.UseInMemoryDatabase("UserList"));
             services.AddDbContext<BrandTypeProductNoContext>(opt =>
                          opt.UseInMemoryDatabase("BrandTypeProductNoList"));
+            services.AddDbContext<DeleteReasonContext>(opt =>
+                         opt.UseInMemoryDatabase("DeleteReasonList"));
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -42,16 +44,16 @@ namespace AngularTest
                 options.IdleTimeout = TimeSpan.FromSeconds(60000);
                 options.Cookie.HttpOnly = true;
             });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(LoginFilter));
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             //services.AddMvc(options =>
             //{
             //    options.Filters.Add(typeof(LoginFilter));
             //});
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddMvc(options =>
-            {
-                //options.Filters.Add(typeof(LoginFilter));
-            });
 
         }
 

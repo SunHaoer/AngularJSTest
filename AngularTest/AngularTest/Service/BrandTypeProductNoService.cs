@@ -14,7 +14,7 @@ namespace AngularTest.Service
         public BrandTypeProductNoService(BrandTypeProductNoContext brandTypeProductNoContext)
         {
             _brandTypeProductNoContext = brandTypeProductNoContext;
-            this.brandTypeProductNoIQ = brandTypeProductNoContext.BrandTypeProductNos;
+            brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;
         }
 
         public bool ValidateBrandTypeProductNo(string brand, string type, string productNo)

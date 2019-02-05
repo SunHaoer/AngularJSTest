@@ -1,34 +1,22 @@
-
 <div style="text-align:center;width:40%">
     <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="AddNewPhone()">Add New Phone</button> </front>
-    
-    <!--<button ng-click="logout()">Logout</button>-->
 </div>
 <div ng-show="notEmpty">
     <center>
         <table>
             <tr bgcolor="#337ab7">
-                <!--<th>PhoneUser</th>-->
                 <th><font color="white">Brand</font></th>
                 <th><font color="white">Type</font></th>
                 <th><font color="white">Product Number</font></th>
                 <th><font color="white">Status</font></th>
-                <!--<th>Operate1</th>
-            <th>Operate2</th>
-            <th>Operate3</th>-->
                 <th><font color="white">Details</font></th>
             </tr>
             <tr ng-repeat="phone in phoneList">
-                <!--<td>{{phone.phoneUser}}</td>-->
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
                 <td>{{phone.productNo}}</td>
                 <td>{{phone.stateString }}</td>
-                <!--<td><button ng-click="remove(phone.id)">delete</button></td>-->
-                <!--<td><a href="" ng-click="replace(phone.id, phone.state)">{{phone.operate1 }}</a></td>
-            <td><a href="" ng-click="abandon(phone.id, phone.state)">{{phone.operate2 }}</a></td>
-            <td><a href="" ng-click="delete(phone.id, phone.state)">{{phone.operate3 }}</a></td>-->
-                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="30px" height="30px"></a></td>
+                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="40" height="50"></a></td>
             </tr>
         </table>
         <div style="text-align:right;width:75%">
@@ -42,11 +30,6 @@
         <div class="row">
             <center>
                 <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:75%">
-                    <div class="form-group">
-                        <label class="col-md-2" id="phoneUser">
-                            phoneUser: {{tempId}}
-                        </label>
-                    </div>
                     <div class="form-group">
                         <label>
                             brand: {{brand}}
@@ -103,8 +86,8 @@
     </div>
 </div>
 
-    <div ng-show="!notEmpty">
-        <center>
-            <h1>You should buy phones!</h1>
-        </center>
-    </div>
+<div ng-show="!notEmpty">
+    <center>
+        <h1>You should buy phones!</h1>
+    </center>
+</div>
