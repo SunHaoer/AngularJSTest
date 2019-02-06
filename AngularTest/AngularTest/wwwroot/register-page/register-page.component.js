@@ -39,19 +39,6 @@ angular.
             }
             $scope.getAddPhoneModel();
 
-            $scope.isStartDateLegal = false;
-            $scope.validateDateLegal = function () {
-                var date1 = $scope.phone.startDate;
-                var date2 = $scope.today;
-                if (date1.getFullYear() != date2.getFullYear()) {
-                    $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
-                } else if (date1.getMonth() != date2.getMonth()) {
-                    $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
-                } else {
-                    $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
-                }
-            }
-
             /*
              * validate branTypeProductNo 
              */
@@ -73,6 +60,21 @@ angular.
                 });
             }
 
+            $scope.isStartDateLegal = true;
+            $scope.validateDateLegal = function () {
+                var date1 = $scope.phone.startDate;
+                var date2 = $scope.today;
+                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                    $scope.isStartDateLegal = false;
+                } else if (date1.getFullYear() != date2.getFullYear()) {
+                    $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
+                } else if (date1.getMonth() != date2.getMonth()) {
+                    $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
+                } else {
+                    $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
+                }
+            }
+
             /*
              * not empty
              */
@@ -84,10 +86,12 @@ angular.
             /*
              * submit
              */
+            $scope.isOK = true;
             $scope.submitMsg = function () {
                 $scope.validateDateLegal();
-                $scope.validateBrandTypeProductNo();
-                if (parameterNotEmpty() && $scope.isStartDateLegal && $scope.isProdcutNoLegal) {
+                //$scope.validateBrandTypeProductNo();
+                if (parameterNotEmpty() && $scope.isStartDateLegal) {
+                    $scope.isOK = true;
                     var phone = $scope.phone;
                     $http({
                         method: 'GET',
@@ -103,10 +107,13 @@ angular.
                         if (response.data.isSuccess) {
                             $location.path("/phone/registerCheckPage");
                         } else {
-                            alert('not legal');
+                            $scope.isOK = false;
+                            //alert('not legal');
                         }
                     }, function error(response) {
                     });
+                } else {
+                    $scope.isOK = false;
                 }
             }
 

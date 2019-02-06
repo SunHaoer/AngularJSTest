@@ -62,6 +62,5 @@ angular.
                     $location.path('/phone/choosePage');    
                 }
             }
-
         }]
     })

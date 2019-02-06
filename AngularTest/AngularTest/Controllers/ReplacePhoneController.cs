@@ -79,7 +79,7 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneCheckSubmit])
+            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneSubmit])
             {
                 model.IsVisitLegal = true;
                 if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(productNo))
@@ -89,6 +89,7 @@ namespace AngularTest.Controllers
                     type = type.Trim();
                     productNo = productNo.Trim();
                     model.IsParameterLegal = brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo);
+                    model.IsSuccess = model.IsParameterLegal;
                 }
             }
             return model;
