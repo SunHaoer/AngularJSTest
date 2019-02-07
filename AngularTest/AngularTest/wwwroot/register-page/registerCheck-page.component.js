@@ -18,10 +18,10 @@ component('registerCheckPage', {
             }).then(function success(response) {
                 $scope.addPhonePageViewModel = response.data;
                 var model = $scope.addPhonePageViewModel;
-                if (model.isLogin) {
+                if (model.isLogin && model.isVisitLegal) {
                     $scope.phone = model.tempNewPhone;
                 } else {
-                    alert('not login');
+                    alert('not login or illegal visit');
                     $location.url('phone/errorPage');
                 }
             }, function error(response) {
@@ -62,7 +62,5 @@ component('registerCheckPage', {
                 $location.path('/phone/choosePage');    
             }
         }
-
     }]
-
 })

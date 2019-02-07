@@ -73,10 +73,10 @@ namespace AngularTest.Service
         {
             if (phoneIQ.Count() == 0)
             {
-                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 25), State = 1 });
-                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "IPHONE", Type = "X", ProductNo = "IPHONEX1", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 3 });
-                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "MateRS", ProductNo = "HUAWEIMateRS1", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 2 });
-                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 2, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 2), EndDate = new DateTime(2019, 11, 2), State = 1 });
+                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "IPHONE", Type = "iphoneX", ProductNo = "IPHONEiphoneX1", StartDate = new DateTime(2018, 01, 09), EndDate = new DateTime(2019, 01, 09), State = 1 });
+                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "MateRS", ProductNo = "HUAWEIMateRS1", StartDate = new DateTime(2017, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
+                _phoneContext.Phones.Add(new Phone { PhoneUser = "admin", UserId = 1, Brand = "HUAWEI", Type = "Mate20", ProductNo = "HUAWEIMate201", StartDate = new DateTime(2018, 11, 25), EndDate = new DateTime(2019, 11, 25), State = 1 });
                 _phoneContext.SaveChanges();
             }
         }

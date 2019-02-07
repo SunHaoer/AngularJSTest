@@ -3,7 +3,6 @@ angular.
     component('replaceCheckPage', {
         templateUrl: 'common/check-page.template.html',
         controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
-
             $scope.isReplace = true;
             $scope.myDate = new Date();
             $scope.myDate.toLocaleDateString();//获取当前日期
@@ -18,11 +17,11 @@ angular.
                 }).then(function success(response) {
                     $scope.replacePhoneCheckPageViewModel = response.data;
                     var model = $scope.replacePhoneCheckPageViewModel;
-                    if (model.isLogin) {
+                    if (model.isLogin && model.isVisitLegal) {
                         $scope.phone = model.tempNewPhone;
                         $scope.oldPhone = model.tempOldPhone;
                     } else {
-                        alert('not login');
+                        alert('not login or illegal visit');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {
@@ -43,7 +42,7 @@ angular.
                     $scope.FormFeedbackViewModel = response.data;
                     var model = $scope.FormFeedbackViewModel;
                     if (model.isSuccess) {
-                        alert('success');
+                        //alert('success');
                         $location.url('phone/successPage');
                     } else {
                         alert('not legal');

@@ -1,10 +1,8 @@
 angular.
 module('replacePage').
 component('replacePage', {
-
     templateUrl: 'common/register-page.template.html',
     controller: ['$location', '$http', '$scope', function ReplacePage($location, $http, $scope) {
-
         $scope.isReplace = true;
         $scope.today = new Date();
         $scope.today.toLocaleDateString();
@@ -22,7 +20,7 @@ component('replacePage', {
             }).then(function success(response) {
                 $scope.replacePhoneModel = response.data;
                 var model = $scope.replacePhoneModel;
-                if (model.isLogin) {
+                if (model.isLogin && model.isVisitLegal) {
                     $scope.brandList = model.brandList;
                     $scope.typeList = model.typeList;
                     $scope.phone = model.tempNewPhone;
@@ -43,7 +41,7 @@ component('replacePage', {
                         $scope.oldPhone.abandonDate = new Date(model.tempOldPhone.abandonDate);
                     }
                 } else {
-                    alert('not login');
+                    alert('not login or illegal visit');
                     $location.url('phone/errorPage');
                 }
             }, function error(response) {
@@ -57,7 +55,6 @@ component('replacePage', {
         $scope.isProdcutNoLegal = false;
         $scope.validateBrandTypeProductNo = function () {
             var phone = $scope.phone;
-            //alert(phone.brand + '\n' + phone.type + '\n' + phone.productNo);
             $http({
                 method: 'GET',
                 params: ({
@@ -71,7 +68,6 @@ component('replacePage', {
                 $scope.isProdcutNoLegal = response.data.isSuccess;
             }, function error(response) {
             });
-            //alert($scope.isProdcutNoLegal);
         }
 
         $scope.isStartDateLegal = true;
@@ -93,7 +89,6 @@ component('replacePage', {
         $scope.validateAbandonDateLegal = function () {
             var date1 = $scope.phone.startDate;
             var date2 = $scope.oldPhone.abandonDate;
-            //alert(date1 + '\n' + date2);
             if (date1.getFullYear() != date2.getFullYear() || date1.getMonth() != date2.getMonth() || date1.getDate() != date2.getDate()) {
                 $scope.isAbandonDateLegal = false;
             } else {
@@ -116,7 +111,9 @@ component('replacePage', {
         $scope.submitMsg = function () {
             $scope.validateDateLegal();
             $scope.validateAbandonDateLegal();
-            if (parameterNotEmpty() && $scope.isStartDateLegal && $scope.isAbandonDateLegal) {
+            if (!$scope.isAbandonDateLegal) {
+                $location.url('phone/errorPage');
+            } else if (parameterNotEmpty() && $scope.isStartDateLegal) {
                 $scope.isOK = true;
                 var phone = $scope.phone;
                 $http({
@@ -132,16 +129,15 @@ component('replacePage', {
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if (response.data.isSuccess) {
-                        alert('success');
+                        //alert('success');
                         $location.path("/phone/replaceCheckPage");
                     } else {
                         $scope.isOK = false;
-                        //alert('not legal');
+                        alert('not legal');
                     }
                 }, function error(response) {
                 });
             } else {
-                alert(parameterNotEmpty() + '\n' + $scope.isProdcutNoLegal + '\n' + $scope.isStartDateLegal + '\n' + $scope.isAbandonDateLegal);
                 $scope.isOK = false;
             }
         }
@@ -155,6 +151,5 @@ component('replacePage', {
                 $location.path('/phone/choosePage');     
             }
         }
-
     }]
 })

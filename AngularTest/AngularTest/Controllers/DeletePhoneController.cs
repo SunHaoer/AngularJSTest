@@ -56,7 +56,7 @@ namespace AngularTest.Controllers
         /// <param name="deleteReason"></param>
         /// <param name="deleteDate"></param>
         /// <returns></returns>
-        public FormFeedbackViewModel SubmitMsg(string deleteReason, DateTime deleteDate)
+        public FormFeedbackViewModel SubmitMsg(string deleteReason, DateTime deleteDate, int state)
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
@@ -67,7 +67,7 @@ namespace AngularTest.Controllers
             if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhoneSubmit])
             {
                 model.IsVisitLegal = true;
-                if (!string.IsNullOrEmpty(deleteReason))
+                if (!string.IsNullOrEmpty(deleteReason) && (state == 1 || state == 2))
                 {
                     model.IsParameterNotEmpty = true;
                     if (Validation.IsDateNotBeforeToday(deleteDate))
@@ -75,7 +75,7 @@ namespace AngularTest.Controllers
                         model.IsParameterLegal = true;
                         string loginUsername = loginUserInfo.Split(",")[1];
                         deleteReason = deleteReason.Trim();
-                        deletePhoneService.SetTempNewPhoneDeleteByUserId(loginUserId, deleteReason, deleteDate);
+                        deletePhoneService.SetTempNewPhoneDeleteByUserId(loginUserId, deleteReason, deleteDate, state);
                         model.IsSuccess = true;
                     }
                 }

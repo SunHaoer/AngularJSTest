@@ -26,8 +26,8 @@ component('choosePage',{
                 $scope.phoneList[i].operate1 = operateArray[0][state - 1];
                 $scope.phoneList[i].operate2 = operateArray[1][state - 1];
                 $scope.phoneList[i].operate3 = operateArray[2][state - 1];
-                if ($scope.phoneList[i].deleteDate == "0001-01-01T00:00:00") {
-                    $scope.phoneList[i].deleteDate = "";
+                if ($scope.phoneList[i].deleteDate == '0001-01-01T00:00:00') {
+                    $scope.phoneList[i].deleteDate = '';
                 }
             }
         }
@@ -46,13 +46,13 @@ component('choosePage',{
             }).then(function success(response) {
                 $scope.choosePageViewModel = response.data;
                 var model = $scope.choosePageViewModel;
-                if (!model.isLogin) {
-                    alert('not login');
-                    $location.url('/phone/errorPage');
-                } else {
+                if (model.isLogin && model.isVisitLegal) {
                     $scope.loginUsername = model.loginUsername;
                     $scope.loginUserId = model.loginUserId;
                     formatPhoneList(model.phoneList);
+                } else {
+                    alert('not login or illegal visit');
+                    $location.url('/phone/errorPage');
                 }
             }, function error(response) {
             });
@@ -143,7 +143,7 @@ component('choosePage',{
                 }).then(function success(response) {
                     alert('Using Success!');
                 }, function error(response) {
-                    alert('error');
+                    //alert('error');
                 });
             }
         }

@@ -1,4 +1,4 @@
-﻿<div class="panel panel-primary">
+﻿<div class="panel-primary">
     <div class="panel-heading">
         <div class="panel-title">Delete</div>
     </div>
@@ -6,15 +6,15 @@
         <form class="form-horizontal" role="form" name="myForm">
             <h1>Old Phone</h1>
             <div class="form-group">
-                <label class="col-md-5">
+                <label class="col-md-2">
                     phoneBrand：
                 </label>
                 <div class="col-md-10">
-                    <input type="text" ng-model="phone.brand" name="brand" id="mbrand" disabled />
+                    <input type="text" ng-model="phone.brand" disabled />
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-5">
+                <label class="col-md-2">
                     phoneType：
                 </label>
                 <div class="col-md-10">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-5">
+                <label class="col-md-2">
                     productNo：
                 </label>
                 <div class="col-md-10">
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-5">
+                <label class="col-md-2">
                     startDate:
                 </label>
                 <div class="col-md-10">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group" id="abandonDate" ng-show="phone.state==2">
-                <label class="col-md-5">
+                <label class="col-md-2">
                     abandonDate:
                 </label>
                 <div class="col-md-10">
@@ -46,7 +46,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-5">
+                <label class="col-md-2">
+                    deleteDate：
+                </label>
+                <div class="col-md-10">
+                    <input type="date" ng-model="phone.deleteDate" name="date" id="date" ng-blur="validateDateLegal()" required />
+                    <label>
+                        <span ng-show="!isDeleteDateLegal">
+                            <font color="red">The date is not legal</font>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">
                     deleteReason：
                 </label>
                 <div class="col-md-10" ng-mouseleave="otherReason()">
@@ -59,26 +72,13 @@
                             <font color="red">The reason is not legal</font>
                         </span>
                     </label>
-                </div>
-                <div class="col-md-10" ng-model="isOther" ng-show="phone.deleteReason=='other'">
-                    <textarea rows="5" cols="25" ng-model="phone.otherReason" ng-blur="validateDeleteReasonNotEmpty()" placeholder="please input your reasons"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-5">
-                    deleteDate：
-                </label>
-                <div class="col-md-10">
-                    <input type="date" ng-model="phone.deleteDate" name="date" id="date" ng-blur="validateDateLegal()" required />
-                    <label>
-                        <span ng-show="!isDeleteDateLegal">
-                            <font color="red">The date is not legal</font>
-                        </span>
-                    </label>
+                    <div ng-model="isOther" ng-show="phone.deleteReason=='other'">
+                        <textarea rows="5" cols="25" ng-model="phone.otherReason" ng-blur="validateDeleteReasonNotEmpty()" placeholder="please input your reasons"></textarea>
+                    </div>
                 </div>
             </div>
         </form>
-        <input class="btn btn-primary" type="button" value=" back to index" ng-click="backToIndex()" />
+        <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
         <button class="btn btn-primary" ng-click="submitMsg()">next</button>
     </div>
 </div>

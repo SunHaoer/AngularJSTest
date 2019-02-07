@@ -21,7 +21,7 @@ angular.
                 }).then(function success(response) {
                     $scope.addPhonePageViewModel = response.data;
                     var model = $scope.addPhonePageViewModel;
-                    if (model.isLogin) {
+                    if (model.isLogin && model.isVisitLegal) {
                         $scope.brandList = model.brandList;
                         $scope.typeList = model.typeList;
                         $scope.phone = model.tempNewPhone;
@@ -31,7 +31,7 @@ angular.
                             $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         }
                     } else {
-                        alert('not login');
+                        alert('not login or illegal visit');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {
@@ -89,7 +89,6 @@ angular.
             $scope.isOK = true;
             $scope.submitMsg = function () {
                 $scope.validateDateLegal();
-                //$scope.validateBrandTypeProductNo();
                 if (parameterNotEmpty() && $scope.isStartDateLegal) {
                     $scope.isOK = true;
                     var phone = $scope.phone;
@@ -108,7 +107,7 @@ angular.
                             $location.path("/phone/registerCheckPage");
                         } else {
                             $scope.isOK = false;
-                            //alert('not legal');
+                            alert('not legal');
                         }
                     }, function error(response) {
                     });

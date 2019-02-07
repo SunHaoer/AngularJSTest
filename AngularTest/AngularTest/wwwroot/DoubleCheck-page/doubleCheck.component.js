@@ -17,12 +17,12 @@
                 }).then(function success(response) {
                     $scope.deletePhoneCheckPageViewModel = response.data;
                     var model = $scope.deletePhoneCheckPageViewModel;
-                    if (model.isLogin) {
+                    if (model.isLogin && model.isVisitLegal) {
                         $scope.phone = model.tempNewPhone;
                         $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
                     } else {
-                        alert('not login');
+                        alert('not login or illegal visit');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {
@@ -34,7 +34,6 @@
              * submit
              */ 
             $scope.submitMsg = function () {
-                alert('submit');
                 $http({
                     method: 'GET',
                     url: '/api/DeletePhoneCheck/SubmitMsg',
@@ -45,7 +44,7 @@
                     $scope.formFeedbackViewModel = response.data;
                     var model = $scope.formFeedbackViewModel;
                     if (model.isSuccess) {
-                        alert('success');
+                        //alert('success');
                         $location.url('phone/successPage');
                     } else {
                         alert('not legal');
@@ -63,6 +62,5 @@
             $scope.previous = function () {
                 $location.path('/phone/deletePage');
             }
-
         }]
     });

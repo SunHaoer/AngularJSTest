@@ -20,11 +20,12 @@ namespace AngularTest.Service
             phoneIQ = phoneContext.Phones;
         }
 
-        public void SetTempNewPhoneDeleteByUserId(long userId, string deleteReason, DateTime deleteDate)
+        public void SetTempNewPhoneDeleteByUserId(long userId, string deleteReason, DateTime deleteDate, int state)
         {
             Phone phone = TempPhone.GetTempNewPhoneByUserId(userId);
             phone.DeleteReason = deleteReason;
             phone.DeleteDate = deleteDate;
+            phone.State = state;
             TempPhone.SetTempNewPhoneByUserId(userId, phone);
         }
 

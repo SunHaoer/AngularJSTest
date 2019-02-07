@@ -19,13 +19,12 @@
                     $scope.loginPageViewModel = response.data;
                     var model = $scope.loginPageViewModel;
                     if (model.isLegal) {
-                        //$scope.initDB();
                         $location.url('/phone/choosePage');
                     } else {
-                        alert(model.isLegal);
+                        //alert(model.isLegal);
                     }
                 }), function error(response) {
-                    alert('error');
+                    //alert('error');
                 }
             }
 

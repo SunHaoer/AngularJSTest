@@ -99,10 +99,12 @@
                     </label>
                     <div class="col-md-10">
                         <input type="date" ng-model="oldPhone.abandonDate" ng-blur="validateAbandonDateLegal()" />
+                        <label>
+                            <span ng-show="!isAbandonDateLegal">
+                                <font color="red">The date is not legal</font>
+                            </span>
+                        </label>
                     </div>
-                    <span ng-show="!isAbandonDateLegal">
-                        <font color="red">The start date and abandon date should be equals</font>
-                    </span>
                 </div>
             </div>
         </div>
@@ -110,7 +112,7 @@
             <div ng-show="!isOK">
                 <font color="red">There is something wrong!</font>
             </div>
-            <input class="btn btn-primary" type="button" value=" back to index" ng-click="backToIndex()" />
+            <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
             <input class="btn btn-primary" type="submit" value="next" />
         </div>
     </form>

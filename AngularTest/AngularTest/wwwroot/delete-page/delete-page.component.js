@@ -19,7 +19,7 @@
                 }).then(function success(response) {
                     $scope.deletePhonePageViewModel = response.data;
                     var model = $scope.deletePhonePageViewModel;
-                    if (model.isLogin) {
+                    if (model.isLogin && model.isVisitLegal) {
                         $scope.deleteReasonList = model.deleteReasonList;
                         $scope.phone = model.tempNewPhone;
                         if (model.tempNewPhone.startDate == "0001-01-01T00:00:00") {
@@ -38,8 +38,19 @@
                             $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
                         }
                         $scope.phone.deleteReason = model.tempNewPhone.deleteReason;
+                        var isMatching = false;    // judge is ot not is 'otherReason'
+                        for (var i = 0; i < $scope.deleteReasonList.length; i++) {
+                            if ($scope.phone.deleteReason == $scope.deleteReasonList[i].deleteReasonName) {
+                                isMatching = true;
+                                break;
+                            }
+                        }
+                        if (!isMatching && $scope.phone.deleteReason != null && $scope.phone.deleteReason != '') {
+                            $scope.phone.otherReason = $scope.phone.deleteReason;
+                            $scope.phone.deleteReason = 'other';
+                        }
                     } else {
-                        alert('not login');
+                        alert('not login or illegal visit');
                         $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
@@ -74,39 +85,41 @@
                 } else if (deleteReason == 'other' && (otherReason == '' || otherReason == null)) {
                     $scope.isDeleteReasonLegal = false;
                 } else {
-                    if (deleteReason == 'other') {
-                        $scope.phone.deleteReason = otherReason;
-                    }
                     $scope.isDeleteReasonLegal = true;
                 }
-                alert($scope.isDeleteReasonLegal);
             }
 
             /*
              * submit
              */
+            $scope.isOK = true;
             $scope.submitMsg = function () {
                 $scope.validateDateLegal();
                 $scope.validateDeleteReasonNotEmpty();
                 if ($scope.isDeleteDateLegal && $scope.isDeleteReasonLegal) {
+                    $scope.isOK = true;
                     var phone = $scope.phone;
                     $http({
                         method: 'GET',
                         params: ({
-                            deleteReason: phone.deleteReason,
-                            deleteDate: phone.deleteDate
+                            deleteReason: phone.deleteReason == 'other' ? phone.otherReason : phone.deleteReason,
+                            deleteDate: phone.deleteDate,
+                            state: phone.state
                         }),
                         url: '/api/DeletePhone/SubmitMsg',
                         headers: { 'Content-Type': 'application/json' }
                     }).then(function success(response) {
                         if (response.data.isSuccess) {
-                            alert('success');
+                            //alert('success');
                             $location.url('phone/doubleCheck');
                         } else {
+                            $scope.isOK = false;
                             alert('not legal');
                         }
                     }, function error(response) {
                     });
+                } else {
+                    $scope.isOK = false;
                 }
             }
 

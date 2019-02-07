@@ -1,7 +1,6 @@
 angular.
 module('common').
 component('errorPage', {
-
     templateUrl: 'common/error-page.template.html',
     controller: ['$scope', '$http', function ChoosePageCtrl($scope, $http) {
 
@@ -27,7 +26,5 @@ component('errorPage', {
             });
         }
         $scope.getErrorPageViewModel();    
-
     }]
-
 })
