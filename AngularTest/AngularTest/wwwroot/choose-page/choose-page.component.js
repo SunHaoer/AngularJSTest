@@ -3,6 +3,7 @@ module('choosePage').
 component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
     controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
+        var yalertStylePath = 'css/yalert.css';
         var today = new Date();
         today.toLocaleDateString();
 
@@ -51,7 +52,7 @@ component('choosePage',{
                     $scope.loginUserId = model.loginUserId;
                     formatPhoneList(model.phoneList);
                 } else {
-                    alert('not login or illegal visit');
+                    showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                     $location.url('/phone/errorPage');
                 }
             }, function error(response) {
@@ -63,7 +64,7 @@ component('choosePage',{
          * logout
          */
         $scope.logout = function () {
-            if (confirm('logout?')) {
+            showConfirm('', 'logout', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({
@@ -74,7 +75,8 @@ component('choosePage',{
                     $location.url('/#!/phone');
                 }, function error(response) {
                 });
-            }
+            }, function () {
+            })
         }
 
         $scope.tempId = null;
@@ -107,14 +109,23 @@ component('choosePage',{
         }
 
         /*
-         * Trun to addNewPhonePage 
+         * Turn to addNewPhonePage 
          */
         $scope.AddNewPhone = function () {
-            $location.url('/phone/registerPage');
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/ChoosePage/AddPhonePrepare',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $location.url('/phone/registerPage');
+            }, function error(response) {
+            });
         }
 
         function setUsingToAbandon(id) {
-            if (confirm('Abandon?')) {
+            showConfirm('', 'abandon?', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({
@@ -124,14 +135,30 @@ component('choosePage',{
                     url: '/api/ChoosePage/SetUsingToAbandonById',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    alert('Abandon Success!');
+                    //showAlert('', 'success!', yalertStylePath, '')
                 }, function error(response) {
                 });
-            }
+                location.reload();
+            }, function () {
+            })
+            //if (confirm('Abandon?')) {
+            //    $http({
+            //        method: 'GET',
+            //        params: ({
+            //            id: id,
+            //            abandonDate: new Date(today)
+            //        }),
+            //        url: '/api/ChoosePage/SetUsingToAbandonById',
+            //        headers: { 'Content-Type': 'application/json' }
+            //    }).then(function success(response) {
+            //        //alert('Abandon Success!');
+            //    }, function error(response) {
+            //    });
+            //}
         }
 
         function setAbandonToUsing(id) {
-            if (confirm('Using?')) {
+            showConfirm('', 'using?', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({
@@ -141,11 +168,28 @@ component('choosePage',{
                     url: '/api/ChoosePage/SetAbanddonToUsingById',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    alert('Using Success!');
+                    //showAlert('', 'success!', yalertStylePath, '')
                 }, function error(response) {
-                    //alert('error');
                 });
-            }
+                location.reload();
+            }, function () {
+            })
+
+            //if (confirm('Using?')) {
+            //    $http({
+            //        method: 'GET',
+            //        params: ({
+            //            id: id,
+            //            startDate: new Date(today)
+            //        }),
+            //        url: '/api/ChoosePage/SetAbanddonToUsingById',
+            //        headers: { 'Content-Type': 'application/json' }
+            //    }).then(function success(response) {
+            //        //alert('Using Success!');
+            //    }, function error(response) {
+            //        //alert('error');
+            //    });
+            //}
         }
 
         /*
@@ -153,13 +197,13 @@ component('choosePage',{
          */
         $scope.abandon = function (id, state) {
             if (state == 3) {
-                alert('The phone is already delete!');
+                //alert('The phone is already delete!');
             } else if (state == 1) {
                 setUsingToAbandon(id);
             } else if (state == 2) {
                 setAbandonToUsing(id);
             }
-            location.reload();
+            //location.reload();
         }
 
         $scope.replace = function (id, state) {

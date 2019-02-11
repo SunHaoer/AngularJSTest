@@ -3,10 +3,14 @@ angular.
     component('replaceCheckPage', {
         templateUrl: 'common/check-page.template.html',
         controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
+            var yalertStylePath = 'css/yalert.css';
             $scope.isReplace = true;
             $scope.myDate = new Date();
-            $scope.myDate.toLocaleDateString();//获取当前日期
+            $scope.myDate.toLocaleDateString();
 
+            /*
+             * get 'ReplacePhoneCheckPageViewModel'
+             */
             $scope.getReplacePhoneCheckPageViewModel = function () {
                 $http({
                     method: 'GET',
@@ -21,7 +25,7 @@ angular.
                         $scope.phone = model.tempNewPhone;
                         $scope.oldPhone = model.tempOldPhone;
                     } else {
-                        alert('not login or illegal visit');
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {
@@ -57,9 +61,10 @@ angular.
             };
 
             $scope.backToIndex = function () {
-                if (confirm('Back to index? Data will not be saved')) {
-                    $location.path('/phone/choosePage');    
-                }
+                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                    window.location.href = '#!/phone/choosePage';
+                }, function () {
+                })
             }
         }]
     })

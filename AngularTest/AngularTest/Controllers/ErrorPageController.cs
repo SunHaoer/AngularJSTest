@@ -26,14 +26,12 @@ namespace AngularTest.Controllers
         {
             ErrorPageViewModel model = new ErrorPageViewModel();
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            //if (!string.IsNullOrEmpty(loginUserInfo))
-            //{
-                model.IsLogin = true;
-                long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-                model.IsVisitLegal = true;
-                Step.nowNode = Step.errorPage;
-                successErrorPageService.SetTempPhoneEmpty(loginUserId);
-            //}
+            model.IsLogin = true;
+            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
+            model.IsVisitLegal = true;
+            HttpContext.Session.SetString("nowNode", Step.errorPage.ToString());
+            HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
+            successErrorPageService.SetTempPhoneEmpty(loginUserId);
             return model;
         }
     }

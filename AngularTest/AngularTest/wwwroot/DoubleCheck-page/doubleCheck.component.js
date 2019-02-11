@@ -3,6 +3,7 @@
     component("doubleCheck", {
         templateUrl: 'DoubleCheck-page/recheck.html',
         controller: ['$scope', '$http', '$location', function DeleteDoubleCtrl($scope, $http, $location) {
+            var yalertStylePath = 'css/yalert.css';
 
             /*
              * get 'DeletePhoneCheckPageViewModel'
@@ -22,7 +23,7 @@
                         $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
                     } else {
-                        alert('not login or illegal visit');
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                         $location.url('phone/errorPage');
                     }
                 }, function error(response) {
@@ -55,10 +56,12 @@
             }
 
             $scope.backToIndex = function () {
-                if (confirm('Back to index?')) {
-                    $location.path('/phone/choosePage');     
-                }
+                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                    window.location.href = '#!/phone/choosePage';
+                }, function () {
+                })
             }
+
             $scope.previous = function () {
                 $location.path('/phone/deletePage');
             }

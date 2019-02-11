@@ -26,6 +26,9 @@
                     </div>
                 </div>
                 <p class="text-right">
+                    <div ng-show="!isOK">
+                        <font color="red">Username or password wrong!</font>
+                    </div>
                     <button id="btnSubmit" type="submit" class="btn btn-primary">
                         Login
                     </button>

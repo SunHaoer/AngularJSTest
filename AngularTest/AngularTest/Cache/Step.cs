@@ -4,33 +4,31 @@ namespace AngularTest.Cache
 {
     public class Step
     {
-        public static Dictionary<long, bool[,]> stepTable = new Dictionary<long, bool[,]>();
-        public static int loginPage = 0;
-        public static int choosePage = 1;
-        public static int addPhone = 2;
-        public static int addPhoneCheck = 3;
-        public static int replacePhone = 4;
-        public static int replacePhoneCheck = 5;
-        public static int deletePhone = 6;
-        public static int deletePhoneCheck = 7;
-        public static int successPage = 8;
-        public static int errorPage = 9;
-        public static int choosePageSubmit = 10;
-        public static int addPhoneSubmit = 11;
-        public static int addPhoneCheckSubmit = 12;
-        public static int replacePhoneSubmit = 13;
-        public static int replacePhoneCheckSubmit = 14;
-        public static int deletePhoneSubmit = 15;
-        public static int deletePhoneCheckSubmit = 16;
-        public static int nowNode = loginPage;
+        public static int loginPage = 1;
+        public static int choosePage = 2;
+        public static int addPhone = 3;
+        public static int addPhoneCheck = 4;
+        public static int replacePhone = 5;
+        public static int replacePhoneCheck = 6;
+        public static int deletePhone = 7;
+        public static int deletePhoneCheck = 8;
+        public static int successPage = 9;
+        public static int errorPage = 10;
+        public static int choosePageSubmit = 11;
+        public static int addPhoneSubmit = 12;
+        public static int addPhoneCheckSubmit = 13;
+        public static int replacePhoneSubmit = 14;
+        public static int replacePhoneCheckSubmit = 15;
+        public static int deletePhoneSubmit = 16;
+        public static int deletePhoneCheckSubmit = 17;
         public static int maxNode = 20;
+        public static bool[,] stepTable = new bool[maxNode, maxNode];
+        public static Dictionary<long, int> nowNodeTable = new Dictionary<long, int>(); 
+        public static int isSubmitTrue = 1;
+        public static int isSubmitFalse = 0;
 
-        public static bool[,] GetStepTableByUserId(long userId)
-        {
-            return stepTable.GetValueOrDefault(userId);
-        }
 
-        public static void InitStepTableByUserId(long userId)
+        public static void InitStepTable()
         {
             bool[,] table = new bool[maxNode, maxNode];
             for(int i = 0; i < maxNode; i++)
@@ -83,7 +81,7 @@ namespace AngularTest.Cache
             table[deletePhoneCheck, deletePhoneCheckSubmit] = true;
             table[successPage, choosePage] = true;
             table[errorPage, choosePage] = true;
-            stepTable.Add(userId, table);
+            stepTable = table;
         }
     }
 }

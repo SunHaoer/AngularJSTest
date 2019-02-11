@@ -3,6 +3,7 @@ module('registerPage').
 component('registerCheckPage', {
     templateUrl: 'common/check-page.template.html',
     controller: ['$location', '$http', '$scope', function RegisterCheck($location, $http, $scope) {
+        var yalertStylePath = 'css/yalert.css';
         $scope.isReplace = false;
 
         /*
@@ -21,7 +22,7 @@ component('registerCheckPage', {
                 if (model.isLogin && model.isVisitLegal) {
                     $scope.phone = model.tempNewPhone;
                 } else {
-                    alert('not login or illegal visit');
+                    showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                     $location.url('phone/errorPage');
                 }
             }, function error(response) {
@@ -58,9 +59,10 @@ component('registerCheckPage', {
         };
 
         $scope.backToIndex = function () {
-            if (confirm('Back to index? Data will not be saved')) {
-                $location.path('/phone/choosePage');    
-            }
+            showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                window.location.href = '#!/phone/choosePage';
+            }, function () {
+            })
         }
     }]
 })

@@ -34,10 +34,13 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneCheck])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
+            if (Step.stepTable[nowNode * isSubmit, Step.replacePhoneCheck])
             {
+                HttpContext.Session.SetString("nowNode", Step.replacePhoneCheck.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
                 model.IsVisitLegal = true;
-                Step.nowNode = Step.replacePhoneCheck;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
                 model.TempOldPhone = TempPhone.GetTempOldPhoneByUserId(loginUserId);
             }
@@ -57,12 +60,14 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneCheckSubmit])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            if (Step.stepTable[nowNode, Step.replacePhoneCheckSubmit])
             {
                 model.IsVisitLegal = true;
                 model.IsParameterNotEmpty = true;
                 if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId) && TempPhone.IsTempOldPhoneNotEmpty(loginUserId))
                 {
+                    HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                     model.IsParameterLegal = true;
                     replacePhoneService.SetTempNewPhoneToDBByUserId(loginUserId);
                     replacePhoneService.SetTemoOldPhoneAbandonToDBByUserId(loginUserId);

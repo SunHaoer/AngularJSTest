@@ -206,10 +206,7 @@ namespace AngularTest.Service
 
         private void InitUserStepTable(long userId)
         {
-            if (Step.GetStepTableByUserId(userId) == null)
-            {
-                Step.InitStepTableByUserId(userId);
-            }
+            Step.InitStepTable();
         }
     }
 }

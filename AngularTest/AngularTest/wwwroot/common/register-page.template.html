@@ -34,7 +34,7 @@
                         productNo:
                     </label>
                     <div class="col-md-10">
-                        <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-blur="validateBrandTypeProductNo()" />
+                        <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-blur="validateBrandTypeProductNo()" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');"/>
                         <label>
                             <span ng-show="myForm.productNo.$dirty && myForm.brand.$dirty && myForm.type.$dirty && !isProdcutNoLegal">
                                 <font color="red">The ProductNo is not legal</font>

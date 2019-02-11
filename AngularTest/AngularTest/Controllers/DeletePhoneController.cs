@@ -37,12 +37,15 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhone])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
+            if (Step.stepTable[nowNode * isSubmit, Step.deletePhone])
             {
             if (!string.IsNullOrEmpty(loginUserInfo))
                 {
+                    HttpContext.Session.SetString("nowNode", Step.deletePhone.ToString());
+                    HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
                     model.IsVisitLegal = true;
-                    Step.nowNode = Step.deletePhone;
                     model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
                     model.DeleteReasonList = deleteReasonService.GetDeleteReason(); 
                 }
@@ -56,6 +59,7 @@ namespace AngularTest.Controllers
         /// <param name="deleteReason"></param>
         /// <param name="deleteDate"></param>
         /// <returns></returns>
+        [HttpPost]
         public FormFeedbackViewModel SubmitMsg(string deleteReason, DateTime deleteDate, int state)
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
@@ -64,7 +68,8 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.deletePhoneSubmit])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            if (Step.stepTable[nowNode, Step.deletePhoneSubmit])
             {
                 model.IsVisitLegal = true;
                 if (!string.IsNullOrEmpty(deleteReason) && (state == 1 || state == 2))
@@ -72,6 +77,7 @@ namespace AngularTest.Controllers
                     model.IsParameterNotEmpty = true;
                     if (Validation.IsDateNotBeforeToday(deleteDate))
                     {
+                        HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                         model.IsParameterLegal = true;
                         string loginUsername = loginUserInfo.Split(",")[1];
                         deleteReason = deleteReason.Trim();

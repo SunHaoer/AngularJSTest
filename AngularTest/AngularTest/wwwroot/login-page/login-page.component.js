@@ -4,12 +4,13 @@
         templateUrl: 'login-page/login-page.template.html',
         controller: ['$scope', '$http', '$location', function LoginpageCtrl($scope, $http, $location) {
             $scope.usernameReg = '[a-zA-Z0-9]*';
+            $scope.isOK = true;
 
             //Verify user name and password
             $scope.login = function () {
                 var info = $scope.info;
                 $http({
-                    method: 'GET',
+                    method: 'POST',
                     url: '/api/Login/Login',
                     params: ({
                         username: info.username,
@@ -21,7 +22,7 @@
                     if (model.isLegal) {
                         $location.url('/phone/choosePage');
                     } else {
-                        //alert(model.isLegal);
+                        $scope.isOK = false;
                     }
                 }), function error(response) {
                     //alert('error');

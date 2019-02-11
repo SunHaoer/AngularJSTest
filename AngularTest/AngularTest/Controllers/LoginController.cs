@@ -42,20 +42,22 @@ namespace AngularTest.Controllers
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public LoginPageViewModel Login(string username, string password)
         {
             loginService.SetInitData();
-            Step.nowNode = Step.loginPage;
-            LoginPageViewModel model = new LoginPageViewModel();
-            model.IsVisitLegal = true;
-            Step.nowNode = Step.loginPage;
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password) )
+            LoginPageViewModel model = new LoginPageViewModel
+            {
+                IsVisitLegal = true
+            };
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
                 User user = loginService.GetLoginUser(username.Trim(), password.Trim());
                 if(user != null)
                 {
                     HttpContext.Session.SetString("loginUser", user.ToSessionString());
+                    HttpContext.Session.SetString("nowNode", Step.loginPage.ToString());
+                    HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                     model.IsLegal = true;
                     loginService.SetInitDataBase(user.Id);
                     model.IsLogin = true;

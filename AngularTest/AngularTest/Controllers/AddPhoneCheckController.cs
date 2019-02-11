@@ -34,10 +34,13 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhoneCheck])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
+            if (Step.stepTable[nowNode * isSubmit, Step.addPhoneCheck])
             {
+                HttpContext.Session.SetString("nowNode", Step.addPhoneCheck.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
                 model.IsVisitLegal = true;
-                Step.nowNode = Step.addPhoneCheck;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
             }
             return model;
@@ -56,8 +59,10 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.addPhoneCheckSubmit])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            if (Step.stepTable[nowNode, Step.addPhoneCheckSubmit])
             {
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                 model.IsVisitLegal = true;
                 model.IsParameterNotEmpty = true;
                 if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId))

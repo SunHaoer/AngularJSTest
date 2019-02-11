@@ -3,6 +3,7 @@
     component("deletePage", {
         templateUrl: "delete-page/delete-page.template.html",
         controller: ["$scope", "$http", "$location", function deletePageCtrl($scope, $http, $location) {
+            var yalertStylePath = 'css/yalert.css';
             $scope.today = new Date();
             $scope.today.toLocaleDateString();//获取当前日期
 
@@ -50,7 +51,7 @@
                             $scope.phone.deleteReason = 'other';
                         }
                     } else {
-                        alert('not login or illegal visit');
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                         $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
@@ -60,17 +61,22 @@
 
             $scope.isDeleteDateLegal = true;
             $scope.validateDateLegal = function () {
-                var date1 = $scope.phone.deleteDate;
-                var date2 = $scope.today;
-                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                try {
+                    var date1 = $scope.phone.deleteDate;
+                    var date2 = $scope.today;
+                    if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                        $scope.isDeleteDateLegal = false;
+                    } else if (date1.getFullYear() != date2.getFullYear()) {
+                        $scope.isDeleteDateLegal = date1.getFullYear() > date2.getFullYear();
+                    } else if (date1.getMonth() != date2.getMonth()) {
+                        $scope.isDeleteDateLegal = date1.getMonth() > date2.getMonth();
+                    } else {
+                        $scope.isDeleteDateLegal = date1.getDate() >= date2.getDate();
+                    }
+                } catch {
                     $scope.isDeleteDateLegal = false;
-                } else if (date1.getFullYear() != date2.getFullYear()) {
-                    $scope.isDeleteDateLegal = date1.getFullYear() > date2.getFullYear();
-                } else if (date1.getMonth() != date2.getMonth()) {
-                    $scope.isDeleteDateLegal = date1.getMonth() > date2.getMonth();
-                } else {
-                    $scope.isDeleteDateLegal = date1.getDate() >= date2.getDate();
                 }
+
             }
 
             /*
@@ -100,7 +106,7 @@
                     $scope.isOK = true;
                     var phone = $scope.phone;
                     $http({
-                        method: 'GET',
+                        method: 'POST',
                         params: ({
                             deleteReason: phone.deleteReason == 'other' ? phone.otherReason : phone.deleteReason,
                             deleteDate: phone.deleteDate,
@@ -110,11 +116,10 @@
                         headers: { 'Content-Type': 'application/json' }
                     }).then(function success(response) {
                         if (response.data.isSuccess) {
-                            //alert('success');
                             $location.url('phone/doubleCheck');
                         } else {
-                            $scope.isOK = false;
                             alert('not legal');
+                            $scope.isOK = false;
                         }
                     }, function error(response) {
                     });
@@ -124,9 +129,10 @@
             }
 
             $scope.backToIndex = function () {
-                if (confirm('Back to index? Data will not be saved')) {
-                    $location.path('/phone/choosePage');
-                }
+                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                    window.location.href = '#!/phone/choosePage';
+                }, function () {
+                })
             }
         }]
     });

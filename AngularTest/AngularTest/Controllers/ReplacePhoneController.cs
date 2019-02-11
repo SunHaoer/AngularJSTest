@@ -51,10 +51,13 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhone])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
+            if (Step.stepTable[nowNode * isSubmit, Step.replacePhone])
             {
+                HttpContext.Session.SetString("nowNode", Step.replacePhone.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
                 model.IsVisitLegal = true;
-                Step.nowNode = Step.replacePhone;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
                 model.TempOldPhone = TempPhone.GetTempOldPhoneByUserId(loginUserId);
                 model.BrandList = brandService.GetBrandList();
@@ -79,11 +82,13 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneSubmit])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            if (Step.stepTable[nowNode, Step.replacePhoneSubmit])
             {
                 model.IsVisitLegal = true;
                 if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(productNo))
                 {
+                    HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                     model.IsParameterNotEmpty = true;
                     brand = brand.Trim();
                     type = type.Trim();
@@ -104,7 +109,7 @@ namespace AngularTest.Controllers
         /// <param name="startDate"></param>
         /// <param name="abandonDate"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public FormFeedbackViewModel SubmitMsg(string productNo, string brand, string type, DateTime startDate, DateTime abandonDate)
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
@@ -113,7 +118,8 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.replacePhoneSubmit])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            if (Step.stepTable[nowNode, Step.replacePhoneSubmit])
             {
                 model.IsVisitLegal = true;
                 if (!string.IsNullOrEmpty(productNo) && !string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && startDate != null)
@@ -121,6 +127,7 @@ namespace AngularTest.Controllers
                     model.IsParameterNotEmpty = true;
                     if (brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo) && Validation.IsDateNotBeforeToday(startDate) && Validation.IsTwoDaysEquals(startDate, abandonDate))
                     {
+                        HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                         model.IsParameterLegal = true;
                         string loginUsername = loginUserInfo.Split(",")[1];
                         int phoneLife = typeYearService.GetYearByType(type);

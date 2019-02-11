@@ -3,6 +3,7 @@ module('replacePage').
 component('replacePage', {
     templateUrl: 'common/register-page.template.html',
     controller: ['$location', '$http', '$scope', function ReplacePage($location, $http, $scope) {
+        var yalertStylePath = 'css/yalert.css';
         $scope.isReplace = true;
         $scope.today = new Date();
         $scope.today.toLocaleDateString();
@@ -41,7 +42,7 @@ component('replacePage', {
                         $scope.oldPhone.abandonDate = new Date(model.tempOldPhone.abandonDate);
                     }
                 } else {
-                    alert('not login or illegal visit');
+                    showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                     $location.url('phone/errorPage');
                 }
             }, function error(response) {
@@ -72,17 +73,22 @@ component('replacePage', {
 
         $scope.isStartDateLegal = true;
         $scope.validateDateLegal = function () {
-            var date1 = $scope.phone.startDate;
-            var date2 = $scope.today;
-            if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+            try {
+                var date1 = $scope.phone.startDate;
+                var date2 = $scope.today;
+                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                    $scope.isStartDateLegal = false;
+                } else if (date1.getFullYear() != date2.getFullYear()) {
+                    $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
+                } else if (date1.getMonth() != date2.getMonth()) {
+                    $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
+                } else {
+                    $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
+                }
+            } catch {
                 $scope.isStartDateLegal = false;
-            } else if (date1.getFullYear() != date2.getFullYear()) {
-                $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
-            } else if (date1.getMonth() != date2.getMonth()) {
-                $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
-            } else {
-                $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
             }
+
         }
 
         $scope.isAbandonDateLegal = true;
@@ -117,7 +123,7 @@ component('replacePage', {
                 $scope.isOK = true;
                 var phone = $scope.phone;
                 $http({
-                    method: 'GET',
+                    method: 'POST',
                     params: ({
                         brand: phone.brand,
                         type: phone.type,
@@ -147,9 +153,10 @@ component('replacePage', {
         }
 
         $scope.backToIndex = function () {
-            if (confirm('Back to index? Data will not be saved')) {
-                $location.path('/phone/choosePage');     
-            }
+            showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                window.location.href = '#!/phone/choosePage';
+            }, function () {
+            })
         }
     }]
 })

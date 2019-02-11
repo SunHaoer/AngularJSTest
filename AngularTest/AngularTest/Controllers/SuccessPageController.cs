@@ -34,10 +34,13 @@ namespace AngularTest.Controllers
             };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if(Step.GetStepTableByUserId(loginUserId)[Step.nowNode, Step.successPage])
+            int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
+            int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
+            if (Step.stepTable[nowNode * isSubmit, Step.successPage])
             {
+                HttpContext.Session.SetString("nowNode", Step.successPage.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
                 model.IsVisitLegal = true;
-                Step.nowNode = Step.successPage;
                 successErrorPageService.SetTempPhoneEmpty(loginUserId);
             }
             return model;
