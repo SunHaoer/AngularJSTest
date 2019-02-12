@@ -123,11 +123,22 @@ angular.
             }
 
             $scope.backToIndex = function () {
-                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
-                    window.location.href = '#!/phone/choosePage';
-                    //$location.url('phone/choosePage')
-                }, function () {
-                })
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/AddPhone/SetIsSubmit',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data.isSuccess) {
+                        showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                            window.location.href = '#!/phone/choosePage';
+                            //$location.url('phone/choosePage')
+                        }, function () {
+                        })
+                    }
+                }, function error(response) {
+                });
             }
         }]
     })

@@ -38,7 +38,7 @@ namespace AngularTest.Controllers
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
             int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
             model.LoginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            if (Step.stepTable[nowNode * isSubmit, Step.choosePage])
+            if (Step.stepTable[nowNode * isSubmit, Step.choosePage] || nowNode == Step.choosePage)
             {
                 HttpContext.Session.SetString("nowNode", Step.choosePage.ToString());
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
@@ -177,12 +177,12 @@ namespace AngularTest.Controllers
         }
 
         /// <summary>
-        /// url: "/api/ChoosePage/AddPhonePrepare"
+        /// url: "/api/ChoosePage/SetIsSubmit"
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public FormFeedbackViewModel AddPhonePrepare()
+        public FormFeedbackViewModel SetIsSubmit()
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
             {

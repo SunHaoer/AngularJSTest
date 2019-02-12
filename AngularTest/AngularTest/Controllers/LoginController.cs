@@ -75,6 +75,8 @@ namespace AngularTest.Controllers
         public void Logout()
         {
             HttpContext.Session.Remove("loginUser");
+            HttpContext.Session.Remove("nowNode");
+            HttpContext.Session.Remove("isSubmit");
         }
 
         /// <summary>

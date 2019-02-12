@@ -148,15 +148,22 @@ component('replacePage', {
             }
         }
 
-        $scope.cancle = function(phone) {
-            $location.url('/phone');
-        }
-
         $scope.backToIndex = function () {
-            showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
-                window.location.href = '#!/phone/choosePage';
-            }, function () {
-            })
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/ReplacePhone/SetIsSubmit',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data.isSuccess) {
+                    showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                        window.location.href = '#!/phone/choosePage';
+                    }, function () {
+                    })
+                }
+            }, function error(response) {
+            });
         }
     }]
 })

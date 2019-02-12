@@ -23,5 +23,20 @@ component('successPage', {
             });
         }
         $scope.getSuccessPageViewModel();    
+
+        $scope.turnToIndex = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/SuccessPage/SetIsSubmit',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data.isSuccess) {
+                    $location.url('/phone/choosePage');
+                }
+            }, function error(response) {
+            });
+        }
     }]
 })

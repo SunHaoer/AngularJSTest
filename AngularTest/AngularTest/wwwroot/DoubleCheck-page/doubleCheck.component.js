@@ -55,15 +55,27 @@
                 });
             }
 
-            $scope.backToIndex = function () {
-                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
-                    window.location.href = '#!/phone/choosePage';
-                }, function () {
-                })
+            $scope.cancle = function (value) {
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/DeletePhoneCheck/SetIsSubmit',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data.isSuccess) {
+                        if (value == 1) {
+                            showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                                window.location.href = '#!/phone/choosePage';
+                            }, function () {
+                            })
+                        } else if (value == 2) {
+                            window.location.href = '#!/phone/deletePage';
+                        }
+                    }
+                }, function error(response) {
+                });
             }
 
-            $scope.previous = function () {
-                $location.path('/phone/deletePage');
-            }
         }]
     });

@@ -59,24 +59,27 @@
             }
             $scope.getDeletePhonePageViewModel();
 
+            function validateDate(date1, date2) {
+                var flag = true;
+                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                    flag = false;
+                } else if (date1.getFullYear() != date2.getFullYear()) {
+                    flag = date1.getFullYear() > date2.getFullYear();
+                } else if (date1.getMonth() != date2.getMonth()) {
+                    flag = date1.getMonth() > date2.getMonth();
+                } else {
+                    flag = date1.getDate() >= date2.getDate();
+                }
+                return flag;
+            }
+
             $scope.isDeleteDateLegal = true;
             $scope.validateDateLegal = function () {
                 try {
-                    var date1 = $scope.phone.deleteDate;
-                    var date2 = $scope.today;
-                    if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
-                        $scope.isDeleteDateLegal = false;
-                    } else if (date1.getFullYear() != date2.getFullYear()) {
-                        $scope.isDeleteDateLegal = date1.getFullYear() > date2.getFullYear();
-                    } else if (date1.getMonth() != date2.getMonth()) {
-                        $scope.isDeleteDateLegal = date1.getMonth() > date2.getMonth();
-                    } else {
-                        $scope.isDeleteDateLegal = date1.getDate() >= date2.getDate();
-                    }
+                    $scope.isDeleteDateLegal = validateDate($scope.phone.deleteDate, $scope.today) && validateDate($scope.phone.deleteDate, $scope.phone.startDate);
                 } catch {
                     $scope.isDeleteDateLegal = false;
                 }
-
             }
 
             /*
@@ -129,10 +132,22 @@
             }
 
             $scope.backToIndex = function () {
-                showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
-                    window.location.href = '#!/phone/choosePage';
-                }, function () {
-                })
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/DeletePhone/SetIsSubmit',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data.isSuccess) {
+                        showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                            window.location.href = '#!/phone/choosePage';
+                        }, function () {
+                        })
+                    }
+                }, function error(response) {
+                });
             }
+
         }]
     });

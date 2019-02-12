@@ -21,12 +21,13 @@ namespace AngularTest.Cache
         public static int replacePhoneCheckSubmit = 15;
         public static int deletePhoneSubmit = 16;
         public static int deletePhoneCheckSubmit = 17;
+        public static int successPageSubmit = 18;
+        public static int errorPageSubmit = 19;
         public static int maxNode = 20;
         public static bool[,] stepTable = new bool[maxNode, maxNode];
         public static Dictionary<long, int> nowNodeTable = new Dictionary<long, int>(); 
         public static int isSubmitTrue = 1;
         public static int isSubmitFalse = 0;
-
 
         public static void InitStepTable()
         {
@@ -80,7 +81,9 @@ namespace AngularTest.Cache
             table[deletePhoneCheck, errorPage] = true;
             table[deletePhoneCheck, deletePhoneCheckSubmit] = true;
             table[successPage, choosePage] = true;
+            table[successPage, successPageSubmit] = true;
             table[errorPage, choosePage] = true;
+            table[errorPage, errorPageSubmit] = true;
             stepTable = table;
         }
     }

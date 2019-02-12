@@ -116,10 +116,12 @@ component('choosePage',{
                 method: 'GET',
                 params: ({
                 }),
-                url: '/api/ChoosePage/AddPhonePrepare',
+                url: '/api/ChoosePage/SetIsSubmit',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                $location.url('/phone/registerPage');
+                if (response.data.isSuccess) {
+                    $location.url('/phone/registerPage');
+                }
             }, function error(response) {
             });
         }
@@ -141,20 +143,6 @@ component('choosePage',{
                 location.reload();
             }, function () {
             })
-            //if (confirm('Abandon?')) {
-            //    $http({
-            //        method: 'GET',
-            //        params: ({
-            //            id: id,
-            //            abandonDate: new Date(today)
-            //        }),
-            //        url: '/api/ChoosePage/SetUsingToAbandonById',
-            //        headers: { 'Content-Type': 'application/json' }
-            //    }).then(function success(response) {
-            //        //alert('Abandon Success!');
-            //    }, function error(response) {
-            //    });
-            //}
         }
 
         function setAbandonToUsing(id) {
@@ -174,22 +162,6 @@ component('choosePage',{
                 location.reload();
             }, function () {
             })
-
-            //if (confirm('Using?')) {
-            //    $http({
-            //        method: 'GET',
-            //        params: ({
-            //            id: id,
-            //            startDate: new Date(today)
-            //        }),
-            //        url: '/api/ChoosePage/SetAbanddonToUsingById',
-            //        headers: { 'Content-Type': 'application/json' }
-            //    }).then(function success(response) {
-            //        //alert('Using Success!');
-            //    }, function error(response) {
-            //        //alert('error');
-            //    });
-            //}
         }
 
         /*
