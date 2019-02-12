@@ -113,7 +113,7 @@ angular.
                             $location.path("/phone/registerCheckPage");
                         } else {
                             $scope.isOK = false;
-                            alert('not legal');
+                            $scope.validateBrandTypeProductNo();
                         }
                     }, function error(response) {
                     });

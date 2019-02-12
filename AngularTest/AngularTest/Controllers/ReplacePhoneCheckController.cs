@@ -1,7 +1,6 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,12 @@ namespace AngularTest.Controllers
     public class ReplacePhoneCheckController : ControllerBase
     {
         private readonly PhoneContext _phoneContext;
-        private readonly ReplacePhoneService replacePhoneService;
+        private readonly ReplacePhoneManage replacePhoneService;
 
         public ReplacePhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            replacePhoneService = new ReplacePhoneService(_phoneContext);
+            replacePhoneService = new ReplacePhoneManage(_phoneContext);
         }
 
         /// <summary>

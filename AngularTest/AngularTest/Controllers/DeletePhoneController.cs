@@ -15,12 +15,12 @@ namespace AngularTest.Controllers
     public class DeletePhoneController : ControllerBase
     {
         DeleteReasonContext _deleteReasonContext;
-        DeletePhoneService deletePhoneService;
+        DeletePhoneManage deletePhoneService;
         DeleteReasonService deleteReasonService;
 
         public DeletePhoneController(DeleteReasonContext deleteReasonContext)
         {
-            deletePhoneService = new DeletePhoneService();
+            deletePhoneService = new DeletePhoneManage();
             _deleteReasonContext = deleteReasonContext;
             deleteReasonService = new DeleteReasonService(_deleteReasonContext);
         }

@@ -135,11 +135,10 @@ component('replacePage', {
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
                     if (response.data.isSuccess) {
-                        //alert('success');
                         $location.path("/phone/replaceCheckPage");
                     } else {
                         $scope.isOK = false;
-                        alert('not legal');
+                        $scope.validateBrandTypeProductNo();
                     }
                 }, function error(response) {
                 });

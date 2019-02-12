@@ -2,7 +2,6 @@
 using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +14,13 @@ namespace AngularTest.Controllers
     {
         private readonly PhoneContext _phoneContext;
         private readonly IQueryable<Phone> phoneIQ;
-        private readonly DeletePhoneService deletePhoneService;
+        private readonly DeletePhoneManage deletePhoneService;
 
         public DeletePhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
             phoneIQ = phoneContext.Phones;
-            deletePhoneService = new DeletePhoneService(phoneContext);
+            deletePhoneService = new DeletePhoneManage(phoneContext);
         }
 
         /// <summary>

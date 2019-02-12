@@ -22,7 +22,7 @@ namespace AngularTest.Controllers
         private BrandService brandService;
         private BrandTypeService brandTypeService;
         private BrandTypeProductNoService brandTypeProductNoService;
-        private ReplacePhoneService replacePhoneService;
+        private ReplacePhoneManage replacePhoneService;
         private TypeYearService typeYearService;
 
         public ReplacePhoneController(BrandContext brandContext, BrandTypeContext brandtypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext)
@@ -34,7 +34,7 @@ namespace AngularTest.Controllers
             brandService = new BrandService(_brandContext);
             brandTypeService = new BrandTypeService(_brandTypeContext);
             brandTypeProductNoService = new BrandTypeProductNoService(_brandTypeProductNoContext);
-            replacePhoneService = new ReplacePhoneService();
+            replacePhoneService = new ReplacePhoneManage();
             typeYearService = new TypeYearService(typeYearContext);
         }
 

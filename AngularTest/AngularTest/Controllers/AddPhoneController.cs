@@ -22,7 +22,7 @@ namespace AngularTest.Controllers
         private BrandService brandService;
         private BrandTypeService brandTypeService;
         private BrandTypeProductNoService brandTypeProductNoService;
-        private AddPhoneService addPhoneService;
+        private AddPhoneManage addPhoneService;
         private TypeYearService typeYearService;
         
         public AddPhoneController(BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext)
@@ -34,7 +34,7 @@ namespace AngularTest.Controllers
             brandService = new BrandService(_brandContext);
             brandTypeService = new BrandTypeService(_brandtypeContext);
             brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext);
-            addPhoneService = new AddPhoneService();
+            addPhoneService = new AddPhoneManage();
             typeYearService = new TypeYearService(typeYearContext);
         }
 
@@ -45,6 +45,7 @@ namespace AngularTest.Controllers
         [HttpGet]
         public AddPhonePageViewModel GetAddPhoneModel()
         {
+
             AddPhonePageViewModel model = new AddPhonePageViewModel
             {
                 IsLogin = true

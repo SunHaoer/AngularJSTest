@@ -6,6 +6,18 @@
             $scope.usernameReg = '[a-zA-Z0-9]*';
             $scope.isOK = true;
 
+            $scope.initLogin = function () {
+                $http({
+                    method: 'GET',
+                    url: '/api/Login/InitLogin',
+                    params: ({
+                    }),
+                }).then(function success(response) {
+                }), function error(response) {
+                }
+            }
+            $scope.initLogin();
+
             //Verify user name and password
             $scope.login = function () {
                 var info = $scope.info;

@@ -27,7 +27,7 @@ function showAlert(t,m,stylepath,fn){
         '<div class="ymodalAlertBody">'+
         '<div class="ymodalTitle">'+t+'</div>'+
         '<div class="ymodalMsg">'+m+'</div>'+
-        '<div class="ymodalonfirm"><div class="alertbtn alertbtnSure">确定</div></div>'+
+        '<div class="ymodalonfirm"><div class="alertbtn alertbtnSure"><button>yes</button></div></div>'+
         '</div>'+
         '</div>';
     $("body").append(alertstr);
@@ -50,7 +50,7 @@ function showConfirm(t,m,stylepath,surefn,canclefn){
         '<div class="ymodalAlertBody">'+
         '<div class="ymodalTitle">'+t+'</div>'+
         '<div class="ymodalMsg">'+m+'</div>'+
-        '<div class="ymodalonfirm"><div class="confrimbtn confrimbtnCancle">取消</div><div class="confrimbtn confrimbtnSure">确定</div></div>'+
+        '<div class="ymodalonfirm"><button class="confrimbtn confrimbtnCancle">no</button><button class="confrimbtn confrimbtnSure">yes</button></div>'+
         '</div>'+
         '</div>';
     $("body").append(confirmstr);

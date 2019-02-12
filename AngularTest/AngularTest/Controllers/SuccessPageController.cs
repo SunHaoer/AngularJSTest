@@ -1,6 +1,7 @@
 ﻿using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
 using AngularTest.Service;
+using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class SuccessPageController : ControllerBase
     {
-        private readonly SuccessErrorPageService successErrorPageService;
+        private readonly SuccessErrorPageManage successErrorPageService;
 
         public SuccessPageController()
         {
-            successErrorPageService = new SuccessErrorPageService();
+            successErrorPageService = new SuccessErrorPageManage();
         }
 
         /// <summary>

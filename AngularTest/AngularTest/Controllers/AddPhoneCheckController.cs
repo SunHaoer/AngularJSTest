@@ -13,12 +13,12 @@ namespace AngularTest.Controllers
     public class AddPhoneCheckController : ControllerBase
     {
         private readonly PhoneContext _phoneContext;
-        private readonly AddPhoneService addPhoneService;
+        private readonly AddPhoneManage addPhoneService;
 
         public AddPhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            addPhoneService = new AddPhoneService(_phoneContext);
+            addPhoneService = new AddPhoneManage(_phoneContext);
         }
 
         /// <summary>
