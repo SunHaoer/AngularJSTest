@@ -64,7 +64,7 @@ component('choosePage',{
          * logout
          */
         $scope.logout = function () {
-            showConfirm('', 'logout', yalertStylePath, function () {
+            showConfirm('', 'are you sure logout', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({
@@ -127,7 +127,7 @@ component('choosePage',{
         }
 
         function setUsingToAbandon(id) {
-            showConfirm('', 'abandon?', yalertStylePath, function () {
+            showConfirm('', 'are you sure to abandon?', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({
@@ -146,7 +146,7 @@ component('choosePage',{
         }
 
         function setAbandonToUsing(id) {
-            showConfirm('', 'using?', yalertStylePath, function () {
+            showConfirm('', ' are you sure using?', yalertStylePath, function () {
                 $http({
                     method: 'GET',
                     params: ({

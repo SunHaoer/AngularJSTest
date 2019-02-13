@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AngularTest.PageVeiwModels;
+using System.Collections.Generic;
 
 namespace AngularTest.Cache
 {
@@ -85,6 +86,22 @@ namespace AngularTest.Cache
             table[errorPage, choosePage] = true;
             table[errorPage, errorPageSubmit] = true;
             stepTable = table;
+        }
+
+        public static FormFeedbackViewModel SetIsSubmit(int nowNode, int visitNode)
+        {
+            FormFeedbackViewModel model = new FormFeedbackViewModel()
+            {
+                IsLogin = true
+            };
+            if (stepTable[nowNode, visitNode])
+            {
+                model.IsVisitLegal = true;
+                model.IsParameterNotEmpty = true;
+                model.IsParameterLegal = true;
+                model.IsSuccess = true;
+            }
+            return model;
         }
     }
 }

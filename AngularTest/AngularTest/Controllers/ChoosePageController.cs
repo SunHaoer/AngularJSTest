@@ -1,7 +1,6 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Utils;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -119,11 +118,10 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            FormFeedbackViewModel model = choosePageManage.SetIsSubmit(loginUserId, nowNode);
-            if(model.IsSuccess)
+            int visitNode = Step.choosePage;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if (model.IsSuccess)
             {
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
             }

@@ -2,8 +2,6 @@
 using AngularTest.Cache;
 using AngularTest.Data;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
-using AngularTest.Utils;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +12,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class DeletePhoneController : ControllerBase
     {
-        DeleteReasonContext _deleteReasonContext;
-        DeletePhoneManage deletePhoneService;
-        DeleteReasonService deleteReasonService;
+        DeletePhoneManage deletePhoneManage;
 
         public DeletePhoneController(DeleteReasonContext deleteReasonContext)
         {
-            deletePhoneService = new DeletePhoneManage();
-            _deleteReasonContext = deleteReasonContext;
-            deleteReasonService = new DeleteReasonService(_deleteReasonContext);
+            deletePhoneManage = new DeletePhoneManage(deleteReasonContext);
         }
 
         /// <summary>
@@ -31,24 +25,15 @@ namespace AngularTest.Controllers
         /// <returns></returns>
         public DeletePhonePageViewModel GetDeletePhonePageViewModel()
         {
-            DeletePhonePageViewModel model = new DeletePhonePageViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
             int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
-            if (Step.stepTable[nowNode * isSubmit, Step.deletePhone] || nowNode == Step.deletePhone)
+            DeletePhonePageViewModel model = deletePhoneManage.GetDeletePhonePageViewModel(loginUserId, nowNode, isSubmit);
+            if(model.IsVisitLegal)
             {
-            if (!string.IsNullOrEmpty(loginUserInfo))
-                {
-                    HttpContext.Session.SetString("nowNode", Step.deletePhone.ToString());
-                    HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
-                    model.IsVisitLegal = true;
-                    model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
-                    model.DeleteReasonList = deleteReasonService.GetDeleteReason(); 
-                }
+                HttpContext.Session.SetString("nowNode", Step.deletePhone.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
             }
             return model;
         }
@@ -62,29 +47,13 @@ namespace AngularTest.Controllers
         [HttpPost]
         public FormFeedbackViewModel SubmitMsg(string deleteReason, DateTime deleteDate, int state)
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.deletePhoneSubmit])
+            FormFeedbackViewModel model = deletePhoneManage.SubmitMsg(loginUserId, nowNode, deleteReason, deleteDate, state);
+            if(model.IsSuccess)
             {
-                model.IsVisitLegal = true;
-                if (!string.IsNullOrEmpty(deleteReason) && (state == 1 || state == 2))
-                {
-                    model.IsParameterNotEmpty = true;
-                    if (Validation.IsDateNotBeforeToday(deleteDate))
-                    {
-                        HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                        model.IsParameterLegal = true;
-                        string loginUsername = loginUserInfo.Split(",")[1];
-                        deleteReason = deleteReason.Trim();
-                        deletePhoneService.SetTempNewPhoneDeleteByUserId(loginUserId, deleteReason, deleteDate, state);
-                        model.IsSuccess = true;
-                    }
-                }
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
             }
             return model;
         }
@@ -97,20 +66,12 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.deletePhoneSubmit])
+            int visitNode = Step.deletePhone;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if (model.IsSuccess)
             {
-                model.IsVisitLegal = true;
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsParameterNotEmpty = true;
-                model.IsParameterLegal = true;
-                model.IsSuccess = true;
             }
             return model;
         }

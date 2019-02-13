@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /********************
  * 移动端Alert弹框模拟
  * author:yaohuitao@100tal.com
@@ -10,8 +10,18 @@
 .ymodalonfirm{ border-top:1px solid #ccc; position:relative;}
 .ymodalMsg{ padding:20px; padding-top:5px; font-size:14px; line-height:26px;  text-align: center}
 .alertbtnSure{ padding:10px; text-align: center; font-size:18px; color:#0091ff; line-height: 30px;}
-.confrimbtn{ padding:10px; text-align: center; font-size:18px; color:#0091ff; line-height: 30px; box-sizing: border-box; width:50%; float:left; overflow:hidden;}
-.confrimbtnCancle{border-right: 1px solid #ddd; position: relative;}
+.confrimbtn{ padding:10px; text-align: center; font-size:18px; color:#222020; line-height: 30px; box-sizing: border-box; width:50%; float:left; overflow:hidden;}
+.confrimbtnCancle {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    color: #222020;
+    line-height: 30px;
+    box-sizing: border-box;
+    width: 50%;
+    float: left;
+    overflow: hidden;
+}
 @media (-webkit-min-device-pixel-ratio:2) {
     .ymodalonfirm{ border:none;}
     .ymodalonfirm:before{ content: "";display: block; background:#ccc; position: absolute; height:1px;  -moz-transform: scaleY(0.5); transform: scaleY(0.5);-webkit-transform:scaleY(0.5);-moz-transform-origin:center top;transform-origin:center top;-webkit-transform-origin:center top; top:0; left: 0; right:0;z-index: 10;}

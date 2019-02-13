@@ -43,20 +43,12 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.errorPageSubmit])
+            int visitNode = Step.errorPage;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if (model.IsSuccess)
             {
-                model.IsVisitLegal = true;
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsParameterNotEmpty = true;
-                model.IsParameterLegal = true;
-                model.IsSuccess = true;
             }
             return model;
         }

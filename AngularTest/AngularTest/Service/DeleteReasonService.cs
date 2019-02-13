@@ -22,5 +22,18 @@ namespace AngularTest.Service
         {
             return deleteReasonIQ.ToList();
         }
+
+        public void InitDeleteReasonDataBase()
+        {
+            if (_deleteReasonContext.DeleteReasons.Count() == 0)
+            {
+                _deleteReasonContext.Add(new DeleteReason("lost"));
+                _deleteReasonContext.Add(new DeleteReason("buy new phone"));
+                _deleteReasonContext.Add(new DeleteReason("time end"));
+                _deleteReasonContext.Add(new DeleteReason("not interested"));
+                _deleteReasonContext.Add(new DeleteReason("other"));
+                _deleteReasonContext.SaveChanges();
+            }
+        }
     }
 }

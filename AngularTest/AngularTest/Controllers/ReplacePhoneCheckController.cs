@@ -2,6 +2,7 @@
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
 using AngularTest.VeiwModels;
+using AngularTest.ViewModelManage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +13,12 @@ namespace AngularTest.Controllers
     public class ReplacePhoneCheckController : ControllerBase
     {
         private readonly PhoneContext _phoneContext;
-        private readonly ReplacePhoneManage replacePhoneService;
+        private readonly ReplacePhoneCheckManage replacePhoneCheckManage;
 
         public ReplacePhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            replacePhoneService = new ReplacePhoneManage(_phoneContext);
+            replacePhoneCheckManage = new ReplacePhoneCheckManage(_phoneContext);
         }
 
         /// <summary>
@@ -27,21 +28,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public ReplacePhoneCheckPageViewModel GetReplacePhoneCheckPageViewModel()
         {
-            ReplacePhoneCheckPageViewModel model = new ReplacePhoneCheckPageViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
             int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
-            if (Step.stepTable[nowNode * isSubmit, Step.replacePhoneCheck] || nowNode == Step.replacePhoneCheck)
+            ReplacePhoneCheckPageViewModel model = replacePhoneCheckManage.GetReplacePhoneCheckPageViewModel(loginUserId, nowNode, isSubmit);
+            if(model.IsVisitLegal)
             {
                 HttpContext.Session.SetString("nowNode", Step.replacePhoneCheck.ToString());
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
-                model.IsVisitLegal = true;
-                model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
-                model.TempOldPhone = TempPhone.GetTempOldPhoneByUserId(loginUserId);
             }
             return model;
         }
@@ -53,25 +48,13 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SubmitMsg()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.replacePhoneCheckSubmit])
+            FormFeedbackViewModel model = replacePhoneCheckManage.SubmitMsg(loginUserId, nowNode);
+            if(model.IsSuccess)
             {
-                model.IsVisitLegal = true;
-                model.IsParameterNotEmpty = true;
-                if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId) && TempPhone.IsTempOldPhoneNotEmpty(loginUserId))
-                {
-                    HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                    model.IsParameterLegal = true;
-                    replacePhoneService.SetTempNewPhoneToDBByUserId(loginUserId);
-                    replacePhoneService.SetTemoOldPhoneAbandonToDBByUserId(loginUserId);
-                    model.IsSuccess = true;
-                }
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
             }
             return model;
         }
@@ -84,22 +67,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.replacePhoneCheckSubmit])
+            int visitNode = Step.replacePhoneCheck;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if (model.IsSuccess)
             {
-                model.IsVisitLegal = true;
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsParameterNotEmpty = true;
-                model.IsParameterLegal = true;
-                model.IsSuccess = true;
             }
             return model;
         }
+
     }
 }
