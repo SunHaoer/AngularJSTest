@@ -1,7 +1,7 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Data;
 using AngularTest.Models;
-using AngularTest.Service;
+using AngularTest.Dao;
 using System.Linq;
 
 namespace AngularTest.VeiwModels
@@ -11,23 +11,23 @@ namespace AngularTest.VeiwModels
         private readonly UserContext _userContext;
         private readonly IQueryable<User> userIQ;
 
-        private readonly PhoneService phoneService;
-        private readonly BrandService brandService;
-        private readonly BrandTypeService brandTypeService;
-        private readonly BrandTypeProductNoService brandTypeProductNoService;
-        private readonly TypeYearService typeYearService;
-        private readonly DeleteReasonService deleteReasonService;
+        private readonly PhoneDao phoneDao;
+        private readonly BrandDao brandDao;
+        private readonly BrandTypeDao brandTypeDao;
+        private readonly BrandTypeProductNoDao brandTypeProductNoDao;
+        private readonly TypeYearDao typeYearDao;
+        private readonly DeleteReasonDao deleteReasonDao;
 
         public LoginManage(UserContext userContext, PhoneContext phoneContext, BrandContext brandContext, BrandTypeContext brandTypeContext, BrandTypeProductNoContext brandTypeProductNoContext, TypeYearContext typeYearContext, DeleteReasonContext deleteReasonContext)
         {
             _userContext = userContext;
             userIQ = _userContext.Users;
-            phoneService = new PhoneService(phoneContext);
-            brandService = new BrandService(brandContext);
-            brandTypeService = new BrandTypeService(brandTypeContext);
-            brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext);
-            typeYearService = new TypeYearService(typeYearContext);
-            deleteReasonService = new DeleteReasonService(deleteReasonContext);
+            phoneDao = new PhoneDao(phoneContext);
+            brandDao = new BrandDao(brandContext);
+            brandTypeDao = new BrandTypeDao(brandTypeContext);
+            brandTypeProductNoDao = new BrandTypeProductNoDao(brandTypeProductNoContext);
+            typeYearDao = new TypeYearDao(typeYearContext);
+            deleteReasonDao = new DeleteReasonDao(deleteReasonContext);
         }
 
         public void SetInitData()
@@ -67,12 +67,12 @@ namespace AngularTest.VeiwModels
 
         private void SetInitDataBase(long userId)
         {
-            phoneService.InitPhoneDataBase();
-            brandService.InitBrandDataBase();
-            brandTypeService.InitBrandTypeDataBase();
-            brandTypeProductNoService.InitBrandTypeProductNoDataBase();
-            typeYearService.InitTypeYearDataBase();
-            deleteReasonService.InitDeleteReasonDataBase();
+            phoneDao.InitPhoneDataBase();
+            brandDao.InitBrandDataBase();
+            brandTypeDao.InitBrandTypeDataBase();
+            brandTypeProductNoDao.InitBrandTypeProductNoDataBase();
+            typeYearDao.InitTypeYearDataBase();
+            deleteReasonDao.InitDeleteReasonDataBase();
             InitUserTempPhone(userId);
             InitUserStepTable(userId);
         }

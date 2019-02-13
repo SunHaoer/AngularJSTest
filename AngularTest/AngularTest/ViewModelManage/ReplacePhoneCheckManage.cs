@@ -1,17 +1,18 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
+using AngularTest.Dao;
 using AngularTest.VeiwModels;
 
 namespace AngularTest.ViewModelManage
 {
-    public class ReplacePhoneCheckManage : AddPhoneCheckManage
+    public class ReplacePhoneCheckManage 
     {
+        protected PhoneDao phoneDao;
 
-        public ReplacePhoneCheckManage(PhoneContext phoneContext) : base(phoneContext)
+        public ReplacePhoneCheckManage(PhoneContext phoneContext) 
         {
-            phoneService = new PhoneService(phoneContext);
+            phoneDao = new PhoneDao(phoneContext);
         }
 
         public ReplacePhoneCheckPageViewModel GetReplacePhoneCheckPageViewModel(long userId, int nowNode, int isSubmit)
@@ -29,7 +30,7 @@ namespace AngularTest.ViewModelManage
             return model;
         }
 
-        public new FormFeedbackViewModel SubmitMsg(long userId, int nowNode)
+        public FormFeedbackViewModel SubmitMsg(long userId, int nowNode)
         {
             FormFeedbackViewModel model = new FormFeedbackViewModel()
             {
@@ -42,8 +43,8 @@ namespace AngularTest.ViewModelManage
                 if (TempPhone.IsTempNewPhoneNotEmpty(userId) && TempPhone.IsTempOldPhoneNotEmpty(userId))
                 {
                     model.IsParameterLegal = true;
-                    phoneService.SetTempNewPhoneToDBByUserId(userId);
-                    phoneService.SetTemoOldPhoneAbandonToDBByUserId(userId);
+                    phoneDao.SetTempNewPhoneToDBByUserId(userId);
+                    phoneDao.SetTemoOldPhoneAbandonToDBByUserId(userId);
                     model.IsSuccess = true;
                 }
             }

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class DeleteReasonService
+    public class DeleteReasonDao
     {
         private readonly DeleteReasonContext _deleteReasonContext;
         private readonly IQueryable<DeleteReason> deleteReasonIQ;
 
-        public DeleteReasonService(DeleteReasonContext deleteReasonContext)
+        public DeleteReasonDao(DeleteReasonContext deleteReasonContext)
         {
             _deleteReasonContext = deleteReasonContext;
             deleteReasonIQ = _deleteReasonContext.DeleteReasons;

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class BrandService
+    public class BrandDao
     {
         private readonly BrandContext _brandContext;
         private readonly IQueryable<Brand> brandIQ;
 
-        public BrandService(BrandContext brandContext)
+        public BrandDao(BrandContext brandContext)
         {
             _brandContext = brandContext;
             brandIQ = _brandContext.Brands;

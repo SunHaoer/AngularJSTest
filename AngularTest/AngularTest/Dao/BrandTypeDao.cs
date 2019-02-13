@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class BrandTypeService
+    public class BrandTypeDao
     {
         private readonly BrandTypeContext _brandTypeContext;
         private readonly IQueryable<BrandType> brandTypeIQ;
 
-        public BrandTypeService(BrandTypeContext brandTypeContext)
+        public BrandTypeDao(BrandTypeContext brandTypeContext)
         {
             _brandTypeContext = brandTypeContext;
             brandTypeIQ = _brandTypeContext.BrandTypes;

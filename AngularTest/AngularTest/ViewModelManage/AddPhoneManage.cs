@@ -2,7 +2,7 @@
 using AngularTest.Data;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
+using AngularTest.Dao;
 using System;
 using AngularTest.Utils;
 
@@ -14,10 +14,10 @@ namespace AngularTest.VeiwModels
         protected BrandTypeContext _brandTypeContext;
         protected BrandTypeProductNoContext _brandTypeProductNoContext;
         protected TypeYearContext _typeYearContext;
-        protected BrandService brandService;
-        protected BrandTypeService brandTypeService;
-        protected BrandTypeProductNoService brandTypeProductNoService;
-        protected TypeYearService typeYearService;
+        protected BrandDao brandDao;
+        protected BrandTypeDao brandTypeDao;
+        protected BrandTypeProductNoDao brandTypeProductNoDao;
+        protected TypeYearDao typeYearDao;
 
         public AddPhoneManage()
         {
@@ -29,10 +29,10 @@ namespace AngularTest.VeiwModels
             _brandTypeContext = brandTypeContext;
             _brandTypeProductNoContext = brandTypeProductNoContext;
             _typeYearContext = typeYearContext;
-            brandService = new BrandService(_brandContext);
-            brandTypeService = new BrandTypeService(_brandTypeContext);
-            brandTypeProductNoService = new BrandTypeProductNoService(brandTypeProductNoContext);
-            typeYearService = new TypeYearService(typeYearContext);
+            brandDao = new BrandDao(_brandContext);
+            brandTypeDao = new BrandTypeDao(_brandTypeContext);
+            brandTypeProductNoDao = new BrandTypeProductNoDao(brandTypeProductNoContext);
+            typeYearDao = new TypeYearDao(typeYearContext);
         }
 
         public AddPhonePageViewModel GetAddPhoneModel(long userId, int nowNode, int isSubmit)
@@ -46,8 +46,8 @@ namespace AngularTest.VeiwModels
                 model.IsVisitLegal = true;
                 Phone phone = TempPhone.GetTempNewPhoneByUserId(userId);
                 model.TempNewPhone = phone;
-                model.BrandList = brandService.GetBrandList();
-                model.TypeList = brandTypeService.GetBrandTypeList();
+                model.BrandList = brandDao.GetBrandList();
+                model.TypeList = brandTypeDao.GetBrandTypeList();
             }
             return model;
         }
@@ -68,7 +68,7 @@ namespace AngularTest.VeiwModels
                     brand = brand.Trim();
                     type = type.Trim();
                     productNo = productNo.Trim();
-                    model.IsSuccess = brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo);
+                    model.IsSuccess = brandTypeProductNoDao.ValidateBrandTypeProductNo(brand, type, productNo);
                 }
             }
             return model;
@@ -86,13 +86,13 @@ namespace AngularTest.VeiwModels
                 if (!string.IsNullOrEmpty(productNo) && !string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(type) && startDate != null)
                 {
                     model.IsParameterNotEmpty = true;
-                    if (brandTypeProductNoService.ValidateBrandTypeProductNo(brand, type, productNo) && Validation.IsDateNotBeforeToday(startDate))
+                    if (brandTypeProductNoDao.ValidateBrandTypeProductNo(brand, type, productNo) && Validation.IsDateNotBeforeToday(startDate))
                     {
                         
                         model.IsParameterLegal = true;
                         string loginUsername = userInfo.Split(",")[1];
                         long userId = long.Parse(userInfo.Split(",")[0]);
-                        int phoneLife = typeYearService.GetYearByType(type);
+                        int phoneLife = typeYearDao.GetYearByType(type);
                         DateTime endDate = GetPhoneEndDate(startDate, phoneLife);
                         Phone phone = new Phone(loginUsername, userId, brand, type, productNo, startDate, endDate);
                         SetTempNewPhoneByUserId(userId, phone);
@@ -103,13 +103,13 @@ namespace AngularTest.VeiwModels
             return model;
         }
 
-        protected DateTime GetPhoneEndDate(DateTime startDate, int phoneLife)
+        private DateTime GetPhoneEndDate(DateTime startDate, int phoneLife)
         {
             DateTime endDate = new DateTime(startDate.Year + phoneLife, startDate.Month, startDate.Day);
             return endDate;
         }
 
-        protected void SetTempNewPhoneByUserId(long userId, Phone phone)
+        private void SetTempNewPhoneByUserId(long userId, Phone phone)
         {
             TempPhone.SetTempNewPhoneByUserId(userId, phone);
         }

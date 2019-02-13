@@ -1,8 +1,4 @@
 ﻿@charset "UTF-8";
-/********************
- * 移动端Alert弹框模拟
- * author:yaohuitao@100tal.com
- * ******************/
 .ymodalAlertBody{background:#fff; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.2); width:300px; position:absolute; min-height:100px; left:50%; top:35%; margin-left:-150px; z-index: 9000;-moz-animation:bounce 0.8s 0s ease both;-webkit-animation:bounce 0.8s 0s ease both;animation:bounce 0.8s 0s ease both  }
 .ymodalAlert{ position:fixed; left:0; top:0; right:0; bottom:0; z-index: 9000; }
 .ymodalAlert:after{ display: block; content: ""; position: fixed; z-index: 8999; background: rgba(0,0,0,0.3); left:0; top:0; right:0; bottom:0;}
@@ -10,12 +6,12 @@
 .ymodalonfirm{ border-top:1px solid #ccc; position:relative;}
 .ymodalMsg{ padding:20px; padding-top:5px; font-size:14px; line-height:26px;  text-align: center}
 .alertbtnSure{ padding:10px; text-align: center; font-size:18px; color:#0091ff; line-height: 30px;}
-.confrimbtn{ padding:10px; text-align: center; font-size:18px; color:#222020; line-height: 30px; box-sizing: border-box; width:50%; float:left; overflow:hidden;}
+.confrimbtn{ padding:10px; text-align: center; font-size:18px; color:#312d2d; line-height: 30px; box-sizing: border-box; width:50%; float:left; overflow:hidden;}
 .confrimbtnCancle {
     padding: 10px;
     text-align: center;
     font-size: 18px;
-    color: #222020;
+    color: #312d2d;
     line-height: 30px;
     box-sizing: border-box;
     width: 50%;

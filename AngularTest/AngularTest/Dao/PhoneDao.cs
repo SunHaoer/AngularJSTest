@@ -4,14 +4,14 @@ using AngularTest.Utils;
 using System;
 using System.Linq;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class PhoneService
+    public class PhoneDao
     {
         private readonly PhoneContext _phoneContext;
         private readonly IQueryable<Phone> phoneIQ;
 
-        public PhoneService(PhoneContext phoneContext)
+        public PhoneDao(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
             phoneIQ = _phoneContext.Phones;

@@ -2,7 +2,7 @@
 using AngularTest.Data;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
+using AngularTest.Dao;
 using AngularTest.Utils;
 using System;
 using System.Linq;
@@ -11,11 +11,11 @@ namespace AngularTest.VeiwModels
 {
     public class DeletePhoneManage
     {
-        private DeleteReasonService deleteReasonService;
+        private DeleteReasonDao deleteReasonDao;
 
         public DeletePhoneManage(DeleteReasonContext deleteReasonContext)
         {
-            deleteReasonService = new DeleteReasonService(deleteReasonContext);
+            deleteReasonDao = new DeleteReasonDao(deleteReasonContext);
         }
 
         public DeletePhonePageViewModel GetDeletePhonePageViewModel(long userId, int nowNode, int isSubmit)
@@ -28,7 +28,7 @@ namespace AngularTest.VeiwModels
             {
                 model.IsVisitLegal = true;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(userId);
-                model.DeleteReasonList = deleteReasonService.GetDeleteReason();
+                model.DeleteReasonList = deleteReasonDao.GetDeleteReason();
             }
             return model;
         }

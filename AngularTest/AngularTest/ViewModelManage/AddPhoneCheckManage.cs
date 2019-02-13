@@ -2,22 +2,18 @@
 using AngularTest.Data;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
+using AngularTest.Dao;
 using AngularTest.VeiwModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AngularTest.ViewModelManage
 {
     public class AddPhoneCheckManage
     {
-        protected PhoneService phoneService; 
+        protected PhoneDao phoneDao; 
 
         public AddPhoneCheckManage(PhoneContext phoneContext)
         {
-            phoneService = new PhoneService(phoneContext);
+            phoneDao = new PhoneDao(phoneContext);
         }
 
         public AddPhoneCheckPageViewModel GetAddPhoneCheckPageViewModel(long userId, int nowNode, int isSubmit)
@@ -47,7 +43,7 @@ namespace AngularTest.ViewModelManage
                 if (TempPhone.IsTempNewPhoneNotEmpty(userId))
                 {
                     model.IsParameterLegal = true;
-                    phoneService.SetTempNewPhoneToDBByUserId(userId);
+                    phoneDao.SetTempNewPhoneToDBByUserId(userId);
                     model.IsSuccess = true;
                 }
             }

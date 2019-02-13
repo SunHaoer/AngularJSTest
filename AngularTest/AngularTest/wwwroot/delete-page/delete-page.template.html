@@ -50,7 +50,7 @@
                     deleteDate：
                 </label>
                 <div class="col-md-10">
-                    <input type="date" ng-model="phone.deleteDate" name="date" id="date" ng-blur="validateDateLegal();" required />
+                    <input type="date" ng-model="phone.deleteDate" name="date" id="date" ng-change="validateDateLegal();" required />
                     <label>
                         <span ng-show="!isDeleteDateLegal">
                             <font color="red">The date is not legal</font>
@@ -63,7 +63,7 @@
                     deleteReason：
                 </label>
                 <div class="col-md-10" ng-mouseleave="otherReason()">
-                    <select ng-model="phone.deleteReason" ng-blur="validateDeleteReasonNotEmpty()" required>
+                    <select ng-model="phone.deleteReason" ng-change="validateDeleteReasonNotEmpty()" required>
                         <option value="">please select</option>
                         <option ng-repeat="x in deleteReasonList">{{x.deleteReasonName}}</option>
                     </select>
@@ -73,12 +73,19 @@
                         </span>
                     </label>
                     <div ng-model="isOther" ng-show="phone.deleteReason=='other'">
-                        <textarea rows="5" cols="25" ng-model="phone.otherReason" ng-blur="validateDeleteReasonNotEmpty()" placeholder="please input your reasons"></textarea>
+                        <textarea rows="5" cols="25" ng-model="phone.otherReason" ng-change="validateOhterReasonNotEmpty()" placeholder="please input your reasons"></textarea>
                     </div>
                 </div>
             </div>
+            <!--<div ng-mouseover="validate()">
+                <br/>
+            </div>-->
+            <div>
+                <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
+                <!--<button ng-disabled="!isOK" class="btn btn-primary" ng-click="submitMsg()">next</button>-->
+                <input ng-show="isOK" class="btn btn-primary" type="submit" ng-click="submitMsg()" value="next" ng-mouseenter="validate()" />
+                <input ng-show="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" />
+            </div>
         </form>
-        <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
-        <button class="btn btn-primary" ng-click="submitMsg()">next</button>
     </div>
 </div>

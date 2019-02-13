@@ -7,11 +7,12 @@ component('replacePage', {
         $scope.isReplace = true;
         $scope.today = new Date();
         $scope.today.toLocaleDateString();
+        $scope.isBack = false;
 
         /*
          * get 'ReplacePhoneModel'
          */
-        $scope.ReplacePhoneModel = function () {
+        $scope.getReplacePhoneModel = function () {
             $http({
                 method: 'GET',
                 params: ({
@@ -41,6 +42,9 @@ component('replacePage', {
                     } else {
                         $scope.oldPhone.abandonDate = new Date(model.tempOldPhone.abandonDate);
                     }
+                    if ($scope.phone.phoneUser != null) {
+                        $scope.isBack = true;
+                    }
                 } else {
                     showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                     $location.url('phone/errorPage');
@@ -48,12 +52,12 @@ component('replacePage', {
             }, function error(response) {
             });
         }
-        $scope.ReplacePhoneModel();
+        $scope.getReplacePhoneModel();
 
         /*
          * validate branTypeProductNo 
          */
-        $scope.isProdcutNoLegal = false;
+        $scope.isProdcutNoLegal = true;
         $scope.validateBrandTypeProductNo = function () {
             var phone = $scope.phone;
             $http({
@@ -102,24 +106,59 @@ component('replacePage', {
             }
         }
 
+        $scope.isPhoneBrandNotEmpty = true;
+        $scope.isPhoneTypeNotEmpty = true;
+        $scope.isProductNoNotEmpty = true;
+        $scope.phoneBrandNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isPhoneBrandNotEmpty = true;
+            if (phone.brand == '' || phone.brand == null) {
+                $scope.isPhoneBrandNotEmpty = false;
+            }
+        }
+
+        $scope.phoneTypeNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isPhoneTypeNotEmpty = true;
+            if (phone.type == '' || phone.type == null) {
+                $scope.isPhoneTypeNotEmpty = false;
+            }
+        }
+
+        $scope.productNoNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isProductNoNotEmpty = true;
+            if (phone.productNo == '' || phone.productNo == null) {
+                $scope.isProductNoNotEmpty = false;
+            }
+        }
+
         /*
          * not empty
          */
-        var parameterNotEmpty = function () {
-            var phone = $scope.phone;
-            return phone.productNo != null && phone.productNo != '' && phone.brand != null && phone.brand != '' && phone.type != null && phone.type != '';
+        $scope.parameterNotEmpty = function () {
+            $scope.phoneBrandNotEmpty();
+            $scope.phoneTypeNotEmpty();
+            $scope.productNoNotEmpty();
+            $scope.isPrameterNotEmpty = $scope.isPhoneBrandNotEmpty && $scope.isPhoneTypeNotEmpty && $scope.isProductNoNotEmpty;
+        }
+
+        $scope.validate = function () {
+            $scope.validateDateLegal();
+            $scope.validateBrandTypeProductNo();
+            $scope.parameterNotEmpty();
+            $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal;
         }
 
         /*
          * submit
          */
         $scope.isOK = true;
+        $scope.isPrameterNotEmpty = true;
         $scope.submitMsg = function () {
             $scope.validateDateLegal();
             $scope.validateAbandonDateLegal();
-            if (!$scope.isAbandonDateLegal) {
-                $location.url('phone/errorPage');
-            } else if (parameterNotEmpty() && $scope.isStartDateLegal) {
+            if ($scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isAbandonDateLegal) {
                 $scope.isOK = true;
                 var phone = $scope.phone;
                 $http({

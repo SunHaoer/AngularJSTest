@@ -88,14 +88,28 @@
             $scope.isDeleteReasonLegal = true;
             $scope.validateDeleteReasonNotEmpty = function () {
                 var deleteReason = $scope.phone.deleteReason;
-                var otherReason = $scope.phone.otherReason;
                 if (deleteReason == '' || deleteReason == null) {
                     $scope.isDeleteReasonLegal = false;
-                } else if (deleteReason == 'other' && (otherReason == '' || otherReason == null)) {
+                } else if (deleteReason == 'other' && ($scope.phone.otherReason == '' || $scope.phone.otherReason == null)) {
                     $scope.isDeleteReasonLegal = false;
                 } else {
                     $scope.isDeleteReasonLegal = true;
                 }
+            }
+
+            $scope.validateOhterReasonNotEmpty = function () {
+                var otherReason = $scope.phone.otherReason;
+                var deleteReason = $scope.phone.deleteReason;
+                 if (deleteReason == 'other' && (otherReason==""||otherReason == null)) {
+                    $scope.isDeleteReasonLegal = false;
+                 }
+                 else $scope.isDeleteReasonLegal = true;
+            }
+
+            $scope.validate = function () {
+                $scope.validateDateLegal();
+                $scope.validateDeleteReasonNotEmpty();
+                $scope.isOK = $scope.isDeleteDateLegal && $scope.isDeleteReasonLegal;
             }
 
             /*
@@ -103,8 +117,7 @@
              */
             $scope.isOK = true;
             $scope.submitMsg = function () {
-                $scope.validateDateLegal();
-                $scope.validateDeleteReasonNotEmpty();
+                $scope.validate();
                 if ($scope.isDeleteDateLegal && $scope.isDeleteReasonLegal) {
                     $scope.isOK = true;
                     var phone = $scope.phone;

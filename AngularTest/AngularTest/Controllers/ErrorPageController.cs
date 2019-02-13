@@ -10,11 +10,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class ErrorPageController : ControllerBase
     {
-        private readonly SuccessErrorPageManage successErrorPageService;
+        private readonly SuccessErrorPageManage successErrorPageManage;
 
         public ErrorPageController()
         {
-            successErrorPageService = new SuccessErrorPageManage();
+            successErrorPageManage = new SuccessErrorPageManage();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace AngularTest.Controllers
             model.IsVisitLegal = true;
             HttpContext.Session.SetString("nowNode", Step.errorPage.ToString());
             HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-            successErrorPageService.SetTempPhoneEmpty(loginUserId);
+            successErrorPageManage.SetTempPhoneEmpty(loginUserId);
             return model;
         }
 

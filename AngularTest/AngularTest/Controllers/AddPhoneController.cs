@@ -3,8 +3,6 @@ using AngularTest.Cache;
 using AngularTest.Data;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
-using AngularTest.Utils;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

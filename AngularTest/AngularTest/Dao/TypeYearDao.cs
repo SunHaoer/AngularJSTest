@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class TypeYearService
+    public class TypeYearDao
     {
         private readonly TypeYearContext _typeYearContext;
         private readonly IQueryable<TypeYear> typeYearIQ;
 
-        public TypeYearService(TypeYearContext typeYearContext)
+        public TypeYearDao(TypeYearContext typeYearContext)
         {
             _typeYearContext = typeYearContext;
             typeYearIQ = _typeYearContext.TypeYears;

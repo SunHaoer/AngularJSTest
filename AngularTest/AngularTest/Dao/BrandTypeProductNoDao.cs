@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AngularTest.Service
+namespace AngularTest.Dao
 {
-    public class BrandTypeProductNoService
+    public class BrandTypeProductNoDao
     {
         private readonly BrandTypeProductNoContext _brandTypeProductNoContext;
         private readonly IQueryable<BrandTypeProductNo> brandTypeProductNoIQ;
 
-        public BrandTypeProductNoService(BrandTypeProductNoContext brandTypeProductNoContext)
+        public BrandTypeProductNoDao(BrandTypeProductNoContext brandTypeProductNoContext)
         {
             _brandTypeProductNoContext = brandTypeProductNoContext;
             brandTypeProductNoIQ = _brandTypeProductNoContext.BrandTypeProductNos;

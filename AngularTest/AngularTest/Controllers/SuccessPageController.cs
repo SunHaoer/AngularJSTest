@@ -1,6 +1,5 @@
 ﻿using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +10,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class SuccessPageController : ControllerBase
     {
-        private readonly SuccessErrorPageManage successErrorPageService;
+        private readonly SuccessErrorPageManage successErrorPageManage;
 
         public SuccessPageController()
         {
-            successErrorPageService = new SuccessErrorPageManage();
+            successErrorPageManage = new SuccessErrorPageManage();
         }
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace AngularTest.Controllers
                 HttpContext.Session.SetString("nowNode", Step.successPage.ToString());
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
                 model.IsVisitLegal = true;
-                successErrorPageService.SetTempPhoneEmpty(loginUserId);
+                successErrorPageManage.SetTempPhoneEmpty(loginUserId);
             }
             return model;
         }
