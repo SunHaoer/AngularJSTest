@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 
 namespace AngularTest.Models
 {
-    public class deleteReason
+    public class DeleteReason
     {
-        public long Id { get; set; }
-        public string DeleteReason { get; set; }
-        public deleteReason()
+        public long Id { set; get; }
+        public string DeleteReasonName { set; get; }
+
+        public DeleteReason()
         {
         }
-        public deleteReason(string deleteReason)
+
+        public DeleteReason(string deleteReasonName)
         {
-            DeleteReason = deleteReason;
+            DeleteReasonName = deleteReasonName;
         }
     }
 }

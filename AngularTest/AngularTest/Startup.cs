@@ -25,18 +25,18 @@ namespace AngularTest
         {
             services.AddDbContext<PhoneContext>(opt =>
                          opt.UseInMemoryDatabase("PhoneList"));
-            services.AddDbContext<DeleteReasonContext>(opt =>
-                         opt.UseInMemoryDatabase("deleteReasonList"));
             services.AddDbContext<BrandTypeContext>(opt =>
                          opt.UseInMemoryDatabase("BrandTypeList"));
-            services.AddDbContext<BrandModelContext>(opt =>
-                         opt.UseInMemoryDatabase("BrandModelList"));
+            services.AddDbContext<BrandContext>(opt =>
+                         opt.UseInMemoryDatabase("BrandList"));
             services.AddDbContext<TypeYearContext>(opt =>
                          opt.UseInMemoryDatabase("TypeList"));
             services.AddDbContext<UserContext>(opt =>
                          opt.UseInMemoryDatabase("UserList"));
             services.AddDbContext<BrandTypeProductNoContext>(opt =>
                          opt.UseInMemoryDatabase("BrandTypeProductNoList"));
+            services.AddDbContext<DeleteReasonContext>(opt =>
+                         opt.UseInMemoryDatabase("DeleteReasonList"));
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -44,16 +44,16 @@ namespace AngularTest
                 options.IdleTimeout = TimeSpan.FromSeconds(60000);
                 options.Cookie.HttpOnly = true;
             });
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(typeof(LoginFilter));
-            //});
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(LoginFilter));
             });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(typeof(LoginFilter));
+            //});
 
         }
 

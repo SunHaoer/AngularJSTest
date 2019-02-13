@@ -5,7 +5,11 @@
         </div>
     </div>
     <div class="panel-body">
-        <a href="#!/phone">Click here to login page.</a> <br/>
-        <a href="#!/phone/choosePage">Click here to index page.</a>
+        <div ng-show="isLogin">
+            <a href="#!/phone/choosePage">click here to homepage</a>
+        </div>
+        <div ng-show="!isLogin">
+            <a href="#!/phone">click here to login page</a> <br />
+        </div>
     </div>
 </div>

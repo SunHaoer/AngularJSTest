@@ -3,74 +3,78 @@
     component("doubleCheck", {
         templateUrl: 'DoubleCheck-page/recheck.html',
         controller: ['$scope', '$http', '$location', function DeleteDoubleCtrl($scope, $http, $location) {
+            var yalertStylePath = 'css/yalert.css';
 
-            $scope.checkLogin = function () {   // 需提取
+            /*
+             * get 'DeletePhoneCheckPageViewModel'
+             */
+            $scope.getDeletePhoneCheckPageViewModel = function () {
                 $http({
                     method: 'GET',
                     params: ({
                     }),
-                    url: '/api/Phone/CheckLogin',
+                    url: '/api/DeletePhoneCheck/GetDeletePhoneCheckPageViewModel',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    if (response.data['notLogin'] == 'true') {
-                        $location.url('/phone/errorPage');
+                    $scope.deletePhoneCheckPageViewModel = response.data;
+                    var model = $scope.deletePhoneCheckPageViewModel;
+                    if (model.isLogin && model.isVisitLegal) {
+                        $scope.phone = model.tempNewPhone;
+                        $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
+                        $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
+                    } else {
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
+                        $location.url('phone/errorPage');
                     }
                 }, function error(response) {
-                    //alert("error");
                 });
             }
-            $scope.checkLogin();
+            $scope.getDeletePhoneCheckPageViewModel();
 
-            $scope.format = function () {
-                var deleteDate = new Date($scope.checkPhone.deleteDate);
-                var year = deleteDate.getFullYear();
-                var month = ("0" + (deleteDate.getMonth() + 1)).slice(-2);
-                var date = ("0" + deleteDate.getDate()).slice(-2);
-                return year + "-" + month + "-" + date;
+            /* 
+             * submit
+             */ 
+            $scope.submitMsg = function () {
+                $http({
+                    method: 'GET',
+                    url: '/api/DeletePhoneCheck/SubmitMsg',
+                    params: ({
+                    }),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function successCallback(response) {
+                    $scope.formFeedbackViewModel = response.data;
+                    var model = $scope.formFeedbackViewModel;
+                    if (model.isSuccess) {
+                        //alert('success');
+                        $location.url('phone/successPage');
+                    } else {
+                        alert('not legal');
+                    }
+                }, function errorCallback(response) {
+                    $location.url('phone/errorPage');
+                });
             }
 
-            $scope.getCheckPhone = function () {
+            $scope.cancle = function (value) {
                 $http({
                     method: 'GET',
                     params: ({
                     }),
-                    url: '/api/TempPhone/GetNewTempPhone',
+                    url: '/api/DeletePhoneCheck/SetIsSubmit',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    $scope.checkPhone = response.data;
-                    //$scope.checkPhone.deleteReason = response.data.abandonReason;
-                    $scope.checkPhone.deleteDate = $scope.format();
+                    if (response.data.isSuccess) {
+                        if (value == 1) {
+                            showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                                window.location.href = '#!/phone/choosePage';
+                            }, function () {
+                            })
+                        } else if (value == 2) {
+                            window.location.href = '#!/phone/deletePage';
+                        }
+                    }
                 }, function error(response) {
-                    //alert("error");
                 });
-            }
-            $scope.getCheckPhone();
-
-            $scope.changeStatus = function () {
-                $http({
-                    method: 'POST',
-                    params: ({
-                        id: $scope.checkPhone.id,
-                        deleteDate: $scope.checkPhone.deleteDate,
-                        deleteReason: $scope.checkPhone.deleteReason,
-                    }),
-                    url: '/api/Phone/DeleteUserPhoneById',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    $location.url('/phone/successPage');
-                    }, function error(response) {
-                        $location.url('phone/errorPage');
-                });
-            }
-
-
-            $scope.backToIndex = function () {
-                if (confirm('Back to index?')) {
-                    $location.path('/phone/choosePage');     
-                }
-            }
-            $scope.previous = function () {
-                $location.path('/phone/deletePage');
             }
 
         }]

@@ -1,115 +1,82 @@
-<div class="panel panel-primary">
+<div class="panel-primary">
     <div class="panel-heading">
         <div class="panel=title">
             <h1>Check</h1>
         </div>
     </div>
-
     <div class="panel-body" style="float:left; width:50%">
         <h1>New Phone</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
-                    <!--<div class="form-group">
-                        <label class="col-md-2" id="phoneUser">
-                            userName：<font color="blue">{{phone.phoneUser}}</font>
-                        </label>
-                    </div>-->
-                    <div class="form-group">
-                        <label class="col-md-2" id="brand">
-                            phoneBrand：<font color="blue">{{phone.brand}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="type">
-                        <label class="col-md-2">
-                            phoneType：<font color="blue">{{phone.type}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="productNo">
-                        <label class="col-md-2">
-                            productNo：<font color="blue">{{phone.productNo}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="startDate">
-                        <label class="col-md-2">
-                            startDate：<font color="blue">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="endDate">
-                        <label class="col-md-2">
-                            endDate：<font color="blue">{{phone.endDate | date:'yyyy-MM-dd'}}</font>
-                        </label>
-                    </div>
-                    <!--<div class="form-group" id="abandonDate">
-                        <label class="col-md-2" ng-show="isReplace">
-                            更换日期：{{phone.abandonDate | date:'yyyy-MM-dd'}}
-                        </label>
-                    </div>-->
-
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="button" value="previous" ng-click="$ctrl.cancle()" />
-                            <input type="button" value="backToIndex" ng-click="backToIndex()" />
-
-                            <!--<input type="button" value="Index" ng-click="$ctrl.backIndex()" />-->
-                            <input type="submit" value="submit" />
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="row;col-md-12">
+            <form class="form-horizontal" role="form" name="checkForm">
+                <div class="form-group">
+                    <label class="col-md-5" id="brand">
+                        phoneBrand：<font color="blue">{{phone.brand}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="type">
+                    <label class="col-md-5">
+                        phoneType：<font color="blue">{{phone.type}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="productNo">
+                    <label class="col-md-5">
+                        productNo：<font color="blue">{{phone.productNo}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="startDate">
+                    <label class="col-md-5">
+                        startDate：<font color="blue">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="endDate">
+                    <label class="col-md-5">
+                        endDate：<font color="blue">{{phone.endDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+            </form>
         </div>
     </div>
 
     <div class="panel-body" style="float:left; width:50%" ng-model="isCheck" ng-show="isReplace">
         <h1>Old Phone</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm">
-                    <!--<div class="form-group">
-                        <label class="col-md-2" id="phoneUser" style="color:red">
-                            userName：{{oldPhone.phoneUser}}
-                        </label>
-                    </div>-->
-                    <div class="form-group">
-                        <label class="col-md-2" id="oldBrand">
-                            phoneBrand：<font color="red">{{oldPhone.brand}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="oldType">
-                        <label class="col-md-2">
-                            phoneType：<font color="red">{{oldPhone.type}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="productNo">
-                        <label class="col-md-2">
-                            productNo：<font color="red">{{oldPhone.productNo}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="startDate">
-                        <label class="col-md-2">
-                            startDate：<font color="red">{{oldPhone.startDate | date:'yyyy-MM-dd'}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="endDate">
-                        <label class="col-md-2">
-                            endDate：<font color="red">{{oldPhone.endDate | date:'yyyy-MM-dd'}}</font>
-                        </label>
-                    </div>
-                    <div class="form-group" id="deleteDate">
-                        <label class="col-md-2" ng-show="isReplace">
-                            abandonDate：<font color="red">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
-                        </label>
-                    </div>
-                </form>
+        <div class="row;col-md-12;">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-5" id="oldBrand">
+                        phoneBrand：<font color="red">{{oldPhone.brand}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="oldType">
+                    <label class="col-md-5">
+                        phoneType：<font color="red">{{oldPhone.type}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="productNo">
+                    <label class="col-md-5">
+                        productNo：<font color="red">{{oldPhone.productNo}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="startDate">
+                    <label class="col-md-5">
+                        startDate：<font color="red">{{oldPhone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="endDate">
+                    <label class="col-md-5">
+                        endDate：<font color="red">{{oldPhone.endDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="deleteDate">
+                    <label class="col-md-5" ng-show="isReplace">
+                        abandonDate：<font color="red">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
-
-    <!--<h1>{{$ctrl.test}}</h1>
-    <p>
-        {{phone}}
-    </p>
-    <p>
-        {{oldPhone}}
-    </p>-->
+    <div class="form-group;col-md-offset-5;col-md-10" style="padding:30px;text-align:center;width:50%">
+        <input class="btn btn-primary" type="button" value="previous" ng-click="cancle(2)" />
+        <input class="btn btn-primary" type="button" value="homepage" ng-click="cancle(1)" />
+        <input class="btn btn-primary" type="submit" value="submit" ng-click="submitMsg()" />
+    </div>
 </div>

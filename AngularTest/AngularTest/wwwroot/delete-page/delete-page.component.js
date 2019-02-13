@@ -3,164 +3,160 @@
     component("deletePage", {
         templateUrl: "delete-page/delete-page.template.html",
         controller: ["$scope", "$http", "$location", function deletePageCtrl($scope, $http, $location) {
-            $scope.myDate = new Date();
-            $scope.myDate.toLocaleDateString();//获取当前日期
+            var yalertStylePath = 'css/yalert.css';
+            $scope.today = new Date();
+            $scope.today.toLocaleDateString();//获取当前日期
 
-            $scope.checkLogin = function () {   // 需提取
+            /*
+             * get 'ReplacePhoneModel'
+             */
+            $scope.getDeletePhonePageViewModel = function () {
                 $http({
                     method: 'GET',
                     params: ({
                     }),
-                    url: '/api/Phone/CheckLogin',
+                    url: '/api/DeletePhone/GetDeletePhonePageViewModel',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    if (response.data['notLogin'] == 'true') {
+                    $scope.deletePhonePageViewModel = response.data;
+                    var model = $scope.deletePhonePageViewModel;
+                    if (model.isLogin && model.isVisitLegal) {
+                        $scope.deleteReasonList = model.deleteReasonList;
+                        $scope.phone = model.tempNewPhone;
+                        if (model.tempNewPhone.startDate == "0001-01-01T00:00:00") {
+                            $scope.phone.startDate = new Date($scope.today);
+                        } else {
+                            $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
+                        }
+                        if (model.tempNewPhone.abandonDate == "0001-01-01T00:00:00") {
+                            $scope.phone.abandonDate = null;
+                        } else {
+                            $scope.phone.abandonDate = new Date($scope.phone.abandonDate);
+                        }
+                        if (model.tempNewPhone.deleteDate == "0001-01-01T00:00:00") {
+                            $scope.phone.deleteDate = new Date($scope.today);
+                        } else {
+                            $scope.phone.deleteDate = new Date(model.tempNewPhone.deleteDate);
+                        }
+                        $scope.phone.deleteReason = model.tempNewPhone.deleteReason;
+                        var isMatching = false;    // judge is ot not is 'otherReason'
+                        for (var i = 0; i < $scope.deleteReasonList.length; i++) {
+                            if ($scope.phone.deleteReason == $scope.deleteReasonList[i].deleteReasonName) {
+                                isMatching = true;
+                                break;
+                            }
+                        }
+                        if (!isMatching && $scope.phone.deleteReason != null && $scope.phone.deleteReason != '') {
+                            $scope.phone.otherReason = $scope.phone.deleteReason;
+                            $scope.phone.deleteReason = 'other';
+                        }
+                    } else {
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                         $location.url('/phone/errorPage');
                     }
                 }, function error(response) {
-                    //alert("error");
                 });
             }
-            $scope.checkLogin();
+            $scope.getDeletePhonePageViewModel();
 
-            //导入数据
-            $scope.getNewTempPhone = function () {
-                $http({
-                    method: 'GET',
-                    params: ({
-
-                    }),
-                    url: '/api/TempPhone/GetNewTempPhone',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    $scope.TempPhone = response.data;
-                    if ($scope.TempPhone.deleteDate == "0001-01-01T00:00:00") {
-                        $scope.TempPhone.deleteDate = new Date($scope.myDate);
-                    } else {
-                        $scope.TempPhone.deleteDate = new Date($scope.TempPhone.deleteDate);
-                    }
-                    if ($scope.TempPhone.deleteReason != null && $scope.TempPhone.deleteReason != '' && $scope.TempPhone.deleteReason != 'lost' && $scope.TempPhone.deleteReason != 'buy new phone' && $scope.TempPhone.deleteReason != 'time end') {
-                        $scope.TempPhone.otherReason = $scope.TempPhone.deleteReason;
-                        $scope.TempPhone.deleteReason = 'other';
-                    }
-                }, function error(response) {
-                    //alert("error");
-                });
-            }
-            $scope.getNewTempPhone();
-
-
-
-            $scope.otherReason = function () {
-                if ($scope.TempPhone.deleteReason == 'other') {
-                    $scope.isOther = true;
+            function validateDate(date1, date2) {
+                var flag = true;
+                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                    flag = false;
+                } else if (date1.getFullYear() != date2.getFullYear()) {
+                    flag = date1.getFullYear() > date2.getFullYear();
+                } else if (date1.getMonth() != date2.getMonth()) {
+                    flag = date1.getMonth() > date2.getMonth();
                 } else {
-                    $scope.isOther = false;
+                    flag = date1.getDate() >= date2.getDate();
+                }
+                return flag;
+            }
+
+            $scope.isDeleteDateLegal = true;
+            $scope.validateDateLegal = function () {
+                try {
+                    $scope.isDeleteDateLegal = validateDate($scope.phone.deleteDate, $scope.today) && validateDate($scope.phone.deleteDate, $scope.phone.startDate);
+                } catch {
+                    $scope.isDeleteDateLegal = false;
                 }
             }
 
-
-            //日期格式化
-            $scope.formatDate = function () {
-                var deleteDate = $scope.TempPhone.deleteDate;
-                var year = deleteDate.getFullYear();
-                var month = ("0" + (deleteDate.getMonth() + 1)).slice(-2);
-                var date = ("0" + deleteDate.getDate()).slice(-2);
-                return year + "-" + month + "-" + date;
-            }
-
-            //时间大小比较
-            $scope.daysBetween = function (DateOne, DateTwo) {
-                var oneYear = DateOne.getFullYear();
-                var twoYear = DateTwo.getFullYear();
-                var oneMonth = ("0" + (DateOne.getMonth() + 1)).slice(-2);
-                var twoMonth = ("0" + (DateTwo.getMonth() + 1)).slice(-2);
-                var oneDate = ("0" + DateOne.getDate()).slice(-2);
-                var twoDate = ("0" + DateTwo.getDate()).slice(-2);
-                //alert(oneMonth + "\n" + twoMonth);
-                if (oneYear != twoYear) {
-                    return oneYear >= twoYear;
-                } else if (oneMonth != twoMonth) {
-                    return oneMonth >= twoMonth;
-                } else {
-                    return oneDate >= twoDate;
+            /*
+             * validate 'deleleReason' not empty 
+             */
+            $scope.isDeleteReasonLegal = true;
+            $scope.validateDeleteReasonNotEmpty = function () {
+                var deleteReason = $scope.phone.deleteReason;
+                
+                if (deleteReason == '' || deleteReason == null) {
+                    $scope.isDeleteReasonLegal = false;
+                }
+                //else if (deleteReason == 'other' && (otherReason == null)) {
+                //    $scope.isDeleteReasonLegal = false;
+                //}
+                else {
+                    $scope.isDeleteReasonLegal = true;
                 }
             }
-
-            $scope.deleteReasonNotEmpty = true;
-            $scope.checkDeleteReason = function () {
-                //alert('1');
-                //alert($scope.TempPhone.deleteReason);
-                if ($scope.TempPhone.deleteReason == '' || $scope.TempPhone.deleteReason == null || ($scope.TempPhone.deleteReason == 'other') && (($scope.TempPhone.otherReason == '') || ($scope.TempPhone.otherReason == null))) {
-                    $scope.deleteReasonNotEmpty = false;
-                    //alert('+');
-                } else {
-                    $scope.deleteReasonNotEmpty = true;
-                    //alert('-');
-                }
+            $scope.validateOhterReasonNotEmpty = function () {
+                var otherReason = $scope.phone.otherReason;
+                var deleteReason = $scope.phone.deleteReason;
+                 if (deleteReason == 'other' && (otherReason==""||otherReason == null)) {
+                    $scope.isDeleteReasonLegal = false;
+                 }
+                 else $scope.isDeleteReasonLegal = true;
             }
-
-            //将修改值传入newTemp
-            $scope.setNewTempPhone = function () {
-                $scope.checkDeleteReason();
-                //alert($scope.deleteReasonNotEmpty);
-                if ($scope.deleteReasonNotEmpty) {
+            /*
+             * submit
+             */
+            $scope.isOK = true;
+            $scope.submitMsg = function () {
+                $scope.validateDateLegal();
+                $scope.validateDeleteReasonNotEmpty();
+                if ($scope.isDeleteDateLegal && $scope.isDeleteReasonLegal) {
+                    $scope.isOK = true;
+                    var phone = $scope.phone;
                     $http({
-                        method: 'Post',
+                        method: 'POST',
                         params: ({
-                            id: $scope.TempPhone.id,
-                            phoneUser: $scope.TempPhone.phoneUser,
-                            brand: $scope.TempPhone.brand,
-                            type: $scope.TempPhone.type,
-                            productNo: $scope.TempPhone.productNo,
-                            startDate: $scope.TempPhone.startDate,
-                            endDate: $scope.TempPhone.endDate,
-                            deleteDate: $scope.formatDate(),
-                            deleteReason: $scope.TempPhone.deleteReason == 'other' ? $scope.TempPhone.otherReason : $scope.TempPhone.deleteReason,
-                            state: $scope.TempPhone.state
+                            deleteReason: phone.deleteReason == 'other' ? phone.otherReason : phone.deleteReason,
+                            deleteDate: phone.deleteDate,
+                            state: phone.state
                         }),
-                        url: '/api/TempPhone/SetNewTempPhone',
+                        url: '/api/DeletePhone/SubmitMsg',
                         headers: { 'Content-Type': 'application/json' }
                     }).then(function success(response) {
-                        if ($scope.daysBetween($scope.TempPhone.deleteDate, $scope.myDate) == true) {
-                            $location.url("/phone/doubleCheck");
-                        }
-                        else {
-                            alert('DeleteDate is too early!');
+                        if (response.data.isSuccess) {
+                            $location.url('phone/doubleCheck');
+                        } else {
+                            alert('not legal');
+                            $scope.isOK = false;
                         }
                     }, function error(response) {
-                        //alert("error");
                     });
+                } else {
+                    $scope.isOK = false;
                 }
-
             }
 
             $scope.backToIndex = function () {
-                //alert(1);
-                if (confirm('Back to index?')) {
-                    $location.path('/phone/choosePage');     // ??????
-                }
-            }
-            $scope.getListAboutdeleteReason = function () {
                 $http({
-                    method: 'Get',
+                    method: 'GET',
                     params: ({
-
                     }),
-                    url: '/api/DeleteReasonModel/GetdeleteReasonAll',
+                    url: '/api/DeletePhone/SetIsSubmit',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    var list = response.data;
-                    $scope.deleteReasonList = [];
-                    for (var i = 0; i < list.length; i++) {
-                        $scope.deleteReasonList.push(list[i]["deleteReason"]);
+                    if (response.data.isSuccess) {
+                        showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                            window.location.href = '#!/phone/choosePage';
+                        }, function () {
+                        })
                     }
                 }, function error(response) {
-
                 });
             }
-            $scope.getListAboutdeleteReason();
 
         }]
-
     });
