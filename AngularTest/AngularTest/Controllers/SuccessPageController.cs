@@ -1,6 +1,7 @@
 ﻿using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
 using AngularTest.VeiwModels;
+using AngularTest.ViewModelManage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class SuccessPageController : ControllerBase
     {
-        private readonly SuccessErrorPageManage successErrorPageManage;
+        private readonly SuccessPageManage successPageManage;
 
         public SuccessPageController()
         {
-            successErrorPageManage = new SuccessErrorPageManage();
+            successPageManage = new SuccessPageManage();
         }
 
         /// <summary>
@@ -24,20 +25,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public SuccessPageViewModel GetSuccessPageViewModel()
         {
-            SuccessPageViewModel model = new SuccessPageViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
             int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
-            if (Step.stepTable[nowNode * isSubmit, Step.successPage] || nowNode == Step.successPage)
+            SuccessPageViewModel model = successPageManage.GetSuccessPageViewModel(loginUserId, nowNode, isSubmit);
+            if(model.IsVisitLegal)
             {
                 HttpContext.Session.SetString("nowNode", Step.successPage.ToString());
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
-                model.IsVisitLegal = true;
-                successErrorPageManage.SetTempPhoneEmpty(loginUserId);
             }
             return model;
         }
@@ -59,5 +55,6 @@ namespace AngularTest.Controllers
             }
             return model;
         }
+
     }
 }

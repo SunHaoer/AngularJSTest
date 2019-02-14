@@ -44,6 +44,15 @@ angular.
             }
             $scope.getAddPhoneModel();
 
+            $scope.isProductNoClick = false;
+            $scope.productNoClick = function (value) {
+                if (value == 1) {
+                    $scope.isProductNoClick = true;
+                } else if (value == 2) {
+                    $scope.isProductNoClick = false;
+                }
+            }
+
             /*
              * validate branTypeProductNo 
              */

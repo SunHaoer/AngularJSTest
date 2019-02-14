@@ -2,7 +2,7 @@ angular.
 module('common').
 component('errorPage', {
     templateUrl: 'common/error-page.template.html',
-    controller: ['$scope', '$http', function ChoosePageCtrl($scope, $http) {
+    controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
         var yalertStylePath = 'css/yalert.css';
 
         /*
@@ -27,5 +27,21 @@ component('errorPage', {
             });
         }
         $scope.getErrorPageViewModel();    
+
+        $scope.turnToIndex = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/ErrorPage/SetIsSubmit',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data.isSuccess) {
+                    $location.url('/phone/choosePage');
+                }
+            }, function error(response) {
+            });
+        }
+
     }]
 })

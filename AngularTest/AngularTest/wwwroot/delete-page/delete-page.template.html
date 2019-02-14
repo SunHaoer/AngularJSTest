@@ -77,14 +77,10 @@
                     </div>
                 </div>
             </div>
-            <!--<div ng-mouseover="validate()">
-                <br/>
-            </div>-->
             <div>
                 <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
-                <!--<button ng-disabled="!isOK" class="btn btn-primary" ng-click="submitMsg()">next</button>-->
-                <input ng-show="isOK" class="btn btn-primary" type="submit" ng-click="submitMsg()" value="next" ng-mouseenter="validate()" />
-                <input ng-show="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" />
+                <input ng-if="isOK" class="btn btn-primary" type="submit" ng-click="submitMsg()" value="next" ng-mouseenter="validate()" />
+                <input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" />
             </div>
         </form>
     </div>

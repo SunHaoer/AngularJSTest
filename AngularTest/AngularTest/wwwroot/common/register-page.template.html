@@ -4,7 +4,7 @@
         <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
     </div>
     <form role="form" name="myForm" novalidate ng-submit="submitMsg()">
-        <div class="panel-body;row;col-md-12" style="width:50%;float:left" >
+        <div class="panel-body;row;col-md-12" style="width:50%;float:left">
             <h1>New Phone</h1>
             <div class="form-horizontal">
                 <div class="form-group">
@@ -12,15 +12,17 @@
                         phoneBrand：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.brand" name="brand" id="brand" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()" required>
+                        <select ng-model="phone.brand" name="brand" id="brand" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()" requi#FACC2E>
                             <option value="">select the brand</option>
                             <option ng-repeat="x in brandList">{{x.brandName}}</option>
                         </select>
-                        <label>
-                            <span ng-show="!isPhoneBrandNotEmpty">
-                                <font color="red">The PhoneBrand empty!</font>
-                            </span>
-                        </label>
+                        <br />
+                        <span ng-if="!isPhoneBrandNotEmpty">
+                            <font color="#FACC2E">The PhoneBrand empty!</font>
+                        </span>
+                        <span ng-if="isPhoneBrandNotEmpty">
+                            &nbsp;
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -28,15 +30,17 @@
                         phoneType：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.type" name="type" id="type" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()" required>
+                        <select ng-model="phone.type" name="type" id="type" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()" requi#FACC2E>
                             <option value="">select the type</option>
                             <option ng-repeat="x in typeList" ng-show="x.brand == phone.brand">{{x.type}}</option>
                         </select>
-                        <label>
-                            <span ng-show="!isPhoneTypeNotEmpty">
-                                <font color="red">The PhoneType empty!</font>
-                            </span>
-                        </label>
+                        <br />
+                        <span ng-if="!isPhoneTypeNotEmpty">
+                            <font color="#FACC2E">The PhoneType empty!</font>
+                        </span>
+                        <span ng-if="isPhoneTypeNotEmpty">
+                            &nbsp;
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -44,17 +48,18 @@
                         productNo:
                     </label>
                     <div class="col-md-10">
-                        <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-blur="validateBrandTypeProductNo()" ng-change="productNoNotEmpty()" ng-mouseleave="validateBrandTypeProductNo()" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');" />
-                        <label>
+                        <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-mousedown="productNoClick(1)" ng-blur="validateBrandTypeProductNo();productNoClick(2)" ng-change="productNoNotEmpty()" ng-mouseleave="validateBrandTypeProductNo()" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');" />
+                        <div ng-hide="isProductNoClick">
                             <span ng-show="(myForm.productNo.$dirty || isBack) && isProductNoNotEmpty && !isProdcutNoLegal">
-                                <font color="red">The ProductNo is not matching with Brand and Type!</font>
+                                <font color="#FACC2E">The ProductNo is not matching with Brand and Type!</font>
                             </span>
-                        </label>
-                        <label>
                             <span ng-show="!isProductNoNotEmpty">
-                                <font color="red">The ProductNo empty!</font>
+                                <font color="#FACC2E">The ProductNo empty!</font>
                             </span>
-                        </label>
+                        </div>
+                        <div ng-show="(!((myForm.productNo.$dirty || isBack) && isProductNoNotEmpty && !isProdcutNoLegal) && isProductNoNotEmpty) || isProductNoClick">
+                            &nbsp;<br />
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,12 +67,14 @@
                         startDate:
                     </label>
                     <div class="col-md-10">
-                        <input type="date" ng-model="phone.startDate" name="startDate" id="startDate" ng-change="validateDateLegal()" required />
-                        <label>
-                            <span ng-show="!isStartDateLegal">
-                                <font color="red">The date can not be earlier then today</font>
-                            </span>
-                        </label>
+                        <input type="date" ng-model="phone.startDate" name="startDate" id="startDate" ng-change="validateDateLegal()" requi#FACC2E />
+                        <br />
+                        <span ng-show="!isStartDateLegal">
+                            <font color="#FACC2E">The date can not be earlier then today</font>
+                        </span>
+                        <span ng-if="isStartDateLegal">
+                            &nbsp;
+                        </span>
                     </div>
                 </div>
             </div>
@@ -114,19 +121,21 @@
                     </label>
                     <div class="col-md-10">
                         <input type="date" ng-model="oldPhone.abandonDate" ng-change="validateAbandonDateLegal()" />
-                        <label>
-                            <span ng-show="!isAbandonDateLegal">
-                                <font color="red">The date must be equal to new phone startDate </font>
-                            </span>
-                        </label>
+                        <br />
+                        <span ng-show="!isAbandonDateLegal">
+                            <font color="#FACC2E">The date must be equal to new phone startDate </font>
+                        </span>
+                        <span ng-if="isAbandonDateLegal">
+                            &nbsp;
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="form-group;col-md-12;" style="padding:30px;text-align:center;width:50%">
             <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
-            <input ng-show="isOK" class="btn btn-primary" type="submit" value="next" ng-mouseenter="validate()" />
-            <input ng-show="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" />
+            <input ng-if="isOK" class="btn btn-primary" type="submit" value="next" ng-click="validate()" />
+            <input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()"/>
         </div>
     </form>
 </div>
