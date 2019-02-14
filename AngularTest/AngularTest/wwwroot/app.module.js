@@ -1,1 +1,0 @@
-angular.module('phone', ['choosePage', 'ngRoute', 'registerPage', 'replacePage', 'deletePage', 'common','doubleCheck','loginPage']);
