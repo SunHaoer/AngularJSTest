@@ -1,58 +1,80 @@
-<div class="panel panel-primary">
+<div class="panel-primary">
     <div class="panel-heading">
-        <div class="panel=title">
-            <h1>Check</h1>
+        <div class="panel=title">Check</div>
+    </div>
+    <div class="panel-body" style="float:left; width:50%">
+        <h1>New Phone</h1>
+        <div class="row;col-md-12">
+            <form class="form-horizontal" role="form" name="checkForm">
+                <div class="form-group">
+                    <label class="col-md-5" id="brand">
+                        phoneBrand：<font color="blue">{{phone.brand}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="type">
+                    <label class="col-md-5">
+                        phoneType：<font color="blue">{{phone.type}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="productNo">
+                    <label class="col-md-5">
+                        productNo：<font color="blue">{{phone.productNo}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="startDate">
+                    <label class="col-md-5">
+                        startDate：<font color="blue">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="endDate">
+                    <label class="col-md-5">
+                        endDate：<font color="blue">{{phone.endDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form-horizontal" role="form" name="checkForm" ng-submit="$ctrl.submitMsg(phone)">
-                    <div class="form-group">
-                        <label class="col-md-2" id="brand">
-                            手机品牌：{{phone.brand}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="type">
-                        <label class="col-md-2">
-                            手机型号：{{phone.type}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="productNo">
-                        <label class="col-md-2">
-                            产品编号：{{phone.productNo}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="startDate">
-                        <label class="col-md-2">
-                            开机日期：{{phone.startDate}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="removeDate">
-                        <label class="col-md-2">
-                            关机日期：{{phone.limitDate}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="changeDate">
-                        <label class="col-md-2">
-                            更换日期：{{phone.changeDate}}
-                        </label>
-                    </div>
-                    <div class="form-group" id="status">
-                        <label class="col-md-2">
-                            状态：{{phone.status}}
-                        </label>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="button" value="取消" ng-click="$ctrl.cancle()" />
-                            <input type="submit" value="确定" />
-                        </div>
-                    </div>
-                </form>
+    <div class="panel-body" style="float:left; width:50%" ng-model="isCheck" ng-show="isReplace">
+        <h1>Old Phone</h1>
+        <div class="row;col-md-12;">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-5" id="oldBrand">
+                        phoneBrand：<font color="red">{{oldPhone.brand}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="oldType">
+                    <label class="col-md-5">
+                        phoneType：<font color="red">{{oldPhone.type}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="productNo">
+                    <label class="col-md-5">
+                        productNo：<font color="red">{{oldPhone.productNo}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="startDate">
+                    <label class="col-md-5">
+                        startDate：<font color="red">{{oldPhone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="endDate">
+                    <label class="col-md-5">
+                        endDate：<font color="red">{{oldPhone.endDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
+                <div class="form-group" id="deleteDate">
+                    <label class="col-md-5" ng-show="isReplace">
+                        abandonDate：<font color="red">{{phone.startDate | date:'yyyy-MM-dd'}}</font>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
-    <h1>{{$ctrl.test}}</h1>
+    <div class="form-group;col-md-offset-5;col-md-10" style="padding-top:30px;width:50%;float:left;margin-left:20px">
+        <input class="btn btn-primary" type="button" value="previous" ng-click="cancle(2)" />
+        <input class="btn btn-primary" type="button" value="homepage" ng-click="cancle(1)" />
+        <input class="btn btn-primary" type="submit" value="submit" ng-click="submitMsg()" />
+    </div>
 </div>

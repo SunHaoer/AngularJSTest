@@ -1,13 +1,102 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="panel-title">
-            <h1>Thanks for Using!</h1>
+<div style="text-align:center;width:40%;margin-top:20px">
+    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="AddNewPhone()">Add New Phone</button> </front>
+</div>
+<div ng-show="notEmpty" style="margin-top:20px">
+    <center>
+        <table style="text-align:center">
+            <tr bgcolor="#337ab7">
+                <th style="text-align:center"><font color="white">Brand</font></th>
+                <th style="text-align:center"><font color="white">Type</font></th>
+                <th style="text-align:center"><font color="white">Product Number</font></th>
+                <th style="text-align:center"><font color="white">Status</font></th>
+                <th style="text-align:center"><font color="white">Details</font></th>
+            </tr>
+            <tr ng-repeat="phone in phoneList">
+                <td>{{phone.brand}}</td>
+                <td>{{phone.type}}</td>
+                <td>{{phone.productNo}}</td>
+                <td>{{phone.stateString }}</td>
+                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="40" height="50"></a></td>
+            </tr>
+        </table>
+    </center>
+        <div style="text-align:right;width:90%;margin-top:10px">
+            <a href="" ng-click="getChoosePageViewModel(pageIndex - 1)" ng-show="pageIndex > 1"><font size="4"><<</font></a>
+            <font size="4">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>
+            <a href="" ng-click="getChoosePageViewModel(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="4">>></font></a>
+        </div>
+    
+
+    <div class="panel-body" ng-show="showDetail">
+        <div class="row">
+            <center>
+                
+                <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:40%">
+
+                    <div class="form-group">
+                        <h2>
+                            Phone Details
+                        </h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            brand: {{brand}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="type">
+                        <label>
+                            type: {{type}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="productNo">
+                        <label>
+                            productNo: {{productNo}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="startDate" ng-show="startDate != '' && startDate != null">
+                        <label>
+                            startDate: {{startDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="endDate" ng-show="endDate != '' && endDate != null">
+                        <label>
+                            endDate: {{endDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="abandonDate" ng-show="abandonDate != '' && abandonDate != null">
+                        <label>
+                            abandonDate: {{abandonDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="deleteDate" ng-show="deleteDate != '' && deleteDate != null">
+                        <label>
+                            deleteDate: {{deleteDate | date:'yyyy-MM-dd'}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="deleteReason" ng-show="deleteReason != '' && deleteReason != null">
+                        <label>
+                            deleteReson: {{deleteReason}}
+                        </label>
+                    </div>
+                    <div class="form-group" id="state">
+                        <label>
+                            status: {{stateString}}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-show="operate1 != 'nothing'" ng-click="replace(tempId, state)">{{operate1 }}</button>
+                        <button class="btn btn-primary" ng-show="operate2 != 'nothing'" ng-click="abandon(tempId, state)">{{operate2 }}</button>
+                        <button class="btn btn-primary" ng-show="operate3 != 'nothing'" ng-click="delete(tempId, state)">{{operate3 }}</button>
+                    </div>
+                </div>
+            </center>
         </div>
     </div>
-    <div class="panel-body">
-        <a href='#!/phone/registerPage'>Register</a>
-        <!--<a href='#!/phone/replacePage'>Replace </a>-->
-        <input type="button" value="Replace" ng-click="$ctrl.replace()" />
-        <a href="#!/phone/deletePage">Delete</a>
-    </div>
+</div>
+
+<div ng-show="!notEmpty">
+    <center>
+        <h1>You should buy phones!</h1>
+    </center>
 </div>

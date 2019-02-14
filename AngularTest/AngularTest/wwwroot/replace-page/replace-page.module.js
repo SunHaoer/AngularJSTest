@@ -1,1 +1,1 @@
-angular.module('replacePage', ['ngRoute', 'core.phone']);
+angular.module('replacePage', ['ngRoute']);

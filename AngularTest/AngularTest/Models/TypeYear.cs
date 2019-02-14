@@ -7,8 +7,8 @@ namespace AngularTest.Models
 {
     public class TypeYear
     {
-        public long Id { get; set; }
-        public string Type { get; set; }
-        public int Year { get; set; }
+        public long Id { set; get; }
+        public string Type { set; get; }
+        public int Year { set; get; }
     }
 }

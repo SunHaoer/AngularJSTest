@@ -1,151 +1,208 @@
 angular.
 module('replacePage').
 component('replacePage', {
-
-    templateUrl: 'register-page/register-page.template.html',
+    templateUrl: 'common/register-page.template.html',
     controller: ['$location', '$http', '$scope', function ReplacePage($location, $http, $scope) {
-
-        $scope.isRegister = false;
+        var yalertStylePath = 'css/yalert.css';
         $scope.isReplace = true;
+        $scope.today = new Date();
+        $scope.today.toLocaleDateString();
+        $scope.isBack = false;
 
-        /**
-        * 获取所有手机品牌
-        * */
-        $scope.getBrandAll = function () {
+        /*
+         * get 'ReplacePhoneModel'
+         */
+        $scope.getReplacePhoneModel = function () {
             $http({
                 method: 'GET',
-                url: '/api/BrandModel/GetBrandAll',
+                params: ({
+                }),
+                url: '/api/ReplacePhone/GetReplacePhonePageViewModel',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                var list = response.data;
-                $scope.brandList = [];
-                for (var i = 0; i < list.length; i++) {
-                    $scope.brandList.push(list[i]["brand"]);
+                $scope.replacePhoneModel = response.data;
+                var model = $scope.replacePhoneModel;
+                if (model.isLogin && model.isVisitLegal) {
+                    $scope.brandList = model.brandList;
+                    $scope.typeList = model.typeList;
+                    $scope.phone = model.tempNewPhone;
+                    if (model.tempNewPhone.startDate == "0001-01-01T00:00:00") {
+                        $scope.phone.startDate = new Date($scope.today);
+                    } else {
+                        $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
+                    }
+                    $scope.oldPhone = model.tempOldPhone;
+                    if (model.tempOldPhone.startDate == "0001-01-01T00:00:00") {
+                        $scope.oldPhone.startDate = new Date($scope.today);
+                    } else {
+                        $scope.oldPhone.startDate = new Date(model.tempOldPhone.startDate);
+                    }
+                    if (model.tempOldPhone.abandonDate == "0001-01-01T00:00:00") {
+                        $scope.oldPhone.abandonDate = new Date($scope.today);
+                    } else {
+                        $scope.oldPhone.abandonDate = new Date(model.tempOldPhone.abandonDate);
+                    }
+                    if ($scope.phone.phoneUser != null) {
+                        $scope.isBack = true;
+                    }
+                } else {
+                    showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
+                    $location.url('phone/errorPage');
                 }
-
             }, function error(response) {
-                alert("error");
             });
         }
-        $scope.getBrandAll();
+        $scope.getReplacePhoneModel();
 
-        /**
-         * 根据品牌获取型号
-         * */
-        $scope.getTypeByBrand = function () {
+
+        /*
+         * validate branTypeProductNo 
+         */
+        $scope.isProdcutNoLegal = true;
+        $scope.validateBrandTypeProductNo = function () {
             var phone = $scope.phone;
             $http({
                 method: 'GET',
                 params: ({
-                    brand: $scope.phone.brand,
+                    brand: phone.brand,
+                    type: phone.type,
+                    productNo: phone.productNo
                 }),
-                url: '/api/BrandTypeModels/GetTypeByBrand',
+                url: '/api/ReplacePhone/ValidateBrandTypeProductNo',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                var list = response.data;
-                console.log(list);
-                $scope.typeList = [];
-                for (var i = 0; i < list.length; i++) {
-                    $scope.typeList.push(list[i]["type"]);
-                }
+                $scope.isProdcutNoLegal = response.data.isSuccess;
             }, function error(response) {
-                alert("error");
             });
         }
 
-        /**
-         * 根据型号获取保质期
-         * */
-        $scope.getYearByType = function () {
+        $scope.isStartDateLegal = true;
+        $scope.validateDateLegal = function () {
+            try {
+                var date1 = $scope.phone.startDate;
+                var date2 = $scope.today;
+                if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                    $scope.isStartDateLegal = false;
+                } else if (date1.getFullYear() != date2.getFullYear()) {
+                    $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
+                } else if (date1.getMonth() != date2.getMonth()) {
+                    $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
+                } else {
+                    $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
+                }
+            } catch {
+                $scope.isStartDateLegal = false;
+            }
+
+        }
+
+        $scope.isAbandonDateLegal = true;
+        $scope.validateAbandonDateLegal = function () {
+            var date1 = $scope.phone.startDate;
+            var date2 = $scope.oldPhone.abandonDate;
+            if (date1.getFullYear() != date2.getFullYear() || date1.getMonth() != date2.getMonth() || date1.getDate() != date2.getDate()) {
+                $scope.isAbandonDateLegal = false;
+            } else {
+                $scope.isAbandonDateLegal = true;
+            }
+        }
+
+        $scope.isPhoneBrandNotEmpty = true;
+        $scope.isPhoneTypeNotEmpty = true;
+        $scope.isProductNoNotEmpty = true;
+        $scope.phoneBrandNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isPhoneBrandNotEmpty = true;
+            if (phone.brand == '' || phone.brand == null) {
+                $scope.isPhoneBrandNotEmpty = false;
+            }
+        }
+
+        $scope.phoneTypeNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isPhoneTypeNotEmpty = true;
+            if (phone.type == '' || phone.type == null) {
+                $scope.isPhoneTypeNotEmpty = false;
+            }
+        }
+
+        $scope.productNoNotEmpty = function () {
+            var phone = $scope.phone;
+            $scope.isProductNoNotEmpty = true;
+            if (phone.productNo == '' || phone.productNo == null) {
+                $scope.isProductNoNotEmpty = false;
+            }
+        }
+
+        /*
+         * not empty
+         */
+        $scope.parameterNotEmpty = function () {
+            $scope.phoneBrandNotEmpty();
+            $scope.phoneTypeNotEmpty();
+            $scope.productNoNotEmpty();
+            $scope.isPrameterNotEmpty = $scope.isPhoneBrandNotEmpty && $scope.isPhoneTypeNotEmpty && $scope.isProductNoNotEmpty;
+        }
+
+        $scope.validate = function () {
+            $scope.validateDateLegal();
+            $scope.validateBrandTypeProductNo();
+            $scope.parameterNotEmpty();
+            $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal;
+        }
+
+        /*
+         * submit
+         */
+        $scope.isOK = true;
+        $scope.isPrameterNotEmpty = true;
+        $scope.submitMsg = function () {
+            $scope.validateDateLegal();
+            $scope.validateAbandonDateLegal();
+            if ($scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isAbandonDateLegal) {
+                $scope.isOK = true;
+                var phone = $scope.phone;
+                $http({
+                    method: 'POST',
+                    params: ({
+                        brand: phone.brand,
+                        type: phone.type,
+                        productNo: phone.productNo,
+                        startDate: phone.startDate,
+                        abandonDate: $scope.oldPhone.abandonDate
+                    }),
+                    url: '/api/ReplacePhone/SubmitMsg',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data.isSuccess) {
+                        $location.path("/phone/replaceCheckPage");
+                    } else {
+                        $scope.isOK = false;
+                        $scope.validateBrandTypeProductNo();
+                    }
+                }, function error(response) {
+                });
+            } else {
+                $scope.isOK = false;
+            }
+        }
+
+        $scope.backToIndex = function () {
             $http({
                 method: 'GET',
                 params: ({
-                    type: $scope.phone.type
                 }),
-                url: '/api/TypeYear/GetYearByType',
+                url: '/api/ReplacePhone/SetIsSubmit',
                 headers: { 'Content-Type': 'application/json' }
             }).then(function success(response) {
-                $scope.phone.life = response.data;
-                //alert('+' + $scope.phone.life);
+                if (response.data.isSuccess) {
+                    showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                        window.location.href = '#!/phone/choosePage';
+                    }, function () {
+                    })
+                }
             }, function error(response) {
-                alert("error");
             });
-        }
-
-        /**
-         * 日期格式化
-         * */
-        $scope.formatDate = function () {
-            var inputDate = $scope.phone.inputDate;
-            var year = inputDate.getFullYear();
-            var month = inputDate.getMonth() + 1;
-            if (month < 10) month = '0' + month;
-            var date = inputDate.getDate();
-            if (date < 10) date = '0' + date;
-            var startDate = year + '' + month + '' + date;
-            var endDate = (year + $scope.phone.life) + '' + month + '' + date;
-            $scope.phone.startDate = startDate;
-            $scope.phone.endDate = endDate;
-            //alert('-' + $scope.phone.life);
-            //alert(startDate);
-            //alert(endDate);
-        }
-
-
-        // 从tempPhone获取需要修改的phone
-        $http({
-            method: 'Get',
-            url: 'api/DoubleCheck/GetTempPhone',
-
-        }).then(function successCallback(response) {
-            // 请求成功执行的代码
-            $scope.phone = response.data;
-        }, function errorCallback(response) {
-            // 请求失败执行代码
-            alert('error');
-        });
-
-        //  for test
-        this.test = "你还没点击提交";
-
-        // 点击确认
-        this.submitMsg = function(phone) {
-
-            //  for test
-            this.test = "你点击了提交";
-
-            // 更换的新手机存入tempPhone
-            $http({
-                method: 'Post',
-                url: 'api/DoubleCheck/SetTempPhone',
-                params: ({
-                    id: $scope.phone.id,
-                    phoneUser: $scope.phone.phoneUser,
-                    brand: $scope.phone.brand,
-                    type: $scope.phone.type,
-                    productNo: $scope.phone.productNo,
-                    startDate: $scope.phone.startDate,
-                    endDate: $scope.phone.endDate,
-                    deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.abandonReson,
-                    state: $scope.phone.state
-                })
-            }).then(function successCallback(response) {
-                // 请求成功执行的代码
-                $location.url('/phone/replacePage');
-
-            }, function errorCallback(response) {
-                // 请求失败执行代码
-                alert('error');
-            });
-
-            $location.url('/phone/checkPage');
-
-        };
-
-        this.cancle = function() {
-            $location.url('/phone');
         }
     }]
-
 })

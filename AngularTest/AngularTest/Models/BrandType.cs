@@ -7,8 +7,8 @@ namespace AngularTest.Models
 {
     public class BrandType
     {
-        public long Id { get; set; }
-        public string Brand { get; set; }
-        public string Type { get; set; }
+        public long Id { set; get; }
+        public string Brand { set; get; }
+        public string Type { set; get; }
     }
 }

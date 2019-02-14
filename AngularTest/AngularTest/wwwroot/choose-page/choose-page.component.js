@@ -2,71 +2,218 @@ angular.
 module('choosePage').
 component('choosePage',{
     templateUrl:'choose-page/choose-page.template.html',
-    controller: ['$scope', '$http','$location', function ChoosePageCtrl($scope, $http, $location) {
+    controller: ['$scope', '$http', '$location', function ChoosePageCtrl($scope, $http, $location) {
+        var yalertStylePath = 'css/yalert.css';
+        var today = new Date();
+        today.toLocaleDateString();
 
-        var brand2 = "OPPO";
-        var phone = this.phone;
-        $http({
-            method: 'GET',
-            params: ({
-            brand: brand2,
-        }),
-            url: '/api/BrandTypeModels/GetTypeByBrand',
-            headers: { 'Content-Type': 'application/json' }
-        }).then(function success(response) {
-            var typeList = response.data;
-            console.log(typeList);
-            var list = [];
-            for (var i = 0; i < typeList.length; i++) {
-                list.push(typeList[i]["type"]);
+        /*
+         * clear up 'phoneList'
+         */
+        function formatPhoneList(phoneList) {
+            var stateStringArray = ['in using', 'abandoned', 'deleted'];
+            var operateArray = [['replace', 'nothing', 'nothing'], ['to abandon', 'to using', 'nothing'], ['delele', 'delete', 'nothing']];
+            $scope.pageIndex = phoneList.pageIndex;
+            $scope.totalPages = phoneList.totalPages;
+            $scope.phoneList = phoneList.list;
+            if ($scope.totalPages == 0) {
+                $scope.notEmpty = false;
+            } else {
+                $scope.notEmpty = true;
             }
-            console.log(list);
-        }, function error(response) {
-            alert("error");
-        });
-
-        this.replace = function (oldId) {
-
-            $scope.phone = {
-                'id': 1,
-                'phoneUser': 'Hujun',
-                'brand': 'OPPO',
-                'type': 'K1',
-                'productNo': '123456',
-                'startDate': '20190123',
-                'endDate': '',
-                'deleteDate': '',
-                'abandonReson': '',
-                'state': 0
+            for (var i = 0; i < $scope.phoneList.length; i++) {
+                var state = $scope.phoneList[i].state;
+                $scope.phoneList[i].stateString = stateStringArray[state - 1];
+                $scope.phoneList[i].operate1 = operateArray[0][state - 1];
+                $scope.phoneList[i].operate2 = operateArray[1][state - 1];
+                $scope.phoneList[i].operate3 = operateArray[2][state - 1];
+                if ($scope.phoneList[i].deleteDate == '0001-01-01T00:00:00') {
+                    $scope.phoneList[i].deleteDate = '';
+                }
             }
+        }
 
-            console.log(oldId);
-
+        /*
+         * get 'ChoosePageViewModel'
+         */
+        $scope.getChoosePageViewModel = function (pageIndex) {
             $http({
-                method: 'Post',
-                url: 'api/DoubleCheck/SetTempPhone',
+                method: 'GET',
                 params: ({
-                    id: $scope.phone.id,
-                    phoneUser: $scope.phone.phoneUser,
-                    brand: $scope.phone.brand,
-                    type: $scope.phone.type,
-                    productNo: $scope.phone.productNo,
-                    startDate: $scope.phone.startDate,
-                    endDate: $scope.phone.endDate,
-                    deleteDate: $scope.phone.deleteDate,
-                    abandonReson: $scope.phone.abandonReson,
-                    state: $scope.phone.state
-                })
-            }).then(function successCallback(response) {
-                // 请求成功执行的代码
-                $location.url('/phone/replacePage');
-
-            }, function errorCallback(response) {
-                // 请求失败执行代码
-                alert('error');
+                    pageIndex: pageIndex
+                }),
+                url: '/api/ChoosePage/GetChoosePageViewModel',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                $scope.choosePageViewModel = response.data;
+                var model = $scope.choosePageViewModel;
+                if (model.isLogin && model.isVisitLegal) {
+                    $scope.loginUsername = model.loginUsername;
+                    $scope.loginUserId = model.loginUserId;
+                    formatPhoneList(model.phoneList);
+                } else {
+                    showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
+                    $location.url('/phone/errorPage');
+                }
+            }, function error(response) {
             });
-       
-        };
-        
+        }
+        $scope.getChoosePageViewModel(1);    // default select the first page
+
+        /*
+         * logout
+         */
+        $scope.logout = function () {
+            showConfirm('', 'are you sure logout', yalertStylePath, function () {
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/Login/Logout',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/#!/phone');
+                }, function error(response) {
+                });
+            }, function () {
+            })
+        }
+
+        $scope.tempId = null;
+        $scope.showDetails = function (phone) {
+            if ($scope.tempId == null) {
+                $scope.showDetail = true;
+            } else if ($scope.tempId == phone.id) {
+                $scope.showDetail = $scope.showDetail == false ? true : false;
+            } else {
+                $scope.showDetail = true;
+            }
+            $scope.tempId = phone.id;
+            $scope.phoneUser = phone.phoneUser;
+            $scope.brand = phone.brand;
+            $scope.type = phone.type;
+            $scope.productNo = phone.productNo;
+            $scope.startDate = phone.startDate;
+            $scope.endDate = phone.endDate;
+            $scope.abandonDate = phone.abandonDate;
+            if ($scope.abandonDate == '0001-01-01T00:00:00') {
+                $scope.abandonDate = '';
+            }
+            $scope.deleteDate = phone.deleteDate;
+            $scope.deleteReason = phone.deleteReason;
+            $scope.state = phone.state;
+            $scope.stateString = phone.stateString;
+            $scope.operate1 = phone.operate1;
+            $scope.operate2 = phone.operate2;
+            $scope.operate3 = phone.operate3;
+        }
+
+        /*
+         * Turn to addNewPhonePage 
+         */
+        $scope.AddNewPhone = function () {
+            $http({
+                method: 'GET',
+                params: ({
+                }),
+                url: '/api/ChoosePage/SetIsSubmit',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function success(response) {
+                if (response.data.isSuccess) {
+                    $location.url('/phone/registerPage');
+                }
+            }, function error(response) {
+            });
+        }
+
+        function setUsingToAbandon(id) {
+            showConfirm('', 'are you sure to abandon?', yalertStylePath, function () {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id,
+                        abandonDate: new Date(today)
+                    }),
+                    url: '/api/ChoosePage/SetUsingToAbandonById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    //showAlert('', 'success!', yalertStylePath, '')
+                }, function error(response) {
+                });
+                location.reload();
+            }, function () {
+            })
+        }
+
+        function setAbandonToUsing(id) {
+            showConfirm('', ' are you sure using?', yalertStylePath, function () {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id,
+                        startDate: new Date(today)
+                    }),
+                    url: '/api/ChoosePage/SetAbanddonToUsingById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    //showAlert('', 'success!', yalertStylePath, '')
+                }, function error(response) {
+                });
+                location.reload();
+            }, function () {
+            })
+        }
+
+        /*
+         * to abandon or to using 
+         */
+        $scope.abandon = function (id, state) {
+            if (state == 3) {
+                //alert('The phone is already delete!');
+            } else if (state == 1) {
+                setUsingToAbandon(id);
+            } else if (state == 2) {
+                setAbandonToUsing(id);
+            }
+            //location.reload();
+        }
+
+        $scope.replace = function (id, state) {
+            if (state == 1) {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/ChoosePage/SetTempOldPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/replacePage');
+                }, function error(response) {
+                });
+            } else if (state == 2) {
+                alert('The phone is already abandon!')
+            } else {
+                alert('The phone is already delete!');
+            }
+        }
+
+        $scope.delete = function (id, state) {
+            if (state != 3) {
+                $http({
+                    method: 'GET',
+                    params: ({
+                        id: id
+                    }),
+                    url: '/api/ChoosePage/SetTempNewPhoneById',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    $location.url('/phone/deletePage');
+                }, function error(response) {
+                });
+            } else {
+                alert('The phone is already delete!');
+            }
+        }
     }]
 });

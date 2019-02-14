@@ -1,132 +1,191 @@
-angular.
+锘縜ngular.
     module('registerPage').
     component('registerPage', {
-        templateUrl: 'register-page/register-page.template.html',
-        controller: ['$scope', '$http', function RegisterPageCtrl($scope, $http) {
-            $scope.brandRegex = '\\d+';
-
+        templateUrl: 'common/register-page.template.html',
+        controller: ['$scope', '$http', '$location', '$q', function RegisterPageCtrl($scope, $http, $location, $q) {
+            var yalertStylePath = 'css/yalert.css';
+            $scope.productNoReg = '[a-zA-Z0-9]*';;
             $scope.isRegister = true;
-            $scope.isReplace = false;
+            $scope.today = new Date();
+            $scope.today.toLocaleDateString();
+            $scope.isBack = false;                                                               
+            
 
-            /**
-             * 获取所有手机品牌
-             * */
-            $scope.getBrandAll = function () {
+           /*
+            * get 'AddPhoneModel'
+            */
+            $scope.getAddPhoneModel = function () {
                 $http({
                     method: 'GET',
-                    url: '/api/BrandModel/GetBrandAll',
+                    params: ({
+                    }),
+                    url: '/api/AddPhone/GetAddPhoneModel',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    var list = response.data;
-                    $scope.brandList = [];
-                    for (var i = 0; i < list.length; i++) {
-                        $scope.brandList.push(list[i]["brand"]);
+
+                    $scope.addPhonePageViewModel = response.data;
+                    var model = $scope.addPhonePageViewModel;
+                    if (model.isLogin && model.isVisitLegal) {
+                        $scope.brandList = model.brandList;
+                        $scope.typeList = model.typeList;
+                        $scope.phone = model.tempNewPhone;
+                        if (model.tempNewPhone.startDate == "0001-01-01T00:00:00") {
+                            $scope.phone.startDate = new Date($scope.today);
+                        } else {
+                            $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
+                        }
+                        if ($scope.phone.phoneUser != null) {
+                            $scope.isBack = true;
+                        }
+                    } else {
+                        showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
+                        $location.url('phone/errorPage');
                     }
-                    
                 }, function error(response) {
-                    alert("error");
                 });
             }
-            $scope.getBrandAll();
+            $scope.getAddPhoneModel();
 
-            /**
-             * 根据品牌获取型号
-             * */
-            $scope.getTypeByBrand = function () {
+            /*
+             * validate branTypeProductNo 
+             */
+            $scope.isProdcutNoLegal = true;
+            $scope.validateBrandTypeProductNo = function () {
                 var phone = $scope.phone;
                 $http({
                     method: 'GET',
                     params: ({
-                        brand: $scope.phone.brand,
-                    }),
-                    url: '/api/BrandTypeModels/GetTypeByBrand',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    var list = response.data;
-                    console.log(list);
-                    $scope.typeList = [];
-                    for (var i = 0; i < list.length; i++) {
-                        $scope.typeList.push(list[i]["type"]);
-                    }
-                }, function error(response) {
-                    alert("error");
-                });
-            }
-
-            /**
-             * 根据型号获取保质期
-             * */
-            $scope.getYearByType = function() {
-                $http({
-                    method: 'GET',
-                    params: ({
-                        type: $scope.phone.type
-                    }),
-                    url: '/api/TypeYear/GetYearByType',
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(function success(response) {
-                    $scope.phone.life = response.data;
-                    //alert('+' + $scope.phone.life);
-                }, function error(response) {
-                    alert("error");
-                });
-            }
-
-            /**
-             * 日期格式化
-             * */
-            $scope.formatDate = function () {
-                var inputDate = $scope.phone.inputDate;
-                var year = inputDate.getFullYear();
-                var month = inputDate.getMonth() + 1;
-                if (month < 10) month = '0' + month;
-                var date = inputDate.getDate();
-                if (date < 10) date = '0' + date;
-                var startDate = year + '' + month + '' + date;
-                var endDate = (year + $scope.phone.life) + '' + month + '' + date;
-                $scope.phone.startDate = startDate;
-                $scope.phone.endDate = endDate;
-                //alert('-' + $scope.phone.life);
-                //alert(startDate);
-                //alert(endDate);
-            }
-
-            /**
-             * 保存数据
-             * */
-            $scope.sendToTempPhone = function () {
-                var phone = $scope.phone;
-                $http({
-                    method: 'POST',
-                    params: ({
-                        phoneUser: 'Dillon',
                         brand: phone.brand,
                         type: phone.type,
-                        productNo: phone.productNo,
-                        inputDate: phone.startDate,
-                        endDate: phone.endDate
+                        productNo: phone.productNo
                     }),
-                    url: '/api/DoubleCheck/SetTempPhone',
+                    url: '/api/AddPhone/ValidateBrandTypeProductNo',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-                    alert(response.data);
+                    $scope.isProdcutNoLegal = response.data.isSuccess;
                 }, function error(response) {
-                    alert("error");
                 });
             }
 
+            $scope.isStartDateLegal = true;
+            $scope.validateDateLegal = function () {
+                try {
+                    var date1 = $scope.phone.startDate;
+                    var date2 = $scope.today;
+                    if (date1.getFullYear() < 1900 || date1.getFullYear() > 2100) {
+                        $scope.isStartDateLegal = false;
+                    } else if (date1.getFullYear() != date2.getFullYear()) {
+                        $scope.isStartDateLegal = date1.getFullYear() > date2.getFullYear();
+                    } else if (date1.getMonth() != date2.getMonth()) {
+                        $scope.isStartDateLegal = date1.getMonth() > date2.getMonth();
+                    } else {
+                        $scope.isStartDateLegal = date1.getDate() >= date2.getDate();
+                    }
+                } catch {
+                    $scope.isStartDateLegal = false;
+                }
+            }
 
+            $scope.isPhoneBrandNotEmpty = true;
+            $scope.isPhoneTypeNotEmpty = true;
+            $scope.isProductNoNotEmpty = true;
+            $scope.phoneBrandNotEmpty = function() {
+                var phone = $scope.phone;
+                $scope.isPhoneBrandNotEmpty = true;
+                if (phone.brand == '' || phone.brand == null) {
+                    $scope.isPhoneBrandNotEmpty = false;
+                }
+            }
+
+            $scope.phoneTypeNotEmpty = function () {
+                var phone = $scope.phone;
+                $scope.isPhoneTypeNotEmpty = true;
+                if (phone.type == '' || phone.type == null) {
+                    $scope.isPhoneTypeNotEmpty = false;
+                }
+            }
+
+            $scope.productNoNotEmpty = function () {
+                var phone = $scope.phone;
+                $scope.isProductNoNotEmpty = true;
+                if (phone.productNo == '' || phone.productNo == null) {
+                    $scope.isProductNoNotEmpty = false;
+                }
+            }
+
+            /*
+             * not empty
+             */
+            $scope.parameterNotEmpty = function () {
+                $scope.phoneBrandNotEmpty();
+                $scope.phoneTypeNotEmpty();
+                $scope.productNoNotEmpty();
+                $scope.isPrameterNotEmpty = $scope.isPhoneBrandNotEmpty && $scope.isPhoneTypeNotEmpty && $scope.isProductNoNotEmpty;
+            }
+
+            $scope.validate = function () {
+                $scope.validateDateLegal();
+                $scope.validateBrandTypeProductNo();
+                $scope.parameterNotEmpty();
+                $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal;
+            }
+
+            /*
+             * submit
+             */
+            $scope.isOK = true;
+            $scope.isPrameterNotEmpty = true;
             $scope.submitMsg = function () {
-                console.log($scope.phone);
-                var json = JSON.stringify($scope.phone);
-                console.log(json);
-                PhoneMsg.save(json, function (data) {
-                    json = data;
-                }, function (resp) {
-                    console.log('error');
-                });
+                $scope.validateDateLegal();
+                if ($scope.isPrameterNotEmpty && $scope.isStartDateLegal) {
+                    $scope.isOK = true;
+                    var phone = $scope.phone;
+                    $http({
+                        method: 'POST',
+                        params: ({
+                            brand: phone.brand,
+                            type: phone.type,
+                            productNo: phone.productNo,
+                            startDate: phone.startDate
+                        }),
+                        url: '/api/AddPhone/SubmitMsg',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function success(response) {
+                        if (response.data.isSuccess) {
+                            $location.path("/phone/registerCheckPage");
+                        } else {
+                            $scope.isOK = false;
+                            $scope.validateBrandTypeProductNo();
+                        }
+                    }, function error(response) {
+                    });
+                } else {
+                    $scope.isOK = false;
+                }
             }
 
+            
+
+            $scope.backToIndex = function () {
+                //alert('back');
+                $http({
+                    method: 'GET',
+                    params: ({
+                    }),
+                    url: '/api/AddPhone/SetIsSubmit',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(function success(response) {
+                    if (response.data.isSuccess) {
+                        showConfirm('', 'Back to index? Data will not be saved', yalertStylePath, function () {
+                            window.location.href = '#!/phone/choosePage';
+                            //$location.url('phone/choosePage')
+                        }, function () {
+                        })
+                    }
+                }, function error(response) {
+                });
+            }
+         
 
         }]
     })

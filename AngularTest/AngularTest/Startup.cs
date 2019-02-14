@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AngularTest.Models;
 using AngularTest.Data;
+using System;
+using AngularTest.Filter;
 
 namespace AngularTest
 {
@@ -25,15 +27,33 @@ namespace AngularTest
                          opt.UseInMemoryDatabase("PhoneList"));
             services.AddDbContext<BrandTypeContext>(opt =>
                          opt.UseInMemoryDatabase("BrandTypeList"));
-            services.AddDbContext<BrandModelContext>(opt =>
-                         opt.UseInMemoryDatabase("BrandModelList"));
+            services.AddDbContext<BrandContext>(opt =>
+                         opt.UseInMemoryDatabase("BrandList"));
             services.AddDbContext<TypeYearContext>(opt =>
                          opt.UseInMemoryDatabase("TypeList"));
+            services.AddDbContext<UserContext>(opt =>
+                         opt.UseInMemoryDatabase("UserList"));
+            services.AddDbContext<BrandTypeProductNoContext>(opt =>
+                         opt.UseInMemoryDatabase("BrandTypeProductNoList"));
+            services.AddDbContext<DeleteReasonContext>(opt =>
+                         opt.UseInMemoryDatabase("DeleteReasonList"));
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(60000);
+                options.Cookie.HttpOnly = true;
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(LoginFilter));
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMvc().AddJsonOptions(
-                            json => {
-                                json.SerializerSettings.DateFormatString = "yyyy-mm-dd";
-                            });
+
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(typeof(LoginFilter));
+            //});
 
         }
 
@@ -51,6 +71,8 @@ namespace AngularTest
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
+            app.UseSession();
+
             app.UseMvc();
         }
     }
