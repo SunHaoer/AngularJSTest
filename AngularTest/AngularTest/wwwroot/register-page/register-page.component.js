@@ -2,7 +2,7 @@ angular.
     module('registerPage').
     component('registerPage', {
         templateUrl: 'common/register-page.template.html',
-        controller: ['$scope', '$http', '$location', '$q', function RegisterPageCtrl($scope, $http, $location, $q) {
+        controller: ['$scope', '$http', '$location', function RegisterPageCtrl($scope, $http, $location) {
             var yalertStylePath = 'css/yalert.css';
             $scope.productNoReg = '[a-zA-Z0-9]*';;
             $scope.isRegister = true;
@@ -50,6 +50,33 @@ angular.
                     $scope.isProductNoClick = true;
                 } else if (value == 2) {
                     $scope.isProductNoClick = false;
+                }
+            }
+
+            $scope.isPhoneBrandClick = false;
+            $scope.phoneBrandClick = function (value) {
+                if (value == 1) {
+                    $scope.isPhoneBrandClick = true;
+                } else if (value == 2) {
+                    $scope.isPhoneBrandClick = false;
+                }
+            }
+
+            $scope.isPhoneTypeClick = false;
+            $scope.phoneTypeClick = function (value) {
+                if (value == 1) {
+                    $scope.isPhoneTypeClick = true;
+                } else if (value == 2) {
+                    $scope.isPhoneTypeClick = false;
+                }
+            }
+
+            $scope.isStartDateClick = false;
+            $scope.startDateClick = function (value) {
+                if (value == 1) {
+                    $scope.isStartDateClick = true;
+                } else if (value == 2) {
+                    $scope.isStartDateClick = false;
                 }
             }
 

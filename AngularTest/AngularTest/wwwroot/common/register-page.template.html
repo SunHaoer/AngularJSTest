@@ -12,15 +12,15 @@
                         phoneBrand：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.brand" name="brand" id="brand" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()" requi#FACC2E>
+                        <select ng-model="phone.brand" name="brand" id="brand" ng-mousedown="phoneBrandClick(1)" ng-blur="phoneBrandClick(2)" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()" >
                             <option value="">select the brand</option>
                             <option ng-repeat="x in brandList">{{x.brandName}}</option>
                         </select>
                         <br />
-                        <span ng-if="!isPhoneBrandNotEmpty">
+                        <span ng-if="!isPhoneBrandNotEmpty && !isPhoneBrandClick">
                             <font color="#FACC2E">The PhoneBrand empty!</font>
                         </span>
-                        <span ng-if="isPhoneBrandNotEmpty">
+                        <span ng-if="!(!isPhoneBrandNotEmpty && !isPhoneBrandClick)">
                             &nbsp;
                         </span>
                     </div>
@@ -30,15 +30,15 @@
                         phoneType：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.type" name="type" id="type" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()" requi#FACC2E>
+                        <select ng-model="phone.type" name="type" id="type" ng-mousedown="phoneTypeClick(1)" ng-blur="phoneTypeClick(2)" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()" >
                             <option value="">select the type</option>
                             <option ng-repeat="x in typeList" ng-show="x.brand == phone.brand">{{x.type}}</option>
                         </select>
                         <br />
-                        <span ng-if="!isPhoneTypeNotEmpty">
+                        <span ng-if="!isPhoneTypeNotEmpty && !isPhoneTypeClick">
                             <font color="#FACC2E">The PhoneType empty!</font>
                         </span>
-                        <span ng-if="isPhoneTypeNotEmpty">
+                        <span ng-if="!(!isPhoneTypeNotEmpty && !isPhoneTypeClick)">
                             &nbsp;
                         </span>
                     </div>
@@ -67,12 +67,12 @@
                         startDate:
                     </label>
                     <div class="col-md-10">
-                        <input type="date" ng-model="phone.startDate" name="startDate" id="startDate" ng-change="validateDateLegal()" requi#FACC2E />
+                        <input type="date" ng-model="phone.startDate" name="startDate" id="startDate" ng-mousedown="startDateClick(1)" ng-blur="startDateClick(2)" ng-change="validateDateLegal();validateAbandonDateLegal()" />
                         <br />
-                        <span ng-show="!isStartDateLegal">
+                        <span ng-show="!isStartDateLegal && !isStartDateClick">
                             <font color="#FACC2E">The date can not be earlier then today</font>
                         </span>
-                        <span ng-if="isStartDateLegal">
+                        <span ng-if="!(!isStartDateLegal && !isStartDateClick)">
                             &nbsp;
                         </span>
                     </div>
@@ -120,12 +120,12 @@
                         abandonDate：
                     </label>
                     <div class="col-md-10">
-                        <input type="date" ng-model="oldPhone.abandonDate" ng-change="validateAbandonDateLegal()" />
+                        <input type="date" ng-model="oldPhone.abandonDate" ng-mousedown="abandonDateClick(1)" ng-blur="abandonDateClick(2)" ng-change="validateAbandonDateLegal()" />
                         <br />
-                        <span ng-show="!isAbandonDateLegal">
+                        <span ng-show="!isAbandonDateLegal && !isAbandonDateClick">
                             <font color="#FACC2E">The date must be equal to new phone startDate </font>
                         </span>
-                        <span ng-if="isAbandonDateLegal">
+                        <span ng-if="!(!isAbandonDateLegal && !isAbandonDateClick)">
                             &nbsp;
                         </span>
                     </div>

@@ -22,7 +22,7 @@ namespace AngularTest.VeiwModels
             {
                 IsLogin = true
             };
-            if (Step.stepTable[nowNode * isSubmit, Step.choosePage] || nowNode == Step.choosePage)
+            if (Step.stepTable[nowNode * isSubmit, Step.choosePage] || nowNode == Step.choosePage || nowNode == Step.addPhone || nowNode == Step.deletePhone || nowNode == Step.replacePhone)
             {
                 long userId = long.Parse(userInfo.Split(",")[0]);
                 model.IsVisitLegal = true;

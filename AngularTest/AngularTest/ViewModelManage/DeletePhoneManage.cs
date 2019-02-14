@@ -24,7 +24,7 @@ namespace AngularTest.VeiwModels
             {
                 IsLogin = true
             };
-            if (Step.stepTable[nowNode * isSubmit, Step.deletePhone] || nowNode == Step.deletePhone)
+            if (Step.stepTable[nowNode * isSubmit, Step.deletePhone] || nowNode == Step.deletePhone || nowNode == Step.deletePhoneCheck)
             {
                 model.IsVisitLegal = true;
                 model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(userId);
