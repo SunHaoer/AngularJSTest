@@ -1,10 +1,10 @@
-<div class="panel panel-primary">
+<div class="panel-primary">
     <div class="panel-heading">
         <div class="panel-title" ng-model="isReplace" ng-show="isReplace">Replace</div>
         <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
     </div>
     <form role="form" name="myForm" novalidate ng-submit="submitMsg()">
-        <div class="panel-body;row;col-md-12" style="width:50%;float:left">
+        <div class="panel-body;row;col-md-12" style="width:45%;float:left;margin-left:20px">
             <h1>New Phone</h1>
             <div class="form-horizontal">
                 <div class="form-group">
@@ -12,7 +12,7 @@
                         phoneBrand：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.brand" name="brand" id="brand" ng-mousedown="phoneBrandClick(1)" ng-blur="phoneBrandClick(2)" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()" >
+                        <select ng-model="phone.brand" name="brand" id="brand" ng-mousedown="phoneBrandClick(1)" ng-blur="phoneBrandClick(2)" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()">
                             <option value="">select the brand</option>
                             <option ng-repeat="x in brandList">{{x.brandName}}</option>
                         </select>
@@ -30,7 +30,7 @@
                         phoneType：
                     </label>
                     <div class="col-md-10">
-                        <select ng-model="phone.type" name="type" id="type" ng-mousedown="phoneTypeClick(1)" ng-blur="phoneTypeClick(2)" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()" >
+                        <select ng-model="phone.type" name="type" id="type" ng-mousedown="phoneTypeClick(1)" ng-blur="phoneTypeClick(2)" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()">
                             <option value="">select the type</option>
                             <option ng-repeat="x in typeList" ng-show="x.brand == phone.brand">{{x.type}}</option>
                         </select>
@@ -79,8 +79,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="panel-body;row;col-md-12" style="width:50%;float:left" ng-show="isReplace">
+        <div class="panel-body;row;col-md-10" style="width:45%;float:left;" ng-show="isReplace">
             <h1>Old Phone</h1>
             <div class="form-horizontal">
                 <div class="form-group">
@@ -132,10 +131,15 @@
                 </div>
             </div>
         </div>
-        <div class="form-group;col-md-12;" style="padding:30px;text-align:center;width:50%">
+        <div ng-if="isReplace" class="form-group;col-md-12;" style="padding:30px;text-align:center;width:55%">
             <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
             <input ng-if="isOK" class="btn btn-primary" type="submit" value="next" ng-click="validate()" />
-            <input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()"/>
+            <input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()" />
+        </div>
+        <div ng-if="!isReplace" class="form-group;col-md-12;" style="padding-bottom:20px;width:60%;padding-top:30px;float:left;margin-left:20px">
+            <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
+            <input ng-if="isOK" class="btn btn-primary" type="submit" value="next" ng-click="validate()" />
+            <input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()" />
         </div>
     </form>
 </div>
