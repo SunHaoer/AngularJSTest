@@ -25,10 +25,10 @@
             <a href="" ng-click="getChoosePageViewModel(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="4">next</font></a>
         </div>
     </center>
-    <center>
-        <div class="panel-body" ng-show="showDetail">
-            <div class="row">
 
+    <div class="panel-body" ng-show="showDetail">
+        <div class="row">
+            <center>
                 <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:40%">
                     <div class="form-group">
                         <label>
@@ -81,10 +81,9 @@
                         <button class="btn btn-primary" ng-show="operate3 != 'nothing'" ng-click="delete(tempId, state)">{{operate3 }}</button>
                     </div>
                 </div>
-
-            </div>
+            </center>
         </div>
-    </center>
+    </div>
 </div>
 
 <div ng-show="!notEmpty">

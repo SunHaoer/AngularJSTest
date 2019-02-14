@@ -1,6 +1,6 @@
 ﻿using AngularTest.Cache;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
+using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +10,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class ErrorPageController : ControllerBase
     {
-        private readonly SuccessErrorPageService successErrorPageService;
+        private readonly SuccessErrorPageManage successErrorPageManage;
 
         public ErrorPageController()
         {
-            successErrorPageService = new SuccessErrorPageService();
+            successErrorPageManage = new SuccessErrorPageManage();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace AngularTest.Controllers
             model.IsVisitLegal = true;
             HttpContext.Session.SetString("nowNode", Step.errorPage.ToString());
             HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-            successErrorPageService.SetTempPhoneEmpty(loginUserId);
+            successErrorPageManage.SetTempPhoneEmpty(loginUserId);
             return model;
         }
 
@@ -43,20 +43,12 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.errorPageSubmit])
+            int visitNode = Step.errorPage;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if (model.IsSuccess)
             {
-                model.IsVisitLegal = true;
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsParameterNotEmpty = true;
-                model.IsParameterLegal = true;
-                model.IsSuccess = true;
             }
             return model;
         }

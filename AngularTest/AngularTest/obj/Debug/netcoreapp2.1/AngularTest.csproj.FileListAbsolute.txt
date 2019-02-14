@@ -82,20 +82,20 @@ C:\Users\dillon.sun\Desktop\New folder\AngularTest\AngularTest\obj\Debug\netcore
 C:\Users\dillon.sun\Desktop\New folder\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
 C:\Users\dillon.sun\Desktop\New folder\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
 C:\Users\dillon.sun\Desktop\New folder\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.deps.json
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.json
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.dev.json
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.dll
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.pdb
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csprojAssemblyReference.cache
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csproj.CoreCompileInputs.cache
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cache
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cs
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfoInputs.cache
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfo.cs
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
-C:\Users\lambert.lv\Desktop\AngularJSTest-dillon\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.deps.json
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.json
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.dev.json
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.dll
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.pdb
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csprojAssemblyReference.cache
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.csproj.CoreCompileInputs.cache
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cache
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorAssemblyInfo.cs
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfoInputs.cache
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.AssemblyInfo.cs
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.RazorTargetAssemblyInfo.cache
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.dll
+C:\Users\lambert.lv\Desktop\AngularTest\AngularTest\obj\Debug\netcoreapp2.1\AngularTest.pdb
 C:\Users\lambert.lv\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.deps.json
 C:\Users\lambert.lv\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.json
 C:\Users\lambert.lv\Documents\GitHub\AngularJSTest\AngularTest\AngularTest\bin\Debug\netcoreapp2.1\AngularTest.runtimeconfig.dev.json

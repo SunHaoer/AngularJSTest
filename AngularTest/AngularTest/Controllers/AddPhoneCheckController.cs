@@ -1,8 +1,8 @@
 ﻿using AngularTest.Cache;
 using AngularTest.Models;
 using AngularTest.PageVeiwModels;
-using AngularTest.Service;
 using AngularTest.VeiwModels;
+using AngularTest.ViewModelManage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +13,12 @@ namespace AngularTest.Controllers
     public class AddPhoneCheckController : ControllerBase
     {
         private readonly PhoneContext _phoneContext;
-        private readonly AddPhoneService addPhoneService;
+        private readonly AddPhoneCheckManage addPhoneCheckManage;
 
         public AddPhoneCheckController(PhoneContext phoneContext)
         {
             _phoneContext = phoneContext;
-            addPhoneService = new AddPhoneService(_phoneContext);
+            addPhoneCheckManage = new AddPhoneCheckManage(_phoneContext);
         }
 
         /// <summary>
@@ -28,20 +28,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public AddPhoneCheckPageViewModel GetAddPhoneCheckPageViewModel()
         {
-            AddPhoneCheckPageViewModel model = new AddPhoneCheckPageViewModel
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
             int isSubmit = int.Parse(HttpContext.Session.GetString("isSubmit"));
-            if (Step.stepTable[nowNode * isSubmit, Step.addPhoneCheck] || nowNode == Step.addPhoneCheck)
+            AddPhoneCheckPageViewModel model = addPhoneCheckManage.GetAddPhoneCheckPageViewModel(loginUserId, nowNode, isSubmit);
+            if(model.IsVisitLegal)
             {
                 HttpContext.Session.SetString("nowNode", Step.addPhoneCheck.ToString());
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
-                model.IsVisitLegal = true;
-                model.TempNewPhone = TempPhone.GetTempNewPhoneByUserId(loginUserId);
             }
             return model;
         }
@@ -53,24 +48,13 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SubmitMsg()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.addPhoneCheckSubmit])
+            FormFeedbackViewModel model = addPhoneCheckManage.SubmitMsg(loginUserId, nowNode);
+            if(model.IsSuccess)
             {
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsVisitLegal = true;
-                model.IsParameterNotEmpty = true;
-                if(TempPhone.IsTempNewPhoneNotEmpty(loginUserId))
-                {
-                    model.IsParameterLegal = true;
-                    addPhoneService.SetTempNewPhoneToDBByUserId(loginUserId);
-                    model.IsSuccess = true;
-                }              
             }
             return model;
         }
@@ -83,22 +67,15 @@ namespace AngularTest.Controllers
         [HttpGet]
         public FormFeedbackViewModel SetIsSubmit()
         {
-            FormFeedbackViewModel model = new FormFeedbackViewModel()
-            {
-                IsLogin = true
-            };
-            string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
             int nowNode = int.Parse(HttpContext.Session.GetString("nowNode"));
-            if (Step.stepTable[nowNode, Step.addPhoneCheckSubmit])
+            int visitNode = Step.addPhoneCheckSubmit;
+            FormFeedbackViewModel model = Step.SetIsSubmit(nowNode, visitNode);
+            if(model.IsSuccess)
             {
-                model.IsVisitLegal = true;
                 HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-                model.IsParameterNotEmpty = true;
-                model.IsParameterLegal = true;
-                model.IsSuccess = true;
             }
             return model;
         }
+
     }
 }

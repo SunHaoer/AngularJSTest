@@ -8,6 +8,7 @@ angular.
             $scope.isRegister = true;
             $scope.today = new Date();
             $scope.today.toLocaleDateString();
+            $scope.isBack = false;
 
            /*
             * get 'AddPhoneModel'
@@ -31,6 +32,9 @@ angular.
                         } else {
                             $scope.phone.startDate = new Date(model.tempNewPhone.startDate);
                         }
+                        if ($scope.phone.phoneUser != null) {
+                            $scope.isBack = true;
+                        }
                     } else {
                         showAlert('hint', 'not login or illegal visit', yalertStylePath, '');
                         $location.url('phone/errorPage');
@@ -43,7 +47,7 @@ angular.
             /*
              * validate branTypeProductNo 
              */
-            $scope.isProdcutNoLegal = false;
+            $scope.isProdcutNoLegal = true;
             $scope.validateBrandTypeProductNo = function () {
                 var phone = $scope.phone;
                 $http({
@@ -60,8 +64,6 @@ angular.
                 }, function error(response) {
                 });
             }
-            //$("#bt1").attr("disabled", ture);
-            
 
             $scope.isStartDateLegal = true;
             $scope.validateDateLegal = function () {
@@ -80,24 +82,60 @@ angular.
                 } catch {
                     $scope.isStartDateLegal = false;
                 }
+            }
 
+            $scope.isPhoneBrandNotEmpty = true;
+            $scope.isPhoneTypeNotEmpty = true;
+            $scope.isProductNoNotEmpty = true;
+            $scope.phoneBrandNotEmpty = function() {
+                var phone = $scope.phone;
+                $scope.isPhoneBrandNotEmpty = true;
+                if (phone.brand == '' || phone.brand == null) {
+                    $scope.isPhoneBrandNotEmpty = false;
+                }
+            }
+
+            $scope.phoneTypeNotEmpty = function () {
+                var phone = $scope.phone;
+                $scope.isPhoneTypeNotEmpty = true;
+                if (phone.type == '' || phone.type == null) {
+                    $scope.isPhoneTypeNotEmpty = false;
+                }
+            }
+
+            $scope.productNoNotEmpty = function () {
+                var phone = $scope.phone;
+                $scope.isProductNoNotEmpty = true;
+                if (phone.productNo == '' || phone.productNo == null) {
+                    $scope.isProductNoNotEmpty = false;
+                }
             }
 
             /*
              * not empty
              */
-            var parameterNotEmpty = function () {
-                var phone = $scope.phone;
-                return phone.productNo != null && phone.productNo != '' && phone.brand != null && phone.brand != '' && phone.type != null && phone.type != '';
+            $scope.parameterNotEmpty = function () {
+                $scope.phoneBrandNotEmpty();
+                $scope.phoneTypeNotEmpty();
+                $scope.productNoNotEmpty();
+                $scope.isPrameterNotEmpty = $scope.isPhoneBrandNotEmpty && $scope.isPhoneTypeNotEmpty && $scope.isProductNoNotEmpty;
+            }
+
+            $scope.validate = function () {
+                $scope.validateDateLegal();
+                $scope.validateBrandTypeProductNo();
+                $scope.parameterNotEmpty();
+                $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal;
             }
 
             /*
              * submit
              */
             $scope.isOK = true;
+            $scope.isPrameterNotEmpty = true;
             $scope.submitMsg = function () {
                 $scope.validateDateLegal();
-                if (parameterNotEmpty() && $scope.isStartDateLegal) {
+                if ($scope.isPrameterNotEmpty && $scope.isStartDateLegal) {
                     $scope.isOK = true;
                     var phone = $scope.phone;
                     $http({
@@ -115,7 +153,7 @@ angular.
                             $location.path("/phone/registerCheckPage");
                         } else {
                             $scope.isOK = false;
-                            alert('not legal');
+                            $scope.validateBrandTypeProductNo();
                         }
                     }, function error(response) {
                     });
@@ -142,7 +180,5 @@ angular.
                 }, function error(response) {
                 });
             }
-           
-
         }]
     })
