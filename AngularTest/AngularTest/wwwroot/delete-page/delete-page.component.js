@@ -102,16 +102,28 @@
                     $scope.number = 1;
                 }                
             }
+            $scope.Rea = false;
             $scope.validateOtherReasonNotEmpty = function () {
-
-                if ($scope.phone.deleteReason == 'other' && ($scope.phone.otherReason == '' || $scope.phone.otherReason == null)) {
+               
+                if ($scope.Rea == true) $scope.isDeleteReasonLegal = true;
+               else if ($scope.phone.deleteReason == 'other' && ($scope.phone.otherReason == '' || $scope.phone.otherReason == null)) {
                     $scope.isDeleteReasonLegal= false;
                 }
                 else $scope.isDeleteReasonLegal = true;
 
             }
             $scope.theReasonIsEmpty = function () {  
+                
                 $scope.isDeleteReasonLegal =true;
+            }
+            $scope.theReasonChange = function () {
+                $scope.Rea = true;
+            }
+            $scope.theDateIsRight = function () {
+                $scope.isDeleteDateLegal = true;
+            }
+            $scope.changeRea = function () {
+                $scope.Rea = false;
             }
             $scope.validate = function () {
                 $scope.validateDateLegal();

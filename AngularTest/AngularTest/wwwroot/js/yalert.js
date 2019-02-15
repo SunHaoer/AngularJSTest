@@ -27,9 +27,7 @@ function showAlert(t,m,stylepath,fn){
         '<div class="ymodalAlertBody">'+
         '<div class="ymodalTitle">'+t+'</div>'+
         '<div class="ymodalMsg">'+m+'</div>'+
-        '<div class="ymodalonfirm"><button class="alertbtn alertbtnSure">确定</button></div>'+
-        '</div>'+
-        '</div>';
+        '<div class="ymodalonfirm"><center><button style="height:45px;width:300px" class="alertbtn alertbtnSure">OK</button></center></div></div></div>';
     $("body").append(alertstr);
     $(".alertbtnSure").click(function () {
         $(".ymodalAlert").fadeOut(function(){

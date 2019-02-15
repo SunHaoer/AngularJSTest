@@ -5,7 +5,13 @@
 .ymodalTitle{ font-size:18px; line-height: 40px; text-align: center; padding:10px;}
 .ymodalonfirm{ border-top:1px solid #ccc; position:relative;}
 .ymodalMsg{ padding:20px; padding-top:5px; font-size:14px; line-height:26px;  text-align: center}
-.alertbtnSure{ padding:10px; text-align: center; font-size:18px; color:#0091ff; line-height: 30px;}
+.alertbtnSure {
+    padding: 10px;
+    text-align: center;
+    font-size: 25px;
+    color: #312d2d;
+    line-height: 35px;  
+}
 .confrimbtn{ padding:10px; text-align: center; font-size:18px; color:#312d2d; line-height: 30px; box-sizing: border-box; width:50%; float:left; overflow:hidden;}
 .confrimbtnCancle {
     padding: 10px;
