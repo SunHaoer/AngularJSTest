@@ -1,15 +1,14 @@
-﻿angular.
+angular.
     module('registerPage').
     component('registerPage', {
         templateUrl: 'common/register-page.template.html',
-        controller: ['$scope', '$http', '$location', '$q', function RegisterPageCtrl($scope, $http, $location, $q) {
+        controller: ['$scope', '$http', '$location', function RegisterPageCtrl($scope, $http, $location) {
             var yalertStylePath = 'css/yalert.css';
             $scope.productNoReg = '[a-zA-Z0-9]*';;
             $scope.isRegister = true;
             $scope.today = new Date();
             $scope.today.toLocaleDateString();
-            $scope.isBack = false;                                                               
-            
+            $scope.isBack = false;
 
            /*
             * get 'AddPhoneModel'
@@ -22,7 +21,6 @@
                     url: '/api/AddPhone/GetAddPhoneModel',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(function success(response) {
-
                     $scope.addPhonePageViewModel = response.data;
                     var model = $scope.addPhonePageViewModel;
                     if (model.isLogin && model.isVisitLegal) {
@@ -45,6 +43,42 @@
                 });
             }
             $scope.getAddPhoneModel();
+
+            $scope.isProductNoClick = false;
+            $scope.productNoClick = function (value) {
+                if (value == 1) {
+                    $scope.isProductNoClick = true;
+                } else if (value == 2) {
+                    $scope.isProductNoClick = false;
+                }
+            }
+
+            $scope.isPhoneBrandClick = false;
+            $scope.phoneBrandClick = function (value) {
+                if (value == 1) {
+                    $scope.isPhoneBrandClick = true;
+                } else if (value == 2) {
+                    $scope.isPhoneBrandClick = false;
+                }
+            }
+
+            $scope.isPhoneTypeClick = false;
+            $scope.phoneTypeClick = function (value) {
+                if (value == 1) {
+                    $scope.isPhoneTypeClick = true;
+                } else if (value == 2) {
+                    $scope.isPhoneTypeClick = false;
+                }
+            }
+
+            $scope.isStartDateClick = false;
+            $scope.startDateClick = function (value) {
+                if (value == 1) {
+                    $scope.isStartDateClick = true;
+                } else if (value == 2) {
+                    $scope.isStartDateClick = false;
+                }
+            }
 
             /*
              * validate branTypeProductNo 
@@ -164,10 +198,7 @@
                 }
             }
 
-            
-
             $scope.backToIndex = function () {
-                //alert('back');
                 $http({
                     method: 'GET',
                     params: ({
@@ -185,7 +216,5 @@
                 }, function error(response) {
                 });
             }
-         
-
         }]
     })

@@ -1,5 +1,7 @@
 <div style="text-align:center;width:40%;margin-top:20px">
-    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="AddNewPhone()">Add New Phone</button> </front>
+    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want 
+        <button class="btn btn-primary" ng-click="AddNewPhone()">Add New Phone</button>
+    </front>
 </div>
 <div ng-show="notEmpty" style="margin-top:20px">
     <center>
@@ -20,25 +22,22 @@
             </tr>
         </table>
     </center>
-        <div style="text-align:right;width:90%;margin-top:10px">
-            <a href="" ng-click="getChoosePageViewModel(pageIndex - 1)" ng-show="pageIndex > 1"><font size="4"><<</font></a>
-            <font size="4">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>
-            <a href="" ng-click="getChoosePageViewModel(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="4">>></font></a>
-        </div>
-    
+    <div style="text-align:right;width:90%;margin-top:10px">
+        <a href="" ng-click="getChoosePageViewModel(pageIndex - 1)" ng-show="pageIndex > 1"><font size="4"><<</font></a>
+        <font size="4">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>
+        <a href="" ng-click="getChoosePageViewModel(pageIndex + 1)" ng-show="pageIndex < totalPages"><font size="4">>></font></a>
+    </div>
 
     <div class="panel-body" ng-show="showDetail">
         <div class="row">
             <center>
-                
-                <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:40%">
 
+                <div class="form-horizontal" role="form" name="checkForm" style="text-align:left;width:40%">
                     <div class="form-group">
                         <h2>
                             Phone Details
                         </h2>
                     </div>
-
                     <div class="form-group">
                         <label>
                             brand: {{brand}}
@@ -94,7 +93,6 @@
         </div>
     </div>
 </div>
-
 <div ng-show="!notEmpty">
     <center>
         <h1>You should buy phones!</h1>

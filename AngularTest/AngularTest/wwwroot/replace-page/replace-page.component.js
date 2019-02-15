@@ -54,6 +54,32 @@ component('replacePage', {
         }
         $scope.getReplacePhoneModel();
 
+        $scope.isProductNoClick = false;
+        $scope.productNoClick = function (value) {
+            if (value == 1) {
+                $scope.isProductNoClick = true;
+            } else if (value == 2) {
+                $scope.isProductNoClick = false;
+            }
+        }
+
+        $scope.isStartDateClick = false;
+        $scope.startDateClick = function (value) {
+            if (value == 1) {
+                $scope.isStartDateClick = true;
+            } else if (value == 2) {
+                $scope.isStartDateClick = false;
+            }
+        }
+
+        $scope.isAbandonDateClick = false;
+        $scope.abandonDateClick = function (value) {
+            if (value == 1) {
+                $scope.isAbandonDateClick = true;
+            } else if (value == 2) {
+                $scope.isAbandonDateClick = false;
+            }
+        }
 
         /*
          * validate branTypeProductNo 
@@ -148,7 +174,8 @@ component('replacePage', {
             $scope.validateDateLegal();
             $scope.validateBrandTypeProductNo();
             $scope.parameterNotEmpty();
-            $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal;
+            $scope.validateAbandonDateLegal();
+            $scope.isOK = $scope.isPrameterNotEmpty && $scope.isStartDateLegal && $scope.isProdcutNoLegal && $scope.isAbandonDateLegal;
         }
 
         /*
@@ -204,5 +231,6 @@ component('replacePage', {
             }, function error(response) {
             });
         }
+
     }]
 })

@@ -12555,11 +12555,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-dillon\\AngularJSTest-dillon\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "projectUniqueName": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
       "projectName": "AngularTest",
-      "projectPath": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-dillon\\AngularJSTest-dillon\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "projectPath": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
       "packagesPath": "C:\\Users\\cyan.ruan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-dillon\\AngularJSTest-dillon\\AngularTest\\AngularTest\\obj\\",
+      "outputPath": "C:\\Users\\cyan.ruan\\Downloads\\AngularJSTest-master\\AngularJSTest-master\\AngularTest\\AngularTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

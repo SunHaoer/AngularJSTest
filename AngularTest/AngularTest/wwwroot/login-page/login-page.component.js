@@ -41,6 +41,10 @@
                 }
             }
 
+            $scope.changeIsOK = function () {
+                $scope.isOK = true;
+            }
+
             //Reset input
             $scope.info = {};
             $scope.reset = function () {

@@ -1,4 +1,5 @@
 ﻿using AngularTest.Cache;
+using AngularTest.Models;
 using AngularTest.PageVeiwModels;
 using AngularTest.VeiwModels;
 using Microsoft.AspNetCore.Http;
@@ -10,11 +11,11 @@ namespace AngularTest.Controllers
     [ApiController]
     public class ErrorPageController : ControllerBase
     {
-        private readonly SuccessErrorPageManage successErrorPageManage;
+        private readonly ErrorPageManage errorPageManage;
 
         public ErrorPageController()
         {
-            successErrorPageManage = new SuccessErrorPageManage();
+            errorPageManage = new ErrorPageManage();
         }
 
         /// <summary>
@@ -24,14 +25,14 @@ namespace AngularTest.Controllers
         [HttpGet]
         public ErrorPageViewModel GetErrorPageViewModel()
         {
-            ErrorPageViewModel model = new ErrorPageViewModel();
             string loginUserInfo = HttpContext.Session.GetString("loginUser");
-            model.IsLogin = true;
             long loginUserId = long.Parse(loginUserInfo.Split(",")[0]);
-            model.IsVisitLegal = true;
-            HttpContext.Session.SetString("nowNode", Step.errorPage.ToString());
-            HttpContext.Session.SetString("isSubmit", Step.isSubmitTrue.ToString());
-            successErrorPageManage.SetTempPhoneEmpty(loginUserId);
+            ErrorPageViewModel model = errorPageManage.GetErrorPageViewModel(loginUserId);
+            if(model.IsVisitLegal)
+            {
+                HttpContext.Session.SetString("nowNode", Step.errorPage.ToString());
+                HttpContext.Session.SetString("isSubmit", Step.isSubmitFalse.ToString());
+            }
             return model;
         }
 
@@ -52,5 +53,6 @@ namespace AngularTest.Controllers
             }
             return model;
         }
+
     }
 }

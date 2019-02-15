@@ -38,5 +38,6 @@ component('successPage', {
             }, function error(response) {
             });
         }
+
     }]
 })
