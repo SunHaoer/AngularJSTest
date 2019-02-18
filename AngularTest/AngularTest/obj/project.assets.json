@@ -12546,11 +12546,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dillon.sun\\Desktop\\New folder\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "projectUniqueName": "E:\\2019-02-15\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
       "projectName": "AngularTest",
-      "projectPath": "C:\\Users\\dillon.sun\\Desktop\\New folder\\AngularTest\\AngularTest\\AngularTest.csproj",
+      "projectPath": "E:\\2019-02-15\\AngularJSTest-master\\AngularTest\\AngularTest\\AngularTest.csproj",
       "packagesPath": "C:\\Users\\dillon.sun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dillon.sun\\Desktop\\New folder\\AngularTest\\AngularTest\\obj\\",
+      "outputPath": "E:\\2019-02-15\\AngularJSTest-master\\AngularTest\\AngularTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

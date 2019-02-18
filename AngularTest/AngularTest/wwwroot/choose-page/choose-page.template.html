@@ -1,7 +1,10 @@
 <div style="text-align:center;width:40%;margin-top:20px">
-    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want <button ng-click="AddNewPhone()">Add New Phone</button> </front>
+    <front size="15" style="text-align:left">Hi {{loginUsername}}, <a href="" ng-click="logout()">Logout</a>, I want 
+        <button class="btn btn-primary" ng-click="AddNewPhone()">Add New Phone</button>
+    </front>
 </div>
 <div ng-show="notEmpty" style="margin-top:20px">
+
     <center>
         <table style="text-align:center">
             <tr bgcolor="#337ab7">
@@ -11,15 +14,16 @@
                 <th style="text-align:center"><font color="white">Status</font></th>
                 <th style="text-align:center"><font color="white">Details</font></th>
             </tr>
-            <tr ng-repeat="phone in phoneList">
+            <tr class="tr_style" ng-repeat="phone in phoneList">
                 <td>{{phone.brand}}</td>
                 <td>{{phone.type}}</td>
                 <td>{{phone.productNo}}</td>
                 <td>{{phone.stateString }}</td>
-                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/timg.jpg" width="40" height="50"></a></td>
+                <td><a href="" class="btn a-primary" data-placement="right" data-tip="phone message" ng-click="showDetails(phone)" ng-model="showDetail"><img src="img/details.png" width="50" height="50"></a></td>
             </tr>
         </table>
     </center>
+
     <div style="text-align:right;width:90%;margin-top:10px">
         <a href="" ng-click="getChoosePageViewModel(pageIndex - 1)" ng-show="pageIndex > 1"><font size="4"><<</font></a>
         <font size="4">&nbsp;&nbsp;{{pageIndex}}&nbsp;&nbsp;</font>

@@ -87,6 +87,10 @@
     overflow: hidden;
 }
 
+.confrimbtnCancle :hover{
+   background-color:aqua;
+}
+
 @media (-webkit-min-device-pixel-ratio:2) {
     .ymodalonfirm {
         border: none;

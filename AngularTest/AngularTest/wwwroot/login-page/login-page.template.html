@@ -1,12 +1,16 @@
 ﻿<div class="container">
-    <div class="row" style="padding-left:34%;margin-top:5%">
-        <div class="col-sm-6 col-sm-offerset-3">
+    <div class="row" style="padding-left:31%;margin-top:5%">
+        <!--
+        border style
+        style="width:58%;border:1px solid;border-radius:20px;padding:50px"
+        -->
+        <div class="col-sm-6 col-sm-offerset-3" style="width:58%;border:1px solid;border-radius:20px;padding:50px">
             <form class="form-horizontal" ng-submit="login()" name="angularForm" method="post">
                 <div class="form-group has-feedback">
                     <label class="col-sm-3 control-label" for="username">UserName </label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="username" name="username"
-                               placeholder="Enter username" required="required" ng-model="info.username" ng-pattern="usernameReg">
+                               placeholder="Enter username" required="required" ng-model="info.username" ng-pattern="usernameReg" ng-mousedown="changeIsOK()">
                         <span ng-show="angularForm.username.$dirty && angularForm.username.$error.required">
                             <font color="red">*username can not be empty</font>
                         </span>
@@ -19,7 +23,7 @@
                     <label class="col-sm-3 control-label" for="password">PassWord </label>
                     <div class="col-sm-9">
                         <input type="password" class="form-control" id="password" name="password"
-                               placeholder="Enter password" required ng-model="info.password">
+                               placeholder="Enter password" required ng-model="info.password" ng-mousedown="changeIsOK()">
                         <span ng-show="angularForm.password.$dirty && angularForm.password.$error.required">
                             <font color="red">*password can not be empty</font>
                         </span>
@@ -30,12 +34,13 @@
                         <div ng-show="!isOK">
                             <font color="red">Username or password wrong!</font>
                         </div>
-                        <button id="btnSubmit" type="submit" class="btn btn-primary" style="float:right">
+                        <button ng-if="!isOk" id="btnSubmit" type="submit" class="btn btn-primary" style="float:right">
                             Login
                         </button>
                     </p>
                 </center>
             </form>
         </div>
+
     </div>
 </div>

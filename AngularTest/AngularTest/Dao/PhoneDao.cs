@@ -25,6 +25,7 @@ namespace AngularTest.Dao
         public PaginatedList<Phone> GetPhoneList(long userId, int pageIndex, int pageSize)
         {
             IQueryable<Phone> phoneIQ = GetPhoneIQByUserId(userId);
+            phoneIQ = phoneIQ.OrderBy(item => item.State);
             return PaginatedList<Phone>.Create(phoneIQ, pageIndex, pageSize);
         }
 
