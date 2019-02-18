@@ -1,0 +1,149 @@
+<div class="panel-primary">
+    <div class="panel-heading" style="padding-left:20px">
+        <div class="panel-title" ng-model="isReplace" ng-show="isReplace">Replace</div>
+        <div class="panel-title" ng-model="isRegister" ng-show="isRegister">Register</div>
+    </div>
+    <form role="form" name="myForm" novalidate ng-submit="submitMsg()">
+        <!-- New Phone-->
+        <div class="panel-body;row;col-md-12" style="width:45%;float:left;padding-left:20px">
+            <h1>New Phone</h1>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2">
+                        brand：
+                    </label>
+                    <div class="col-md-10">
+                        <select ng-model="phone.brand" name="brand" id="brand" ng-mousedown="phoneBrandClick(1)" ng-blur="phoneBrandClick(2)" ng-change="phoneBrandNotEmpty();validateBrandTypeProductNo()">
+                            <option value="">select the brand</option>
+                            <option ng-repeat="x in brandList">{{x.brandName}}</option>
+                        </select>
+                        <br />
+                        <span ng-if="!isPhoneBrandNotEmpty && !isPhoneBrandClick">
+                            <font color="#FACC2E">The PhoneBrand empty!</font>
+                        </span>
+                        <span ng-if="!(!isPhoneBrandNotEmpty && !isPhoneBrandClick)">
+                            &nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        type：
+                    </label>
+                    <div class="col-md-10">
+                        <select ng-model="phone.type" name="type" id="type" ng-mousedown="phoneTypeClick(1)" ng-blur="phoneTypeClick(2)" ng-change="phoneTypeNotEmpty();validateBrandTypeProductNo()">
+                            <option value="">select the type</option>
+                            <option ng-repeat="x in typeList" ng-show="x.brand == phone.brand">{{x.type}}</option>
+                        </select>
+                        <br />
+                        <span ng-if="!isPhoneTypeNotEmpty && !isPhoneTypeClick">
+                            <font color="#FACC2E">The PhoneType empty!</font>
+                        </span>
+                        <span ng-if="!(!isPhoneTypeNotEmpty && !isPhoneTypeClick)">
+                            &nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        productNo:
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" ng-model="phone.productNo" id="productNo" name="productNo" ng-mousedown="productNoClick(1)" ng-blur="validateBrandTypeProductNo();productNoClick(2)" ng-change="productNoNotEmpty()" ng-mouseleave="validateBrandTypeProductNo()" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');" />
+                        <div ng-hide="isProductNoClick">
+                            <span ng-show="(myForm.productNo.$dirty || isBack) && isProductNoNotEmpty && !isProdcutNoLegal">
+                                <font color="#FACC2E">The ProductNo is not matching with Brand and Type!</font>
+                            </span>
+                            <span ng-show="!isProductNoNotEmpty">
+                                <font color="#FACC2E">The ProductNo empty!</font>
+                            </span>
+                        </div>
+                        <div ng-show="(!((myForm.productNo.$dirty || isBack) && isProductNoNotEmpty && !isProdcutNoLegal) && isProductNoNotEmpty) || isProductNoClick">
+                            &nbsp;<br />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        startDate:
+                    </label>
+                    <div class="col-md-10">
+                        <input type="date" ng-model="phone.startDate" name="startDate" id="startDate" ng-mousedown="startDateClick(1)" ng-blur="startDateClick(2)" ng-change="validateDateLegal();validateAbandonDateLegal()" />
+                        <br />
+                        <span ng-show="!isStartDateLegal && !isStartDateClick">
+                            <font color="#FACC2E">The date can not be earlier then today</font>
+                        </span>
+                        <span ng-if="!(!isStartDateLegal && !isStartDateClick)">
+                            &nbsp;
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Old Phone -->
+        <div class="panel-body;row;col-md-10" style="width:45%;float:left;" ng-show="isReplace">
+            <h1>Old Phone</h1>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2">
+                        brand：
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" ng-model="oldPhone.brand" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        type：
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" ng-model="oldPhone.type" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        productNo:
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" ng-model="oldPhone.productNo" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        startDate：
+                    </label>
+                    <div class="col-md-10">
+                        <input type="date" ng-model="oldPhone.startDate" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">
+                        abandonDate：
+                    </label>
+                    <div class="col-md-10">
+                        <input type="date" ng-model="oldPhone.abandonDate" ng-mousedown="abandonDateClick(1)" ng-blur="abandonDateClick(2)" ng-change="validateAbandonDateLegal()" />
+                        <br />
+                        <span ng-show="!isAbandonDateLegal && !isAbandonDateClick">
+                            <font color="#FACC2E">The date must be equal to new phone startDate </font>
+                        </span>
+                        <span ng-if="!(!isAbandonDateLegal && !isAbandonDateClick)">
+                            &nbsp;
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="isReplace" class="form-group;col-md-12;" style="padding-bottom:20px;width:60%;padding-top:30px;float:left;margin-left:55%">
+            <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
+            <input ng-disabled="!isPhoneBrandNotEmpty || !isPhoneTypeNotEmpty || !isProductNoNotEmpty || !isStartDateLegal || !isProdcutNoLegal" class="btn btn-primary" type="submit" value="next" ng-click="validate()" />
+            <!--<input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()" />-->
+        </div>
+
+        <div ng-if="!isReplace" class="form-group;col-md-12;" style="padding-bottom:20px;width:60%;padding-top:30px;float:left;margin-left:20px">
+            <input class="btn btn-primary" type="button" value="homepage" ng-click="backToIndex()" />
+            <input ng-disabled="!isPhoneBrandNotEmpty || !isPhoneTypeNotEmpty || !isProductNoNotEmpty || !isStartDateLegal || !isProdcutNoLegal" class="btn btn-primary" type="submit" value="next" ng-click="validate()" />
+            <!--<input ng-if="!isOK" class="btn btn-primary" style="background-color: #808080;" type="button" value="next" ng-mouseenter="validate()" ng-click="validate()" />-->
+        </div>
+    </form>
+</div>
